@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.desert-brigand",
+  "title": "沙盗",
+  "description": "埋在沙丘背风面的一群人，出手前先向天要一口风。",
+  "displayName": "沙盗",
+  "tier": "elite",
+  "element": "earth",
+  "weakElements": [
+    "wood"
+  ],
+  "weakStyles": [
+    "blade",
+    "palm"
+  ],
+  "combat": {
+    "attack": 26,
+    "defense": 7.5,
+    "maxHp": 140,
+    "speed": 7
+  },
+  "breakMax": 95,
+  "skillId": "skill.enemy-bone-smash",
+  "skills": [
+    "skill.enemy-bone-smash"
+  ],
+  "habitat": [
+    "yumen-town"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "yaktaur"
+  },
+  "drops": [
+    {
+      "itemId": "material.iron-ore",
+      "chance": 0.3,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "itemId": "pill.stone-skin",
+      "chance": 0.08,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.8,
+    "fleeBelowHp": 0.1,
+    "opener": "skill.enemy-bone-smash"
+  },
+  "lore": "埋在沙丘背风面的一群人，出手前先向天要一口风。"
+}

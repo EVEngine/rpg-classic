@@ -1,0 +1,765 @@
+{
+  "schema": "eve.rpgc.tileset",
+  "version": 2,
+  "id": "kenney-library",
+  "title": "Kenney 等距书房（书架 / 长桌 / 地毯 / 陈设）",
+  "image": "kenney-library.png",
+  "firstGid": 1,
+  "tileWidth": 128,
+  "tileHeight": 64,
+  "margin": 0,
+  "spacing": 0,
+  "count": 141,
+  "layout": {
+    "pack": "shelf",
+    "width": 896,
+    "maxDim": 8192,
+    "firstTile": 0
+  },
+  "classes": {
+    "floor": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": true,
+      "cost": 1,
+      "sortBias": 0
+    },
+    "block": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    },
+    "prop": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "ground-anchor",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    }
+  },
+  "runs": [
+    {
+      "count": 1,
+      "cell": [
+        34,
+        42
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        34,
+        38
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        32,
+        42
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        32,
+        38
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        34,
+        42
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        34,
+        38
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        32,
+        42
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        32,
+        38
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        99
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        97
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 10,
+      "cell": [
+        84,
+        97
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        99
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        97
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        84,
+        97
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        93,
+        58
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        80,
+        64
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        93,
+        58
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        84,
+        97
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        72,
+        67
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        100,
+        81
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        109,
+        114
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        109,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        112,
+        114
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        112,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        101,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        112,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        101,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        112,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        101,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        112,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        101,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        112,
+        111
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        36,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        26,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        74
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        70
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        74
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        70
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        85,
+        68
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        74
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        70
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        74
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        70
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        74
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        70
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        74
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        85,
+        70
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        64,
+        32
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        64,
+        33
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        98,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        97,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        30,
+        35
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        29,
+        32
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        24,
+        35
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        24,
+        32
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        79,
+        59
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        78,
+        59
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        79,
+        59
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        79,
+        60
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        81,
+        59
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        79,
+        59
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        79,
+        60
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        79,
+        59
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        79,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        89,
+        64
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        64
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        89,
+        64
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 3,
+      "cell": [
+        79,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        78,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    }
+  ],
+  "names": [
+    "bookStandEmpty_E",
+    "bookStandEmpty_N",
+    "bookStandEmpty_S",
+    "bookStandEmpty_W",
+    "bookStand_E",
+    "bookStand_N",
+    "bookStand_S",
+    "bookStand_W",
+    "bookcaseBooksLadder_E",
+    "bookcaseBooksLadder_N",
+    "bookcaseBooksLadder_S",
+    "bookcaseBooksLadder_W",
+    "bookcaseBooks_E",
+    "bookcaseBooks_N",
+    "bookcaseBooks_S",
+    "bookcaseBooks_W",
+    "bookcaseDestroyed_E",
+    "bookcaseDestroyed_N",
+    "bookcaseDestroyed_S",
+    "bookcaseDestroyed_W",
+    "bookcaseEmptyLadder_E",
+    "bookcaseEmptyLadder_N",
+    "bookcaseEmptyLadder_S",
+    "bookcaseEmpty_E",
+    "bookcaseEmpty_N",
+    "bookcaseEmpty_S",
+    "bookcaseFallen_E",
+    "bookcaseFallen_N",
+    "bookcaseFallen_S",
+    "bookcaseFallen_W",
+    "bookcaseGlass_E",
+    "bookcaseGlass_N",
+    "bookcaseGlass_S",
+    "bookcaseGlass_W",
+    "bookcaseHalfBooks_E",
+    "bookcaseHalfBooks_N",
+    "bookcaseHalfBooks_S",
+    "bookcaseHalfBooks_W",
+    "bookcaseHalfEmpty_E",
+    "bookcaseHalfEmpty_N",
+    "bookcaseHalfEmpty_S",
+    "bookcaseHalfEmpty_W",
+    "bookcaseHalfWideBooks_E",
+    "bookcaseHalfWideBooks_N",
+    "bookcaseHalfWideBooks_S",
+    "bookcaseHalfWideBooks_W",
+    "bookcaseHalfWideEmpty_E",
+    "bookcaseHalfWideEmpty_N",
+    "bookcaseHalfWideEmpty_S",
+    "bookcaseHalfWideEmpty_W",
+    "bookcaseWideBooksDesk_E",
+    "bookcaseWideBooksDesk_N",
+    "bookcaseWideBooksDesk_S",
+    "bookcaseWideBooksDesk_W",
+    "bookcaseWideBooksLadder_E",
+    "bookcaseWideBooksLadder_N",
+    "bookcaseWideBooksLadder_S",
+    "bookcaseWideBooksLadder_W",
+    "bookcaseWideBooks_E",
+    "bookcaseWideBooks_N",
+    "bookcaseWideBooks_S",
+    "bookcaseWideBooks_W",
+    "bookcaseWideEmptyLadder_E",
+    "bookcaseWideEmptyLadder_N",
+    "bookcaseWideEmptyLadder_S",
+    "bookcaseWideEmptyLadder_W",
+    "bookcaseWideEmpty_E",
+    "bookcaseWideEmpty_S",
+    "bookcaseWideEmpty_W",
+    "candleStandDouble_E",
+    "candleStandDouble_N",
+    "candleStandDouble_S",
+    "candleStandDouble_W",
+    "candleStand_E",
+    "candleStand_N",
+    "candleStand_S",
+    "candleStand_W",
+    "displayCaseBooks_E",
+    "displayCaseBooks_N",
+    "displayCaseBooks_S",
+    "displayCaseBooks_W",
+    "displayCaseOpen_E",
+    "displayCaseOpen_N",
+    "displayCaseOpen_S",
+    "displayCaseOpen_W",
+    "displayCaseSword_E",
+    "displayCaseSword_N",
+    "displayCaseSword_S",
+    "displayCaseSword_W",
+    "displayCase_E",
+    "displayCase_N",
+    "displayCase_S",
+    "displayCase_W",
+    "floorCarpetEnd_E",
+    "floorCarpetEnd_N",
+    "floorCarpetEnd_S",
+    "floorCarpetEnd_W",
+    "floorCarpetSmall_E",
+    "floorCarpetSmall_N",
+    "floorCarpetSmall_S",
+    "floorCarpetSmall_W",
+    "floorCarpet_E",
+    "floorCarpet_N",
+    "floorCarpet_S",
+    "floorCarpet_W",
+    "libraryChair_E",
+    "libraryChair_N",
+    "libraryChair_S",
+    "libraryChair_W",
+    "longTableChairs_E",
+    "longTableChairs_N",
+    "longTableChairs_S",
+    "longTableChairs_W",
+    "longTableDecoratedChairsBooks_E",
+    "longTableDecoratedChairsBooks_N",
+    "longTableDecoratedChairsBooks_S",
+    "longTableDecoratedChairsBooks_W",
+    "longTableDecoratedChairs_E",
+    "longTableDecoratedChairs_N",
+    "longTableDecoratedChairs_S",
+    "longTableDecoratedChairs_W",
+    "longTableDecorated_E",
+    "longTableDecorated_N",
+    "longTableDecorated_S",
+    "longTableDecorated_W",
+    "longTableLarge_E",
+    "longTableLarge_N",
+    "longTableLarge_S",
+    "longTableLarge_W",
+    "longTable_E",
+    "longTable_N",
+    "longTable_S",
+    "longTable_W",
+    "wallBooks_E",
+    "wallBooks_N",
+    "wallBooks_S",
+    "wallBooks_W",
+    "wallDoorway_E",
+    "wallDoorway_N",
+    "wallDoorway_S",
+    "wallDoorway_W"
+  ]
+}

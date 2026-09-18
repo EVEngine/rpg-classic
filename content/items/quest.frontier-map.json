@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "quest.frontier-map",
+  "title": "边关舆图",
+  "description": "燕门堡到玉门镇的舆图。交给谁、什么时候交，是事件文档的事，不是物品文档的事。",
+  "displayName": "边关舆图",
+  "category": "quest",
+  "rarity": "rare",
+  "maxStack": 1,
+  "weight": 0.2,
+  "volume": 0.1,
+  "value": 0,
+  "tags": [
+    "quest",
+    "frontier"
+  ],
+  "extra": {
+    "icon": "ui/items/quest.frontier-map.png"
+  }
+}

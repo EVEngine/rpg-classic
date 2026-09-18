@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.liuhe-blade.p3",
+  "title": "六合刀·缠头裹脑",
+  "description": "六合刀三品招式。也是组合技「冰雷交击」的第一段：金属性，与第二段的水构成相生链。",
+  "art": "art.liuhe-blade",
+  "combo": "combo.frost-blade",
+  "targetType": "enemySingle",
+  "cooldown": 2,
+  "castTime": 0.35,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 8
+    }
+  ],
+  "effects": [
+    "bleed"
+  ],
+  "tags": [
+    "blade",
+    "metal"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.25",
+    "element": "metal",
+    "critChance": 0.12,
+    "hitChance": 0.9
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "blade",
+        "clip": "cleave",
+        "on": "caster",
+        "hold": 0.12
+      }
+    ],
+    "vfx": "fx/blade-cleave",
+    "screenShake": 0.12,
+    "levels": [
+      {
+        "level": 3,
+        "magnitude": 1.0,
+        "vfx": "fx/blade-cleave"
+      },
+      {
+        "level": 6,
+        "magnitude": 1.2,
+        "vfx": "fx/blade-cleave-strong"
+      }
+    ]
+  }
+}

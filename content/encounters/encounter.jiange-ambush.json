@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.jiange-ambush",
+  "title": "剑阁驿·蜀道伏",
+  "description": "剑阁驿·蜀道伏：3 名敌人。",
+  "displayName": "剑阁驿·蜀道伏",
+  "map": "jiange-post",
+  "members": [
+    {
+      "enemy": "enemy.mountain-sprite",
+      "count": 1
+    },
+    {
+      "enemy": "enemy.grain-bandit",
+      "count": 2
+    }
+  ],
+  "xpReward": 88,
+  "xpGrowth": 1.2,
+  "goldReward": 40,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "sprite",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

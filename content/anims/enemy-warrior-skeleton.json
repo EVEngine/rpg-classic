@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.anim",
+  "version": 1,
+  "id": "enemy-warrior-skeleton",
+  "title": "骸骨甲士精灵动画集",
+  "image": "enemy-warrior-skeleton.png",
+  "frameWidth": 48,
+  "frameHeight": 64,
+  "columns": 3,
+  "rows": 4,
+  "margin": 0,
+  "spacing": 0,
+  "clips": [
+    { "id": "walk.n", "title": "背向行走", "frames": [0, 1, 2], "fps": 6.0, "loop": true },
+    { "id": "walk.e", "title": "东向行走", "frames": [3, 4, 5], "fps": 6.0, "loop": true },
+    { "id": "walk.s", "title": "正向行走", "frames": [6, 7, 8], "fps": 6.0, "loop": true },
+    { "id": "walk.w", "title": "西向行走", "frames": [9, 10, 11], "fps": 6.0, "loop": true },
+    { "id": "idle.s", "title": "正面待机", "frames": [7], "fps": 1.0, "loop": true },
+    { "id": "idle.n", "title": "背面待机", "frames": [1], "fps": 1.0, "loop": true }
+  ]
+}

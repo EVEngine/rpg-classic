@@ -1,0 +1,56 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.caravan-raider",
+  "title": "劫商马贼",
+  "description": "跟着驼队走了一千里，等的就是水囊见底的那一刻。",
+  "displayName": "劫商马贼",
+  "tier": "elite",
+  "element": "fire",
+  "weakElements": [
+    "water"
+  ],
+  "weakStyles": [
+    "sword"
+  ],
+  "combat": {
+    "attack": 24,
+    "defense": 6.5,
+    "maxHp": 120,
+    "speed": 10
+  },
+  "breakMax": 85,
+  "skillId": "skill.enemy-blade",
+  "skills": [
+    "skill.enemy-blade",
+    "skill.enemy-claw"
+  ],
+  "habitat": [
+    "changan",
+    "yumen-town"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "centaur"
+  },
+  "drops": [
+    {
+      "itemId": "material.silk",
+      "chance": 0.35,
+      "min": 1,
+      "max": 3
+    },
+    {
+      "itemId": "weapon.willow-blade",
+      "chance": 0.05,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.85,
+    "fleeBelowHp": 0.05,
+    "opener": "skill.enemy-blade"
+  },
+  "lore": "跟着驼队走了一千里，等的就是水囊见底的那一刻。"
+}

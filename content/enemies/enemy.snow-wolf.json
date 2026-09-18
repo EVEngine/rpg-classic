@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.snow-wolf",
+  "title": "雪狼",
+  "description": "雪深过膝时不下山；下山时从不单独来。",
+  "displayName": "雪狼",
+  "tier": "minion",
+  "element": "water",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "sword"
+  ],
+  "combat": {
+    "attack": 13,
+    "defense": 2.8,
+    "maxHp": 48,
+    "speed": 9
+  },
+  "breakMax": 45,
+  "skillId": "skill.enemy-bite",
+  "skills": [
+    "skill.enemy-bite"
+  ],
+  "habitat": [
+    "xueling-hold",
+    "yanmen-fortress"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "bat"
+  },
+  "drops": [
+    {
+      "itemId": "material.pelt",
+      "chance": 0.45,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "itemId": "food.dry-ration",
+      "chance": 0.15,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.9,
+    "fleeBelowHp": 0.0,
+    "opener": "skill.enemy-bite"
+  },
+  "lore": "雪深过膝时不下山；下山时从不单独来。"
+}

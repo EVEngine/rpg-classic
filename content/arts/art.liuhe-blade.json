@@ -1,0 +1,60 @@
+{
+  "schema": "eve.rpgc.art",
+  "version": 1,
+  "id": "art.liuhe-blade",
+  "title": "六合刀",
+  "category": "martial",
+  "element": "metal",
+  "maxGrade": 5,
+  "grades": [
+    {
+      "grade": 1,
+      "title": "劈山",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 0
+      },
+      "skills": [
+        "skill.liuhe-blade.p1"
+      ],
+      "modifiers": [
+        {
+          "attribute": "attack",
+          "op": "mulAdd",
+          "value": 0.03
+        }
+      ]
+    },
+    {
+      "grade": 3,
+      "title": "缠头裹脑",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 140
+      },
+      "skills": [
+        "skill.liuhe-blade.p3"
+      ],
+      "traits": [
+        "trait.liuhe-flow"
+      ]
+    },
+    {
+      "grade": 5,
+      "title": "六合归一",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 420
+      },
+      "skills": [
+        "skill.liuhe-blade.p5"
+      ],
+      "ultimates": [
+        "skill.liuhe-blade.ultimate"
+      ],
+      "traits": [
+        "trait.liuhe-mastery"
+      ]
+    }
+  ]
+}

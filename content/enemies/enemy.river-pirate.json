@@ -1,0 +1,57 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.river-pirate",
+  "title": "江上水贼",
+  "description": "夜里贴着芦苇走的小船，船头永远朝着别人的货。",
+  "displayName": "江上水贼",
+  "tier": "minion",
+  "element": "water",
+  "weakElements": [
+    "earth"
+  ],
+  "weakStyles": [
+    "blade"
+  ],
+  "combat": {
+    "attack": 12,
+    "defense": 2.4,
+    "maxHp": 46,
+    "speed": 7
+  },
+  "breakMax": 55,
+  "skillId": "skill.enemy-blade",
+  "skills": [
+    "skill.enemy-blade",
+    "skill.enemy-claw"
+  ],
+  "habitat": [
+    "canglang-ferry",
+    "kaifeng",
+    "luoxia-isle"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "dragoon"
+  },
+  "drops": [
+    {
+      "itemId": "material.silk",
+      "chance": 0.2,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "quest.ferry-token",
+      "chance": 0.05,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.8,
+    "fleeBelowHp": 0.05,
+    "opener": "skill.enemy-blade"
+  },
+  "lore": "夜里贴着芦苇走的小船，船头永远朝着别人的货。"
+}

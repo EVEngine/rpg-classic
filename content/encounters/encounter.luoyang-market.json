@@ -1,0 +1,28 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.luoyang-market",
+  "title": "洛阳南市·看场子的",
+  "description": "洛阳南市·看场子的：2 名敌人。",
+  "displayName": "洛阳南市·看场子的",
+  "map": "luoyang",
+  "members": [
+    {
+      "enemy": "enemy.market-thug",
+      "count": 2
+    }
+  ],
+  "xpReward": 40,
+  "xpGrowth": 1.2,
+  "goldReward": 18,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "thug",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

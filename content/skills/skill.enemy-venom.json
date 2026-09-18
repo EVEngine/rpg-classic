@@ -1,0 +1,41 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.enemy-venom",
+  "title": "淬毒蛊针",
+  "description": "细针带毒，痛在迟来的那一炷香后。",
+  "targetType": "enemySingle",
+  "cooldown": 2.0,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 3
+    }
+  ],
+  "tags": [
+    "attack",
+    "magic",
+    "wood"
+  ],
+  "damage": {
+    "formula": "a.attack * 0.9",
+    "element": "wood",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "enemy-beasts",
+        "clip": "bee",
+        "on": "caster",
+        "hold": 0.2
+      }
+    ],
+    "screenShake": 0.05
+  },
+  "effects": [
+    "poison"
+  ]
+}

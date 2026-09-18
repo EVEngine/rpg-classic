@@ -1,0 +1,20 @@
+# The engine appends its session log to the project root on every `eve mcp` /
+# `eve run` invocation, and ImGui persists window geometry there. Runtime noise,
+# not workflow content.
+eve.log
+imgui.ini
+
+# `rpgc.py selftest` imports the CLI as a module, which leaves this behind.
+tools/__pycache__/
+
+# `tools/build_sbs_atlas.py` unpacks the vendored assets/*.zip|*.rar in here.
+# It is derived data: delete it and the builder re-extracts on demand.
+assets/extracted/
+
+# `tools/bake_tilesets.py` expands the version-2 rule tilesets (grid + size
+# runs) into the explicit `tiles[]` shape the engine loader reads. Derived data:
+# re-run the baker, never edit by hand.
+content/tilesets/*.baked.json
+
+.DS_Store
+Thumbs.db

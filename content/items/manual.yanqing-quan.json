@@ -1,0 +1,25 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "manual.yanqing-quan",
+  "title": "燕青拳谱",
+  "description": "燕青拳一品的拳谱，多在中原各城的旧书铺里流出来。",
+  "displayName": "燕青拳谱",
+  "category": "manual",
+  "rarity": "uncommon",
+  "maxStack": 1,
+  "weight": 0.3,
+  "volume": 0.2,
+  "value": 460,
+  "tags": [
+    "manual",
+    "palm"
+  ],
+  "teaches": {
+    "art": "art.yanqing-quan",
+    "skill": "skill.yanqing-quan.p1"
+  },
+  "extra": {
+    "icon": "ui/items/manual.yanqing-quan.png"
+  }
+}

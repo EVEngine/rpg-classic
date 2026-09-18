@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.xueling-frost",
+  "title": "雪岭坞·冻骨",
+  "description": "雪岭坞·冻骨：3 名敌人。",
+  "displayName": "雪岭坞·冻骨",
+  "map": "xueling-hold",
+  "members": [
+    {
+      "enemy": "enemy.frozen-corpse",
+      "count": 2
+    },
+    {
+      "enemy": "enemy.frost-wraith",
+      "count": 1
+    }
+  ],
+  "xpReward": 108,
+  "xpGrowth": 1.2,
+  "goldReward": 48,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "wraith",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

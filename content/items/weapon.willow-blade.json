@@ -1,0 +1,30 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "weapon.willow-blade",
+  "title": "柳叶刀",
+  "description": "江湖上最常见的一种单刀，轻便、出手快。",
+  "displayName": "柳叶刀",
+  "category": "weapon",
+  "rarity": "uncommon",
+  "maxStack": 1,
+  "weight": 3.0,
+  "volume": 2.0,
+  "value": 320,
+  "tags": [
+    "weapon",
+    "blade"
+  ],
+  "equipSlot": "weapon",
+  "equipStats": [
+    {
+      "attribute": "attack",
+      "op": "add",
+      "value": 8,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/weapon.willow-blade.png"
+  }
+}

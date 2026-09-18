@@ -1,0 +1,30 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "accessory.jade-pendant",
+  "title": "玉佩",
+  "description": "长安玉作坊的成色件，养神。",
+  "displayName": "玉佩",
+  "category": "accessory",
+  "rarity": "uncommon",
+  "maxStack": 1,
+  "weight": 0.2,
+  "volume": 0.1,
+  "value": 260,
+  "tags": [
+    "accessory",
+    "jade"
+  ],
+  "equipSlot": "accessory",
+  "equipStats": [
+    {
+      "attribute": "mana",
+      "op": "add",
+      "value": 15,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/accessory.jade-pendant.png"
+  }
+}

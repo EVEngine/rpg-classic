@@ -1,0 +1,29 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "food.dry-ration",
+  "title": "干粮",
+  "description": "行路的干粮。恢复不多，但边境驿站只有这个。",
+  "displayName": "干粮",
+  "category": "consumable",
+  "rarity": "common",
+  "maxStack": 30,
+  "weight": 0.3,
+  "volume": 0.2,
+  "value": 12,
+  "tags": [
+    "food",
+    "heal"
+  ],
+  "use": {
+    "consume": true,
+    "cooldown": 5.0,
+    "targetType": "self",
+    "effects": [
+      "regenerate"
+    ]
+  },
+  "extra": {
+    "icon": "ui/items/food.dry-ration.png"
+  }
+}

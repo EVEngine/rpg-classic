@@ -1,0 +1,69 @@
+{
+  "id": "eve.rpgc.party",
+  "schemaVersion": 1,
+  "title": "rpg-classic party roster",
+  "description": "One player-side roster: the single source of truth for what a companion IS in a fight, the player-side mirror of eve.rpgc.enemy. The engine has no content type for this (Party.cpp is a runtime container of already-registered actors, it carries no numbers), so nothing rejects a roster whose member has no element or a misspelled skill id — the semantic gate and the cross-document gate are the only readers, exactly like eve.rpgc.battle. `combat` mirrors the enemy block field for field because both sides are fed to the same resolver in lib/rpgc_battle.nut. `art` + `grade` are the designed runtime projection of a martial art's grade into concrete skill ids (docs/06-game-design.md §2.4): available moves = union(grades[1..grade].skills + ultimates) of that art document, and `skills[]` lists the moves that belong to no art. `sprite` is optional on purpose: the workflow ships CC0 monster art but no hero sheet, and a required field would force authors to name a file that does not exist. The roster size is NOT capped here: `maxBattleAllySlots` in RpgcSystems is the only copy of that number, and a schema `maxItems` would return before the semantic gate that reads it, making the gate unreachable. `startingItems` is the opening bag, and it lives HERE rather than in `rules` because it is a roster fact: the engine has no \"what the party starts with\" concept either, so lib/rpgc_items.nut is the only reader. `itemId` is an outbound reference to an item document (gate layer 3); `count` is bounded at 1 by the schema, so the semantic gate deliberately does not repeat that check — it only refuses an id it cannot read and a duplicate, neither of which the schema can see.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "description", "type": "string" },
+    {
+      "name": "members",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "id", "type": "string", "required": true },
+          { "name": "displayName", "type": "string", "required": true },
+          { "name": "title", "type": "string" },
+          { "name": "description", "type": "string" },
+          { "name": "element", "type": "string", "required": true },
+          { "name": "art", "type": "string" },
+          { "name": "grade", "type": "integer", "minimum": 1, "maximum": 9 },
+          {
+            "name": "combat",
+            "type": "object",
+            "required": true,
+            "additionalProperties": false,
+            "fields": [
+              { "name": "attack", "type": "number", "required": true, "minimum": 0, "maximum": 1000000 },
+              { "name": "defense", "type": "number", "required": true, "minimum": 0, "maximum": 1000000 },
+              { "name": "maxHp", "type": "number", "required": true, "minimum": 0, "maximum": 100000000 },
+              { "name": "speed", "type": "number", "required": true, "minimum": 0, "maximum": 100000 }
+            ]
+          },
+          { "name": "breakMax", "type": "integer", "minimum": 1, "maximum": 1000 },
+          { "name": "skills", "type": "array", "elementType": "string", "maxItems": 8 },
+          {
+            "name": "sprite",
+            "type": "object",
+            "additionalProperties": false,
+            "fields": [
+              { "name": "anim", "type": "string", "required": true },
+              { "name": "clip", "type": "string", "required": true }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "startingItems",
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "itemId", "type": "string", "required": true },
+          { "name": "count", "type": "integer", "required": true, "minimum": 1, "maximum": 999 }
+        ]
+      }
+    }
+  ]
+}

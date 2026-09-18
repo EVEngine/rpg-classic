@@ -1,0 +1,30 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "weapon.iron-sword",
+  "title": "铁剑",
+  "description": "制式铁剑，各地铁匠铺都有。",
+  "displayName": "铁剑",
+  "category": "weapon",
+  "rarity": "common",
+  "maxStack": 1,
+  "weight": 3.5,
+  "volume": 2.0,
+  "value": 120,
+  "tags": [
+    "weapon",
+    "sword"
+  ],
+  "equipSlot": "weapon",
+  "equipStats": [
+    {
+      "attribute": "attack",
+      "op": "add",
+      "value": 8,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/weapon.iron-sword.png"
+  }
+}

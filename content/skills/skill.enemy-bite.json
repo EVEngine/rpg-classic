@@ -1,0 +1,40 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.enemy-bite",
+  "title": "噬咬",
+  "description": "扑近撕咬，命中后留下创口。",
+  "targetType": "enemySingle",
+  "cooldown": 2.0,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 3
+    }
+  ],
+  "tags": [
+    "attack",
+    "physical"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.05 - b.defense * 0.3",
+    "element": "none",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "enemy-beasts",
+        "clip": "bat",
+        "on": "caster",
+        "hold": 0.2
+      }
+    ],
+    "screenShake": 0.12
+  },
+  "effects": [
+    "bleed"
+  ]
+}

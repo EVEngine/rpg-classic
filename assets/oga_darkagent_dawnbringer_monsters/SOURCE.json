@@ -1,0 +1,15 @@
+{
+  "schema": "eve.rpgc.asset-source",
+  "version": 1,
+  "pack": "oga_darkagent_dawnbringer_monsters",
+  "title": "Basic Green Monster Collection",
+  "upstreamVersion": "1",
+  "author": "darkagent (recolours of Dungeon Crawl Stone Soup tiles)",
+  "licence": "CC0-1.0",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "pageUrl": "https://opengameart.org/content/basic-green-monster-collection",
+  "fileUrl": "https://opengameart.org/sites/default/files/Basic%20Green%20Monster%20Colection%20Batch%201-3_0.zip",
+  "archive": "basic-green-monster-collection.zip",
+  "sha256": "11a110f3ea9610a1d73ed302a6348c7bab3fd0e73bef46683aec7450894979ce",
+  "note": "Vendored verbatim. CC0 1.0 requires no attribution; the record exists so the provenance can be audited and the archive re-verified with tools/import_bestiary_assets.py --check."
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.combo.frost-blade.finish",
+  "title": "冰雷交击·合",
+  "description": "组合技收尾段。它不是任何武学的品级招式，所以只声明 combo、不声明 art；编排由项目侧按 stages 串行。",
+  "combo": "combo.frost-blade",
+  "targetType": "enemySingle",
+  "cooldown": 0,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 10
+    }
+  ],
+  "effects": [
+    "chill",
+    "bleed"
+  ],
+  "tags": [
+    "blade",
+    "water",
+    "combo"
+  ],
+  "damage": {
+    "formula": "a.attack * 0.8 + a.mana * 0.4",
+    "element": "water",
+    "critChance": 0.2,
+    "hitChance": 1.0
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "thunder",
+        "clip": "bolt",
+        "on": "impact",
+        "hold": 0.2
+      },
+      {
+        "anim": "fireball",
+        "clip": "impact",
+        "on": "screen",
+        "hold": 0.2
+      }
+    ],
+    "vfx": "fx/frost-blade-finish",
+    "screenShake": 0.45
+  }
+}

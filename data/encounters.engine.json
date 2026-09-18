@@ -1,0 +1,627 @@
+[
+  {
+    "id": "encounter.canglang-night",
+    "displayName": "沧浪渡·夜渡",
+    "members": [
+      {
+        "id": "river-pirate.0",
+        "displayName": "江上水贼",
+        "skillId": "skill.enemy-blade",
+        "attack": 12,
+        "defense": 2.4,
+        "maxHp": 46,
+        "speed": 7
+      },
+      {
+        "id": "river-pirate.1",
+        "displayName": "江上水贼",
+        "skillId": "skill.enemy-blade",
+        "attack": 12,
+        "defense": 2.4,
+        "maxHp": 46,
+        "speed": 7
+      },
+      {
+        "id": "sea-wraith.0",
+        "displayName": "海鬼",
+        "skillId": "skill.enemy-drain",
+        "attack": 11,
+        "defense": 2.9,
+        "maxHp": 42,
+        "speed": 7
+      }
+    ],
+    "xpReward": 84,
+    "xpGrowth": 1.2,
+    "goldReward": 38,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "pirate",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.changan-caravan",
+    "displayName": "长安西市·劫道",
+    "members": [
+      {
+        "id": "caravan-raider.0",
+        "displayName": "劫商马贼",
+        "skillId": "skill.enemy-blade",
+        "attack": 24,
+        "defense": 6.5,
+        "maxHp": 120,
+        "speed": 10
+      },
+      {
+        "id": "grain-bandit.0",
+        "displayName": "劫粮盗",
+        "skillId": "skill.enemy-blade",
+        "attack": 11,
+        "defense": 2.6,
+        "maxHp": 44,
+        "speed": 5
+      },
+      {
+        "id": "grain-bandit.1",
+        "displayName": "劫粮盗",
+        "skillId": "skill.enemy-blade",
+        "attack": 11,
+        "defense": 2.6,
+        "maxHp": 44,
+        "speed": 5
+      }
+    ],
+    "xpReward": 70,
+    "xpGrowth": 1.2,
+    "goldReward": 32,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "raider",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.jiange-ambush",
+    "displayName": "剑阁驿·蜀道伏",
+    "members": [
+      {
+        "id": "mountain-sprite.0",
+        "displayName": "山魈",
+        "skillId": "skill.enemy-claw",
+        "attack": 21,
+        "defense": 5.5,
+        "maxHp": 104,
+        "speed": 9
+      },
+      {
+        "id": "grain-bandit.0",
+        "displayName": "劫粮盗",
+        "skillId": "skill.enemy-blade",
+        "attack": 11,
+        "defense": 2.6,
+        "maxHp": 44,
+        "speed": 5
+      },
+      {
+        "id": "grain-bandit.1",
+        "displayName": "劫粮盗",
+        "skillId": "skill.enemy-blade",
+        "attack": 11,
+        "defense": 2.6,
+        "maxHp": 44,
+        "speed": 5
+      }
+    ],
+    "xpReward": 88,
+    "xpGrowth": 1.2,
+    "goldReward": 40,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "sprite",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.jinling-alley",
+    "displayName": "金陵长街·暗手",
+    "members": [
+      {
+        "id": "market-thug.0",
+        "displayName": "市井恶徒",
+        "skillId": "skill.enemy-claw",
+        "attack": 9,
+        "defense": 2.0,
+        "maxHp": 38,
+        "speed": 6
+      },
+      {
+        "id": "market-thug.1",
+        "displayName": "市井恶徒",
+        "skillId": "skill.enemy-claw",
+        "attack": 9,
+        "defense": 2.0,
+        "maxHp": 38,
+        "speed": 6
+      },
+      {
+        "id": "rogue-swordsman.0",
+        "displayName": "蜀道游侠",
+        "skillId": "skill.enemy-blade",
+        "attack": 27,
+        "defense": 6.8,
+        "maxHp": 118,
+        "speed": 12
+      }
+    ],
+    "xpReward": 74,
+    "xpGrowth": 1.2,
+    "goldReward": 34,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "thug",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.kaifeng-wharf",
+    "displayName": "开封码头·漕帮",
+    "members": [
+      {
+        "id": "wharf-brawler.0",
+        "displayName": "码头打手",
+        "skillId": "skill.enemy-claw",
+        "attack": 12,
+        "defense": 3.4,
+        "maxHp": 52,
+        "speed": 4
+      },
+      {
+        "id": "wharf-brawler.1",
+        "displayName": "码头打手",
+        "skillId": "skill.enemy-claw",
+        "attack": 12,
+        "defense": 3.4,
+        "maxHp": 52,
+        "speed": 4
+      },
+      {
+        "id": "river-pirate.0",
+        "displayName": "江上水贼",
+        "skillId": "skill.enemy-blade",
+        "attack": 12,
+        "defense": 2.4,
+        "maxHp": 46,
+        "speed": 7
+      }
+    ],
+    "xpReward": 62,
+    "xpGrowth": 1.2,
+    "goldReward": 28,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "brawler",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.luoxia-wreck",
+    "displayName": "落霞岛·沉船",
+    "members": [
+      {
+        "id": "sunken-soul.0",
+        "displayName": "溺魂",
+        "skillId": "skill.enemy-drain",
+        "attack": 25,
+        "defense": 6.2,
+        "maxHp": 126,
+        "speed": 8
+      },
+      {
+        "id": "sea-wraith.0",
+        "displayName": "海鬼",
+        "skillId": "skill.enemy-drain",
+        "attack": 11,
+        "defense": 2.9,
+        "maxHp": 42,
+        "speed": 7
+      },
+      {
+        "id": "sea-wraith.1",
+        "displayName": "海鬼",
+        "skillId": "skill.enemy-drain",
+        "attack": 11,
+        "defense": 2.9,
+        "maxHp": 42,
+        "speed": 7
+      }
+    ],
+    "xpReward": 104,
+    "xpGrowth": 1.2,
+    "goldReward": 50,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "soul",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.luoyang-market",
+    "displayName": "洛阳南市·看场子的",
+    "members": [
+      {
+        "id": "market-thug.0",
+        "displayName": "市井恶徒",
+        "skillId": "skill.enemy-claw",
+        "attack": 9,
+        "defense": 2.0,
+        "maxHp": 38,
+        "speed": 6
+      },
+      {
+        "id": "market-thug.1",
+        "displayName": "市井恶徒",
+        "skillId": "skill.enemy-claw",
+        "attack": 9,
+        "defense": 2.0,
+        "maxHp": 38,
+        "speed": 6
+      }
+    ],
+    "xpReward": 40,
+    "xpGrowth": 1.2,
+    "goldReward": 18,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "thug",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.miaoling-hex",
+    "displayName": "苗岭寨外·蛊阵",
+    "members": [
+      {
+        "id": "gu-poison-worm.0",
+        "displayName": "蛊虫",
+        "skillId": "skill.enemy-venom",
+        "attack": 9,
+        "defense": 2.2,
+        "maxHp": 30,
+        "speed": 8
+      },
+      {
+        "id": "gu-poison-worm.1",
+        "displayName": "蛊虫",
+        "skillId": "skill.enemy-venom",
+        "attack": 9,
+        "defense": 2.2,
+        "maxHp": 30,
+        "speed": 8
+      },
+      {
+        "id": "miao-hexer.0",
+        "displayName": "苗疆蛊巫",
+        "skillId": "skill.enemy-hex",
+        "attack": 19,
+        "defense": 4.5,
+        "maxHp": 92,
+        "speed": 9
+      },
+      {
+        "id": "corpse-puppet.0",
+        "displayName": "尸傀",
+        "skillId": "skill.enemy-claw",
+        "attack": 13,
+        "defense": 4.2,
+        "maxHp": 56,
+        "speed": 3
+      }
+    ],
+    "xpReward": 102,
+    "xpGrowth": 1.2,
+    "goldReward": 46,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "hexer",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.mist-forest-deep",
+    "displayName": "雾林深处·魔骨将",
+    "members": [
+      {
+        "id": "demon-general.0",
+        "displayName": "魔骨将",
+        "skillId": "skill.enemy-bone-smash",
+        "attack": 42,
+        "defense": 14.0,
+        "maxHp": 420,
+        "speed": 9
+      },
+      {
+        "id": "bone-captain.0",
+        "displayName": "骸骨甲士",
+        "skillId": "skill.enemy-bone-smash",
+        "attack": 30,
+        "defense": 10.0,
+        "maxHp": 180,
+        "speed": 6
+      },
+      {
+        "id": "corpse-puppet.0",
+        "displayName": "尸傀",
+        "skillId": "skill.enemy-claw",
+        "attack": 13,
+        "defense": 4.2,
+        "maxHp": 56,
+        "speed": 3
+      },
+      {
+        "id": "corpse-puppet.1",
+        "displayName": "尸傀",
+        "skillId": "skill.enemy-claw",
+        "attack": 13,
+        "defense": 4.2,
+        "maxHp": 56,
+        "speed": 3
+      }
+    ],
+    "xpReward": 260,
+    "xpGrowth": 1.2,
+    "goldReward": 180,
+    "requiredQuestId": "quest.main.boneseal",
+    "notifyTopic": "kill",
+    "notifyTarget": "general",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.outskirts-night",
+    "displayName": "村郊·夜行",
+    "members": [
+      {
+        "id": "blood-bat.0",
+        "displayName": "血蝠",
+        "skillId": "skill.enemy-bite",
+        "attack": 10,
+        "defense": 1.8,
+        "maxHp": 28,
+        "speed": 12
+      },
+      {
+        "id": "blood-bat.1",
+        "displayName": "血蝠",
+        "skillId": "skill.enemy-bite",
+        "attack": 10,
+        "defense": 1.8,
+        "maxHp": 28,
+        "speed": 12
+      },
+      {
+        "id": "market-thug.0",
+        "displayName": "市井恶徒",
+        "skillId": "skill.enemy-claw",
+        "attack": 9,
+        "defense": 2.0,
+        "maxHp": 38,
+        "speed": 6
+      }
+    ],
+    "xpReward": 44,
+    "xpGrowth": 1.2,
+    "goldReward": 20,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "bat",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.xiangyang-pass",
+    "displayName": "襄阳城外·拦路",
+    "members": [
+      {
+        "id": "grain-bandit.0",
+        "displayName": "劫粮盗",
+        "skillId": "skill.enemy-blade",
+        "attack": 11,
+        "defense": 2.6,
+        "maxHp": 44,
+        "speed": 5
+      },
+      {
+        "id": "grain-bandit.1",
+        "displayName": "劫粮盗",
+        "skillId": "skill.enemy-blade",
+        "attack": 11,
+        "defense": 2.6,
+        "maxHp": 44,
+        "speed": 5
+      },
+      {
+        "id": "rogue-swordsman.0",
+        "displayName": "蜀道游侠",
+        "skillId": "skill.enemy-blade",
+        "attack": 27,
+        "defense": 6.8,
+        "maxHp": 118,
+        "speed": 12
+      }
+    ],
+    "xpReward": 78,
+    "xpGrowth": 1.2,
+    "goldReward": 36,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "bandit",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.xueling-frost",
+    "displayName": "雪岭坞·冻骨",
+    "members": [
+      {
+        "id": "frozen-corpse.0",
+        "displayName": "冰尸",
+        "skillId": "skill.enemy-drain",
+        "attack": 18,
+        "defense": 8.0,
+        "maxHp": 130,
+        "speed": 3
+      },
+      {
+        "id": "frozen-corpse.1",
+        "displayName": "冰尸",
+        "skillId": "skill.enemy-drain",
+        "attack": 18,
+        "defense": 8.0,
+        "maxHp": 130,
+        "speed": 3
+      },
+      {
+        "id": "frost-wraith.0",
+        "displayName": "冰魈",
+        "skillId": "skill.enemy-frost",
+        "attack": 20,
+        "defense": 5.0,
+        "maxHp": 96,
+        "speed": 8
+      }
+    ],
+    "xpReward": 108,
+    "xpGrowth": 1.2,
+    "goldReward": 48,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "wraith",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.yanmen-raid",
+    "displayName": "雁门关外·掠阵",
+    "members": [
+      {
+        "id": "steppe-rider.0",
+        "displayName": "北狄游骑",
+        "skillId": "skill.enemy-blade",
+        "attack": 22,
+        "defense": 6.0,
+        "maxHp": 112,
+        "speed": 11
+      },
+      {
+        "id": "steppe-rider.1",
+        "displayName": "北狄游骑",
+        "skillId": "skill.enemy-blade",
+        "attack": 22,
+        "defense": 6.0,
+        "maxHp": 112,
+        "speed": 11
+      },
+      {
+        "id": "snow-wolf.0",
+        "displayName": "雪狼",
+        "skillId": "skill.enemy-bite",
+        "attack": 13,
+        "defense": 2.8,
+        "maxHp": 48,
+        "speed": 9
+      }
+    ],
+    "xpReward": 96,
+    "xpGrowth": 1.2,
+    "goldReward": 44,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "rider",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  },
+  {
+    "id": "encounter.yumen-dunes",
+    "displayName": "玉门镇外·沙暴",
+    "members": [
+      {
+        "id": "desert-brigand.0",
+        "displayName": "沙盗",
+        "skillId": "skill.enemy-bone-smash",
+        "attack": 26,
+        "defense": 7.5,
+        "maxHp": 140,
+        "speed": 7
+      },
+      {
+        "id": "dune-scorpion.0",
+        "displayName": "沙蝎",
+        "skillId": "skill.enemy-venom",
+        "attack": 10,
+        "defense": 3.6,
+        "maxHp": 34,
+        "speed": 6
+      },
+      {
+        "id": "dune-scorpion.1",
+        "displayName": "沙蝎",
+        "skillId": "skill.enemy-venom",
+        "attack": 10,
+        "defense": 3.6,
+        "maxHp": 34,
+        "speed": 6
+      }
+    ],
+    "xpReward": 92,
+    "xpGrowth": 1.2,
+    "goldReward": 42,
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "brigand",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+]

@@ -1,0 +1,196 @@
+{
+  "id": "event",
+  "title": "事件编辑器 · Event",
+  "vm": "EventVM",
+  "x": 1360,
+  "y": 40,
+  "width": 1000,
+  "height": 660,
+  "layout": "vertical",
+  "resizable": true,
+  "theme": {
+    "preset": "dark",
+    "accent": [0.94, 0.62, 0.28],
+    "bg": [0.10, 0.11, 0.14],
+    "panel": [0.14, 0.15, 0.18],
+    "text": [0.92, 0.93, 0.95],
+    "radius": 4.0,
+    "fontScale": 1.0
+  },
+  "children": [
+    { "type": "text", "id": "ev-header", "text": "事件编辑器 — 触发条件 / 步骤序列 / 缩进分支 / 校验" },
+    { "type": "separator", "id": "ev-sep-top" },
+    {
+      "type": "group",
+      "id": "ev-body",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        {
+          "type": "viewport",
+          "id": "storyboard",
+          "width": 620,
+          "height": 420,
+          "bg": [0.06, 0.07, 0.10],
+          "tooltip": "故事板：EventVM 按步骤层级绘制条带，矩形取自 eve.host.widgetRect"
+        },
+        {
+          "type": "group",
+          "id": "ev-side",
+          "border": true,
+          "width": 336,
+          "height": 442,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "tabs",
+              "id": "ev-tabs",
+              "children": [
+                {
+                  "type": "tab",
+                  "label": "事件",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "ev-list-cap", "bind:label": "vm.folderLabel", "tooltip": "编辑器直接读取项目文件夹 content/events，不需要打开文档" },
+                    {
+                      "type": "listbox",
+                      "id": "event",
+                      "bind:options": "vm.eventList",
+                      "bind": "vm.eventId",
+                      "onChange": "onChange",
+                      "heightItems": 6,
+                      "tooltip": "选中即载入该事件（文件夹内容就是文档列表）"
+                    },
+                    {
+                      "type": "group",
+                      "id": "ev-doc-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "refresh-event", "label": "重扫文件夹", "command": "refreshFolder", "width": 110 },
+                        { "type": "button", "id": "ev-new", "label": "新建", "command": "newEvent", "width": 76 },
+                        { "type": "button", "id": "ev-save", "label": "保存", "command": "saveEvent", "width": 76 }
+                      ]
+                    },
+                    { "type": "separator", "id": "ev-sep-doc" },
+                    { "type": "checkbox", "id": "repeatable", "label": "可重复触发 (repeatable)", "bind": "vm.repeatable" },
+                    { "type": "label", "id": "ev-title-live", "bind:label": "vm.eventTitle" },
+                    { "type": "label", "id": "ev-doc-note", "text": "保存会把文档暂存并提示运行 tools/rpgc.py export" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "触发器",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "dropdown", "id": "triggerKind", "label": "触发方式 (triggerKind)", "bind:options": "vm.triggerKinds", "bind": "vm.triggerKind", "onChange": "onChange" },
+                    { "type": "separator", "id": "ev-sep-trig" },
+                    { "type": "dropdown", "id": "trig-map", "label": "地图 (triggerMap)", "bind:options": "vm.mapList", "bind": "vm.triggerMap" },
+                    { "type": "input", "id": "trig-object", "label": "对象 (triggerObject)", "bind": "vm.triggerObject" },
+                    { "type": "input", "id": "trig-quest", "label": "任务 (triggerQuest)", "bind": "vm.triggerQuest" },
+                    { "type": "label", "id": "ev-trig-note", "text": "地图/对象/任务字段按触发方式取用，schema 允许为空" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "步骤",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "ev-step-cap", "text": "步骤序列 (stepList，缩进即层级)" },
+                    {
+                      "type": "listbox",
+                      "id": "step",
+                      "bind:options": "vm.stepList",
+                      "onChange": "onChange",
+                      "heightItems": 10
+                    },
+                    {
+                      "type": "group",
+                      "id": "ev-step-row1",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "st-add", "label": "新增", "command": "addStep", "width": 62 },
+                        { "type": "button", "id": "st-remove", "label": "删除", "command": "removeStep", "width": 62 },
+                        { "type": "button", "id": "st-up", "label": "上移", "command": "moveStepUp", "width": 62 },
+                        { "type": "button", "id": "st-down", "label": "下移", "command": "moveStepDown", "width": 62 }
+                      ]
+                    },
+                    {
+                      "type": "group",
+                      "id": "ev-step-row2",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "st-indent", "label": "缩进到分支", "command": "indentStep", "width": 104 },
+                        { "type": "button", "id": "st-outdent", "label": "取消缩进", "command": "outdentStep", "width": 104 }
+                      ]
+                    },
+                    { "type": "separator", "id": "ev-sep-kind" },
+                    { "type": "dropdown", "id": "stepKind", "label": "步骤类型 (stepKind)", "bind:options": "vm.stepKinds", "bind": "vm.stepKind", "onChange": "onChange" },
+                    { "type": "button", "id": "st-set-kind", "label": "应用到选中步骤 (setStepKind)", "command": "setStepKind" },
+                    { "type": "separator", "id": "ev-sep-fields" },
+                    { "type": "label", "id": "ev-fields-cap", "text": "按类型字段（无效字段会被忽略）" },
+                    { "type": "input", "id": "st-reference", "label": "对白/消息 (reference)", "bind": "vm.stepReference" },
+                    { "type": "input", "id": "st-actor", "label": "角色 (actorId)", "bind": "vm.stepActorId" },
+                    { "type": "dropdown", "id": "st-map", "label": "地图 (mapId)", "bind:options": "vm.mapList", "bind": "vm.stepMapId" },
+                    { "type": "input", "id": "st-object", "label": "对象 (objectName)", "bind": "vm.stepObjectName" },
+                    { "type": "dropdown", "id": "st-anim", "label": "动画 (anim)", "bind:options": "vm.animList", "bind": "vm.stepAnim" },
+                    { "type": "input", "id": "st-clip", "label": "片段 (clip)", "bind": "vm.stepClip" },
+                    { "type": "input", "id": "st-name", "label": "变量/条件名 (name)", "bind": "vm.stepName" },
+                    {
+                      "type": "dropdown",
+                      "id": "st-op",
+                      "label": "运算 (op)",
+                      "bind": "vm.stepOp",
+                      "options": ["set", "add", "sub", "switchOn", "switchOff"]
+                    },
+                    { "type": "slider", "id": "st-value", "label": "数值 (value)", "bind": "vm.stepValue", "min": -1000.0, "max": 1000.0, "format": "%.2f" },
+                    { "type": "slider", "id": "st-x", "label": "X", "bind": "vm.stepX", "min": -4000.0, "max": 4000.0, "format": "%.0f" },
+                    { "type": "slider", "id": "st-y", "label": "Y", "bind": "vm.stepY", "min": -4000.0, "max": 4000.0, "format": "%.0f" },
+                    { "type": "slider", "id": "st-duration", "label": "时长 (duration)", "bind": "vm.stepDuration", "min": 0.0, "max": 600.0, "format": "%.2f" },
+                    {
+                      "type": "dropdown",
+                      "id": "st-compare",
+                      "label": "条件比较 (compare)",
+                      "bind": "vm.stepCompare",
+                      "options": ["eq", "ne", "lt", "lte", "gt", "gte"]
+                    },
+                    { "type": "separator", "id": "ev-sep-gate" },
+                    { "type": "button", "id": "st-validate", "label": "校验文档 (validate)", "command": "validate" },
+                    { "type": "button", "id": "st-preview", "label": "预览选中步骤 (previewStep)", "command": "previewStep" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "诊断",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "ev-status-cap", "text": "状态 (status)" },
+                    { "type": "label", "id": "ev-status", "bind:label": "vm.status" },
+                    { "type": "separator", "id": "ev-sep-diag" },
+                    { "type": "label", "id": "ev-diag-cap", "text": "诊断 (diagnostics)" },
+                    { "type": "label", "id": "ev-diagnostics", "bind:label": "vm.diagnostics" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "type": "separator", "id": "ev-sep-bottom" },
+    {
+      "type": "group",
+      "id": "ev-footer",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        { "type": "label", "id": "ev-footer-cap", "text": "当前事件：" },
+        { "type": "label", "id": "ev-title-footer", "bind:label": "vm.eventTitle" },
+        { "type": "spacer", "id": "ev-gap", "width": 24 },
+        { "type": "label", "id": "ev-trigger-footer", "bind:label": "vm.triggerKind" }
+      ]
+    }
+  ]
+}

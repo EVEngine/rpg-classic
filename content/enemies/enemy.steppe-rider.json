@@ -1,0 +1,54 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.steppe-rider",
+  "title": "北狄游骑",
+  "description": "雁门关外一掠而过的骑手，只在关墙的影子下停一停。",
+  "displayName": "北狄游骑",
+  "tier": "elite",
+  "element": "metal",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "blade"
+  ],
+  "combat": {
+    "attack": 22,
+    "defense": 6.0,
+    "maxHp": 112,
+    "speed": 11
+  },
+  "breakMax": 80,
+  "skillId": "skill.enemy-blade",
+  "skills": [
+    "skill.enemy-blade"
+  ],
+  "habitat": [
+    "yanmen-fortress"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "centaur"
+  },
+  "drops": [
+    {
+      "itemId": "material.pelt",
+      "chance": 0.35,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "itemId": "weapon.iron-sword",
+      "chance": 0.06,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.85,
+    "fleeBelowHp": 0.05,
+    "opener": "skill.enemy-blade"
+  },
+  "lore": "雁门关外一掠而过的骑手，只在关墙的影子下停一停。"
+}

@@ -1,0 +1,171 @@
+{
+  "id": "skill",
+  "title": "技能编辑器 · Skill",
+  "vm": "SkillVM",
+  "x": 1220,
+  "y": 20,
+  "width": 360,
+  "height": 860,
+  "layout": "vertical",
+  "resizable": true,
+  "theme": {
+    "preset": "dark",
+    "accent": [0.78, 0.45, 0.90],
+    "bg": [0.10, 0.11, 0.14],
+    "panel": [0.14, 0.15, 0.18],
+    "text": [0.92, 0.93, 0.95],
+    "radius": 4.0,
+    "fontScale": 1.0
+  },
+  "children": [
+    { "type": "text", "id": "sk-header", "text": "技能编辑器 — 主窗口战斗 / 数值 / 演出分段 / 等级" },
+    { "type": "separator", "id": "sk-sep-top" },
+    {
+      "type": "tabs",
+      "id": "sk-tabs",
+      "children": [
+        {
+          "type": "tab",
+          "label": "技能",
+          "layout": "vertical",
+          "children": [
+            { "type": "label", "id": "sk-list-cap", "bind:label": "vm.folderLabel", "tooltip": "编辑器直接读取项目文件夹 content/skills，不需要打开文档" },
+            {
+              "type": "listbox",
+              "id": "skill",
+              "bind:options": "vm.skillList",
+              "bind": "vm.skillId",
+              "onChange": "onChange",
+              "heightItems": 5,
+              "tooltip": "选中即载入该技能（文件夹内容就是文档列表）"
+            },
+            {
+              "type": "group",
+              "id": "sk-doc-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "refresh-skill", "label": "重扫文件夹", "command": "refreshFolder", "width": 110 },
+                { "type": "button", "id": "new-skill", "label": "新建", "command": "newSkill", "width": 76 },
+                { "type": "button", "id": "save-skill", "label": "保存", "command": "saveSkill", "width": 76 }
+              ]
+            },
+            { "type": "separator", "id": "sk-sep-id" },
+            { "type": "input", "id": "skill-id", "label": "id", "bind": "vm.skillId" },
+            { "type": "input", "id": "skill-title", "label": "标题", "bind": "vm.skillTitle" },
+            { "type": "dropdown", "id": "target", "label": "目标类型", "bind:options": "vm.targetTypes", "bind": "vm.targetType" },
+            { "type": "slider", "id": "cooldown", "label": "冷却 (cooldown)", "bind": "vm.cooldown", "min": 0.0, "max": 600.0, "format": "%.2f" },
+            { "type": "slider", "id": "cast-time", "label": "吟唱 (castTime)", "bind": "vm.castTime", "min": 0.0, "max": 60.0, "format": "%.2f" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "伤害与效果",
+          "layout": "vertical",
+          "children": [
+            { "type": "input", "id": "formula", "label": "伤害公式 (formula)", "bind": "vm.formula" },
+            { "type": "dropdown", "id": "element", "label": "元素 (element)", "bind:options": "vm.elements", "bind": "vm.element" },
+            { "type": "separator", "id": "sk-sep-fx" },
+            { "type": "label", "id": "sk-effects-cap", "text": "效果列表 (effectList，只读投影)" },
+            { "type": "listbox", "id": "effects", "bind:options": "vm.effectList", "heightItems": 6 },
+            { "type": "separator", "id": "sk-sep-vfx" },
+            { "type": "input", "id": "vfx", "label": "表现特效 (vfx)", "bind": "vm.vfx" },
+            { "type": "label", "id": "sk-costnote", "text": "costs 未由 SkillVM 暴露为可绑定槽位，本面板无法编辑" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "演出分段",
+          "layout": "vertical",
+          "children": [
+            { "type": "label", "id": "sk-seg-cap", "text": "分段列表 (segmentList)" },
+            {
+              "type": "listbox",
+              "id": "segment",
+              "bind:options": "vm.segmentList",
+              "onChange": "onChange",
+              "heightItems": 5
+            },
+            {
+              "type": "group",
+              "id": "sk-seg-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "seg-add", "label": "新增", "command": "addSegment", "width": 62 },
+                { "type": "button", "id": "seg-remove", "label": "删除", "command": "removeSegment", "width": 62 },
+                { "type": "button", "id": "seg-up", "label": "上移", "command": "moveSegmentUp", "width": 62 },
+                { "type": "button", "id": "seg-down", "label": "下移", "command": "moveSegmentDown", "width": 62 }
+              ]
+            },
+            { "type": "separator", "id": "sk-sep-seg" },
+            { "type": "dropdown", "id": "segmentAnim", "label": "动画 (segmentAnim)", "bind:options": "vm.animList", "bind": "vm.segmentAnim", "onChange": "onChange" },
+            { "type": "input", "id": "segmentClip", "label": "片段 (segmentClip)", "bind": "vm.segmentClip", "onChange": "onChange" },
+            {
+              "type": "dropdown",
+              "id": "seg-on",
+              "label": "作用对象 (segmentOn)",
+              "bind": "vm.segmentOn",
+              "options": ["caster", "target", "impact", "screen"]
+            },
+            { "type": "input", "id": "seg-event", "label": "事件钩子 (segmentAtEvent)", "bind": "vm.segmentAtEvent" },
+            { "type": "slider", "id": "seg-hold", "label": "停留 (segmentHold)", "bind": "vm.segmentHold", "min": 0.0, "max": 10.0, "format": "%.2f" },
+            { "type": "separator", "id": "sk-sep-prev" },
+            { "type": "button", "id": "preview-clip", "label": "战场播放 (previewClip)", "command": "previewClip" },
+            { "type": "button", "id": "set-clip", "label": "取首个片段 (selectClip)", "command": "selectClip" },
+            { "type": "label", "id": "sk-clip-note", "text": "片段列表来自 segmentAnim 指向的 anim 文档；clipList 是函数而非槽位，无法绑定为下拉项" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "等级",
+          "layout": "vertical",
+          "children": [
+            { "type": "label", "id": "sk-level-cap", "text": "等级行 (levelList)" },
+            { "type": "listbox", "id": "level", "bind:options": "vm.levelList", "onChange": "onChange", "heightItems": 6 },
+            {
+              "type": "group",
+              "id": "sk-level-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "level-add", "label": "新增等级", "command": "appendLevel", "width": 110 },
+                { "type": "button", "id": "level-remove", "label": "删除等级", "width": 110, "command": "removeLevel" }
+              ]
+            },
+            { "type": "separator", "id": "sk-sep-level" },
+            { "type": "slider", "id": "level-value", "label": "等级 (levelValue)", "bind": "vm.levelValue", "min": 1.0, "max": 99.0, "format": "%.0f" },
+            { "type": "slider", "id": "level-magnitude", "label": "倍率 (levelMagnitude)", "bind": "vm.levelMagnitude", "min": 0.0, "max": 100.0, "format": "%.2f" },
+            { "type": "input", "id": "level-vfx", "label": "等级特效 (levelVfx)", "bind": "vm.levelVfx" },
+            { "type": "label", "id": "sk-level-note", "text": "每级的 segments 覆盖未暴露为槽位" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "诊断",
+          "layout": "vertical",
+          "children": [
+            { "type": "label", "id": "sk-status-cap", "text": "状态 (status)" },
+            { "type": "label", "id": "status", "bind:label": "vm.status" },
+            { "type": "separator", "id": "sk-sep-diag" },
+            { "type": "label", "id": "sk-diag-cap", "text": "诊断 (diagnostics)" },
+            { "type": "label", "id": "diagnostics", "bind:label": "vm.diagnostics" }
+          ]
+        }
+      ]
+    },
+    { "type": "separator", "id": "sk-sep-bottom" },
+    {
+      "type": "group",
+      "id": "sk-footer",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        { "type": "label", "id": "sk-footer-cap", "text": "当前技能：" },
+        { "type": "label", "id": "sk-title-live", "bind:label": "vm.skillTitle" },
+        { "type": "spacer", "id": "sk-gap", "width": 24 },
+        { "type": "label", "id": "sk-seg-live", "bind:label": "vm.segmentClip" }
+      ]
+    }
+  ]
+}

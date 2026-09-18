@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.jinling-alley",
+  "title": "金陵长街·暗手",
+  "description": "金陵长街·暗手：3 名敌人。",
+  "displayName": "金陵长街·暗手",
+  "map": "jinling",
+  "members": [
+    {
+      "enemy": "enemy.market-thug",
+      "count": 2
+    },
+    {
+      "enemy": "enemy.rogue-swordsman",
+      "count": 1
+    }
+  ],
+  "xpReward": 74,
+  "xpGrowth": 1.2,
+  "goldReward": 34,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "thug",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "id": "item",
+  "title": "物品编辑器 · Item",
+  "vm": "ItemVM",
+  "x": 20,
+  "y": 20,
+  "width": 760,
+  "height": 720,
+  "layout": "vertical",
+  "resizable": true,
+  "theme": {
+    "preset": "dark",
+    "accent": [0.92, 0.72, 0.30],
+    "bg": [0.10, 0.11, 0.14],
+    "panel": [0.14, 0.15, 0.18],
+    "text": [0.92, 0.93, 0.95],
+    "radius": 4.0,
+    "fontScale": 1.0
+  },
+  "children": [
+    { "type": "text", "id": "it-header", "text": "物品编辑器 — 引擎物品定义 / 装备加成 / 使用与秘籍 / 诊断" },
+    { "type": "separator", "id": "it-sep-top" },
+    {
+      "type": "group",
+      "id": "it-body",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        {
+          "type": "viewport",
+          "id": "card",
+          "width": 380,
+          "height": 580,
+          "bg": [0.06, 0.07, 0.10],
+          "tooltip": "物品卡预览：ItemVM 按选中文档绘制身份 / 类别稀有度 / 槽位 / 价格与前几条加成；矩形取自 eve.host.widgetRect"
+        },
+        {
+          "type": "group",
+          "id": "it-side",
+          "border": true,
+          "width": 344,
+          "height": 600,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "tabs",
+              "id": "it-tabs",
+              "children": [
+                {
+                  "type": "tab",
+                  "label": "物品",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "it-list-cap", "bind:label": "vm.folderLabel", "tooltip": "编辑器直接读取项目文件夹 content/items，不需要打开文档" },
+                    {
+                      "type": "listbox",
+                      "id": "item",
+                      "bind:options": "vm.itemList",
+                      "bind": "vm.itemId",
+                      "onChange": "onChange",
+                      "heightItems": 5,
+                      "tooltip": "选中即载入该物品（文件夹内容就是文档列表）"
+                    },
+                    {
+                      "type": "group",
+                      "id": "it-doc-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "it-refresh", "label": "重扫文件夹", "command": "refreshFolder", "width": 110 },
+                        { "type": "button", "id": "it-new", "label": "新建", "command": "newItem", "width": 76 },
+                        { "type": "button", "id": "it-save", "label": "保存", "command": "saveItem", "width": 76 }
+                      ]
+                    },
+                    { "type": "separator", "id": "it-sep-id" },
+                    { "type": "input", "id": "it-id", "label": "id", "bind": "vm.itemId" },
+                    { "type": "input", "id": "it-display", "label": "显示名 (displayName)", "bind": "vm.itemDisplayName" },
+                    { "type": "input", "id": "it-title", "label": "标题 (title)", "bind": "vm.itemTitle" },
+                    { "type": "input", "id": "it-desc", "label": "描述 (description)", "bind": "vm.itemDescription" },
+                    { "type": "dropdown", "id": "it-category", "label": "类别 (category)", "bind:options": "vm.categories", "bind": "vm.itemCategory", "onChange": "onChange" },
+                    { "type": "dropdown", "id": "it-rarity", "label": "稀有度 (rarity)", "bind:options": "vm.rarities", "bind": "vm.itemRarity", "onChange": "onChange" },
+                    { "type": "slider", "id": "it-value", "label": "价值 (value)", "bind": "vm.itemValue", "min": 0.0, "max": 100000000.0, "format": "%.0f" },
+                    { "type": "slider", "id": "it-maxstack", "label": "堆叠 (maxStack)", "bind": "vm.itemMaxStack", "min": 1.0, "max": 9999.0, "format": "%.0f" },
+                    { "type": "slider", "id": "it-weight", "label": "重量 (weight)", "bind": "vm.itemWeight", "min": 0.0, "max": 10000.0, "format": "%.2f" },
+                    { "type": "slider", "id": "it-volume", "label": "体积 (volume)", "bind": "vm.itemVolume", "min": 0.0, "max": 10000.0, "format": "%.2f" },
+                    { "type": "dropdown", "id": "it-slot", "label": "装备槽 (equipSlot)", "bind:options": "vm.equipSlots", "bind": "vm.itemEquipSlot", "onChange": "onChange" },
+                    { "type": "separator", "id": "it-sep-tags" },
+                    { "type": "label", "id": "it-tags-live", "bind:label": "vm.tagsLabel" },
+                    { "type": "label", "id": "it-extra-live", "bind:label": "vm.extraLabel" },
+                    { "type": "label", "id": "it-readonly-note", "text": "tags 与 extra 是只读投影：tags 由 schema 限制 8 条，extra 只放表现键（如 icon）" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "装备加成",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "it-stat-cap", "text": "加成行 (equipStats，最多 8 条)" },
+                    {
+                      "type": "listbox",
+                      "id": "item-stat",
+                      "bind:options": "vm.statList",
+                      "onChange": "onChange",
+                      "heightItems": 5
+                    },
+                    {
+                      "type": "group",
+                      "id": "it-stat-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "it-stat-add", "label": "新增", "command": "addStat", "width": 62 },
+                        { "type": "button", "id": "it-stat-del", "label": "删除", "command": "removeStat", "width": 62 },
+                        { "type": "button", "id": "it-stat-up", "label": "上移", "command": "moveStatUp", "width": 62 },
+                        { "type": "button", "id": "it-stat-down", "label": "下移", "command": "moveStatDown", "width": 62 }
+                      ]
+                    },
+                    { "type": "separator", "id": "it-sep-stat" },
+                    { "type": "input", "id": "it-stat-attribute", "label": "属性 (attribute)", "bind": "vm.statAttribute" },
+                    { "type": "dropdown", "id": "it-stat-op", "label": "运算 (op)", "bind:options": "vm.ops", "bind": "vm.statOp", "onChange": "onChange" },
+                    { "type": "slider", "id": "it-stat-value", "label": "数值 (value)", "bind": "vm.statValue", "min": -10000.0, "max": 10000.0, "format": "%.3f" },
+                    { "type": "slider", "id": "it-stat-priority", "label": "优先级 (priority)", "bind": "vm.statPriority", "min": -100.0, "max": 100.0, "format": "%.0f" },
+                    { "type": "label", "id": "it-stat-note", "text": "op 词表就是引擎 parseAttributeOperation 接受的 13 个拼写：写错一个字母等于这条加成永远不生效，所以这里只能选不能打" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "使用与秘籍",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "it-use-cap", "text": "使用 (use，consumable 专属)" },
+                    { "type": "label", "id": "it-use-live", "bind:label": "vm.useLabel" },
+                    {
+                      "type": "group",
+                      "id": "it-use-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "it-use-add", "label": "声明 use", "command": "addUse", "width": 96 },
+                        { "type": "button", "id": "it-use-del", "label": "移除 use", "command": "removeUse", "width": 96 }
+                      ]
+                    },
+                    { "type": "checkbox", "id": "it-use-consume", "label": "消耗 (consume)", "bind": "vm.useConsume" },
+                    { "type": "slider", "id": "it-use-cooldown", "label": "冷却秒 (cooldown)", "bind": "vm.useCooldown", "min": 0.0, "max": 600.0, "format": "%.2f" },
+                    { "type": "dropdown", "id": "it-use-target", "label": "目标 (targetType)", "bind:options": "vm.targetTypes", "bind": "vm.useTargetType", "onChange": "onChange" },
+                    { "type": "listbox", "id": "use-effect", "bind:options": "vm.useEffectList", "onChange": "onChange", "heightItems": 4, "tooltip": "效果列表 (use.effects)；选中一行后在下拉里改它" },
+                    {
+                      "type": "group",
+                      "id": "it-effect-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "it-effect-add", "label": "新增", "command": "addUseEffect", "width": 62 },
+                        { "type": "button", "id": "it-effect-del", "label": "删除", "command": "removeUseEffect", "width": 62 },
+                        { "type": "button", "id": "it-effect-up", "label": "上移", "command": "moveEffectUp", "width": 62 },
+                        { "type": "button", "id": "it-effect-down", "label": "下移", "command": "moveEffectDown", "width": 62 }
+                      ]
+                    },
+                    { "type": "dropdown", "id": "it-effect-id", "label": "效果 (effects[i])", "bind:options": "vm.effectOptions", "bind": "vm.effectId", "onChange": "onChange" },
+                    { "type": "separator", "id": "it-sep-teaches" },
+                    { "type": "label", "id": "it-teaches-cap", "text": "秘籍 (teaches，manual 专属)" },
+                    { "type": "label", "id": "it-teaches-live", "bind:label": "vm.teachesLabel" },
+                    {
+                      "type": "group",
+                      "id": "it-teaches-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "it-teaches-add", "label": "声明 teaches", "command": "addTeaches", "width": 110 },
+                        { "type": "button", "id": "it-teaches-del", "label": "移除 teaches", "command": "removeTeaches", "width": 110 }
+                      ]
+                    },
+                    { "type": "dropdown", "id": "it-teaches-art", "label": "武学 (art)", "bind:options": "vm.artList", "bind": "vm.teachesArt", "onChange": "onChange" },
+                    { "type": "dropdown", "id": "it-teaches-skill", "label": "招式 (skill)", "bind:options": "vm.skillList", "bind": "vm.teachesSkill", "onChange": "onChange" },
+                    { "type": "separator", "id": "it-sep-requires" },
+                    { "type": "label", "id": "it-requires-cap", "text": "修习条件 (requires)" },
+                    { "type": "label", "id": "it-requires-live", "bind:label": "vm.requiresLabel" },
+                    {
+                      "type": "group",
+                      "id": "it-requires-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "it-requires-add", "label": "声明 requires", "command": "addRequires", "width": 110 },
+                        { "type": "button", "id": "it-requires-del", "label": "移除 requires", "command": "removeRequires", "width": 110 }
+                      ]
+                    },
+                    { "type": "slider", "id": "it-requires-level", "label": "等级 (level)", "bind": "vm.requiresLevel", "min": 1.0, "max": 999.0, "format": "%.0f" },
+                    { "type": "dropdown", "id": "it-requires-art", "label": "武学 (artId)", "bind:options": "vm.artList", "bind": "vm.requiresArtId", "onChange": "onChange" },
+                    { "type": "slider", "id": "it-requires-grade", "label": "品级 (minGrade)", "bind": "vm.requiresMinGrade", "min": 1.0, "max": 9.0, "format": "%.0f" },
+                    { "type": "label", "id": "it-use-note", "text": "use / teaches 只允许出现在对应 category 上；在别的类别声明它就是第二份真源的起点，语义门会拒绝" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "诊断",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "it-status-cap", "text": "状态 (status)" },
+                    { "type": "label", "id": "it-status", "bind:label": "vm.status" },
+                    { "type": "separator", "id": "it-sep-diag" },
+                    { "type": "label", "id": "it-diag-cap", "text": "诊断 (diagnostics：schema + 语义门 + 跨文档门)" },
+                    { "type": "label", "id": "it-diagnostics", "bind:label": "vm.diagnostics" },
+                    { "type": "separator", "id": "it-sep-diag2" },
+                    { "type": "button", "id": "it-validate", "label": "校验当前文档 (validate)", "command": "validate" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "type": "separator", "id": "it-sep-bottom" },
+    {
+      "type": "group",
+      "id": "it-footer",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        { "type": "label", "id": "it-footer-cap", "text": "当前物品：" },
+        { "type": "label", "id": "it-title-footer", "bind:label": "vm.itemTitle" },
+        { "type": "spacer", "id": "it-gap", "width": 24 },
+        { "type": "label", "id": "it-slot-footer", "bind:label": "vm.slotLabel" }
+      ]
+    }
+  ]
+}

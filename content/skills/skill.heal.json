@@ -1,0 +1,42 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.heal",
+  "title": "治疗术",
+  "description": "为单个友方附加再生，持续恢复体力。",
+  "targetType": "allySingle",
+  "cooldown": 4.0,
+  "castTime": 0.5,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 10
+    }
+  ],
+  "effects": [
+    "regenerate"
+  ],
+  "tags": [
+    "support",
+    "magic",
+    "heal"
+  ],
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "cast",
+        "on": "caster",
+        "hold": 0.15
+      },
+      {
+        "anim": "fireball",
+        "clip": "impact",
+        "on": "target",
+        "hold": 0.1
+      }
+    ],
+    "vfx": "fx/regenerate",
+    "screenShake": 0
+  }
+}

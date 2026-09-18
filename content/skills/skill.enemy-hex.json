@@ -1,0 +1,40 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.enemy-hex",
+  "title": "摄魂妖术",
+  "description": "以蛊咒摄人神志，中者手软。",
+  "targetType": "enemySingle",
+  "cooldown": 2.0,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 3
+    }
+  ],
+  "tags": [
+    "attack",
+    "magic"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.4",
+    "element": "dark",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "enemy-beasts",
+        "clip": "naga-mage",
+        "on": "caster",
+        "hold": 0.2
+      }
+    ],
+    "screenShake": 0.08
+  },
+  "effects": [
+    "weaken"
+  ]
+}

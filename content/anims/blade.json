@@ -1,0 +1,74 @@
+{
+  "schema": "eve.rpgc.anim",
+  "version": 1,
+  "id": "blade",
+  "title": "刀法动画集",
+  "image": "blade.png",
+  "frameWidth": 32,
+  "frameHeight": 48,
+  "columns": 4,
+  "rows": 2,
+  "margin": 0,
+  "spacing": 0,
+  "clips": [
+    {
+      "id": "idle",
+      "title": "持刀待机",
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 3.0,
+      "loop": true
+    },
+    {
+      "id": "draw",
+      "title": "拔刀",
+      "frames": [
+        2,
+        3
+      ],
+      "fps": 8.0,
+      "loop": false,
+      "events": [
+        {
+          "frame": 1,
+          "name": "ready"
+        }
+      ]
+    },
+    {
+      "id": "slash",
+      "title": "劈斩",
+      "frames": [
+        4,
+        5
+      ],
+      "fps": 12.0,
+      "loop": false,
+      "events": [
+        {
+          "frame": 1,
+          "name": "release"
+        }
+      ]
+    },
+    {
+      "id": "cleave",
+      "title": "横扫",
+      "frames": [
+        4,
+        5,
+        6
+      ],
+      "fps": 10.0,
+      "loop": false,
+      "events": [
+        {
+          "frame": 2,
+          "name": "release"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "shield",
+  "title": "护体",
+  "durationPolicy": "duration",
+  "duration": 15.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "buff"
+  ],
+  "modifiers": [
+    {
+      "attribute": "defense",
+      "op": "multiply",
+      "value": 1.4,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/status/shield.png",
+    "vfx": "fx/shield"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "id": "eve.rpgc.condition",
+  "schemaVersion": 1,
+  "title": "rpg-classic condition",
+  "description": "The project's single condition vocabulary, shared by eve.rpgc.event (branch steps) and eve.rpgc.world (portal gates) through a whole-schema `ref`. A second copy of this enum in another schema file is how the two syntaxes would drift apart, so there is exactly one. `moment` is the only kind this workflow added on top of the engine-facing set; the rest (variable / switch / object_consumed / always) are the ones docs/03-event-editor.md documents.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "kind", "type": "string", "required": true, "enum": ["variable", "switch", "object_consumed", "moment", "always"] },
+    { "name": "name", "type": "string" },
+    { "name": "compare", "type": "string", "enum": ["eq", "ne", "lt", "lte", "gt", "gte"] },
+    { "name": "value", "type": "number" },
+    { "name": "mapId", "type": "string" },
+    { "name": "objectName", "type": "string" },
+    { "name": "any", "type": "array", "elementType": "string", "minItems": 1, "maxItems": 8 }
+  ]
+}

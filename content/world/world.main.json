@@ -1,0 +1,94 @@
+{
+  "schema": "eve.rpgc.world",
+  "version": 1,
+  "id": "world.main",
+  "title": "世界：中原五城、边地七镇，以及它们的时刻与门",
+  "clock": {
+    "moments": {
+      "dawn": [5, 7],
+      "day": [7, 17],
+      "dusk": [17, 19],
+      "night": [19, 5]
+    }
+  },
+  "gates": [
+    {
+      "portal": "village-outskirts/forest_gate",
+      "open": {
+        "kind": "variable",
+        "name": "story.chapter",
+        "compare": "gte",
+        "value": 2
+      },
+      "lockedMessage": "msg.gate.locked.forest"
+    },
+    {
+      "portal": "mist-forest/village_gate",
+      "open": {
+        "kind": "moment",
+        "any": ["dawn", "day"]
+      },
+      "lockedMessage": "msg.gate.locked.village"
+    },
+    {
+      "portal": "changan/gate-yumen-town",
+      "open": {
+        "kind": "variable",
+        "name": "story.chapter",
+        "compare": "gte",
+        "value": 2
+      },
+      "lockedMessage": "msg.gate.locked.yumen"
+    },
+    {
+      "portal": "yanmen-fortress/gate-xueling-hold",
+      "open": {
+        "kind": "variable",
+        "name": "story.chapter",
+        "compare": "gte",
+        "value": 3
+      },
+      "lockedMessage": "msg.gate.locked.xueling"
+    },
+    {
+      "portal": "jinling/gate-luoxia-isle",
+      "open": {
+        "kind": "variable",
+        "name": "story.chapter",
+        "compare": "gte",
+        "value": 4
+      },
+      "lockedMessage": "msg.gate.locked.luoxia"
+    },
+    {
+      "portal": "kaifeng/gate-canglang-ferry",
+      "open": {
+        "kind": "moment",
+        "any": ["dawn", "day"]
+      },
+      "lockedMessage": "msg.gate.locked.canglang"
+    },
+    {
+      "portal": "xiangyang/gate-miaoling-village",
+      "open": {
+        "kind": "switch",
+        "name": "flag.miaoling-peace"
+      },
+      "lockedMessage": "msg.gate.locked.miaoling"
+    }
+  ],
+  "styleVariants": [
+    {
+      "id": "night",
+      "moments": ["night"],
+      "mode": "tint",
+      "tint": [0.45, 0.5, 0.75, 1.0]
+    },
+    {
+      "id": "dusk",
+      "moments": ["dusk"],
+      "mode": "tint",
+      "tint": [0.85, 0.68, 0.58, 1.0]
+    }
+  ]
+}

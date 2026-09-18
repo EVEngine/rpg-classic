@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.xiangyang-pass",
+  "title": "襄阳城外·拦路",
+  "description": "襄阳城外·拦路：3 名敌人。",
+  "displayName": "襄阳城外·拦路",
+  "map": "xiangyang",
+  "members": [
+    {
+      "enemy": "enemy.grain-bandit",
+      "count": 2
+    },
+    {
+      "enemy": "enemy.rogue-swordsman",
+      "count": 1
+    }
+  ],
+  "xpReward": 78,
+  "xpGrowth": 1.2,
+  "goldReward": 36,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "bandit",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

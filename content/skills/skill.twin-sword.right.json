@@ -1,0 +1,38 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.twin-sword.right",
+  "title": "双剑合璧·右",
+  "description": "合击第二段。水属性。",
+  "combo": "combo.twin-sword",
+  "targetType": "enemySingle",
+  "cooldown": 0,
+  "castTime": 0.25,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 15
+    }
+  ],
+  "tags": [
+    "sword",
+    "water"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.1",
+    "element": "water",
+    "critChance": 0.1,
+    "hitChance": 0.9
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "attack",
+        "on": "caster",
+        "hold": 0.1
+      }
+    ],
+    "vfx": "fx/sword-slash"
+  }
+}

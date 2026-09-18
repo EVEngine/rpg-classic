@@ -1,0 +1,56 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.corpse-puppet",
+  "title": "尸傀",
+  "description": "被人用符牵着走的旧尸，关节处的线还没拆。",
+  "displayName": "尸傀",
+  "tier": "minion",
+  "element": "earth",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "blade"
+  ],
+  "combat": {
+    "attack": 13,
+    "defense": 4.2,
+    "maxHp": 56,
+    "speed": 3
+  },
+  "breakMax": 60,
+  "skillId": "skill.enemy-claw",
+  "skills": [
+    "skill.enemy-claw"
+  ],
+  "habitat": [
+    "miaoling-village",
+    "mist-forest",
+    "village-outskirts"
+  ],
+  "sprite": {
+    "anim": "enemy-skeleton",
+    "clip": "idle.s"
+  },
+  "drops": [
+    {
+      "itemId": "accessory.iron-talisman",
+      "chance": 0.12,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "material.iron-ore",
+      "chance": 0.18,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.5,
+    "fleeBelowHp": 0.0,
+    "opener": "skill.enemy-claw"
+  },
+  "lore": "被人用符牵着走的旧尸，关节处的线还没拆。"
+}

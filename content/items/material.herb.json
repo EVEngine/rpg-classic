@@ -1,0 +1,22 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "material.herb",
+  "title": "草药",
+  "description": "苗岭与雾林采的药材，配金创药与各处丹方。",
+  "displayName": "草药",
+  "category": "material",
+  "rarity": "common",
+  "maxStack": 99,
+  "weight": 0.1,
+  "volume": 0.2,
+  "value": 6,
+  "tags": [
+    "material",
+    "herb",
+    "wood"
+  ],
+  "extra": {
+    "icon": "ui/items/material.herb.png"
+  }
+}

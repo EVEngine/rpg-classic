@@ -1,0 +1,46 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.taiji-seal",
+  "title": "太极拳·如封似闭·绝",
+  "description": "太极五品绝招。绝招的可用性由项目侧按品级校验，真源是 eve.rpgc.art 的 ultimates。",
+  "art": "art.taiji-fist",
+  "targetType": "enemySingle",
+  "cooldown": 12,
+  "castTime": 1.2,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 30
+    }
+  ],
+  "tags": [
+    "martial",
+    "palm",
+    "earth",
+    "ultimate"
+  ],
+  "damage": {
+    "formula": "a.attack * 2.4 + a.defense * 1.2",
+    "element": "earth",
+    "critChance": 0.15,
+    "hitChance": 1.0
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "cast",
+        "on": "caster",
+        "hold": 0.3
+      },
+      {
+        "anim": "fireball",
+        "clip": "impact",
+        "on": "impact"
+      }
+    ],
+    "vfx": "fx/taiji-seal",
+    "screenShake": 0.4
+  }
+}

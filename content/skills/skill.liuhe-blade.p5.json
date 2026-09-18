@@ -1,0 +1,48 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.liuhe-blade.p5",
+  "title": "六合刀·六合归一",
+  "description": "六合刀五品招式。横扫全场，并对每个命中目标挂流血。",
+  "art": "art.liuhe-blade",
+  "targetType": "enemyAll",
+  "cooldown": 6,
+  "castTime": 0.6,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 16
+    }
+  ],
+  "effects": [
+    "bleed"
+  ],
+  "tags": [
+    "blade",
+    "metal"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.4",
+    "element": "metal",
+    "critChance": 0.1,
+    "hitChance": 0.88
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "blade",
+        "clip": "cleave",
+        "on": "caster",
+        "hold": 0.2
+      },
+      {
+        "anim": "fireball",
+        "clip": "impact",
+        "on": "impact",
+        "hold": 0.15
+      }
+    ],
+    "vfx": "fx/liuhe-sweep",
+    "screenShake": 0.25
+  }
+}

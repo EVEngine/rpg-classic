@@ -1,0 +1,29 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "potion.heal",
+  "title": "金创药",
+  "description": "各处药铺都有的散剂，止血生肌。",
+  "displayName": "金创药",
+  "category": "consumable",
+  "rarity": "common",
+  "maxStack": 20,
+  "weight": 0.2,
+  "volume": 0.1,
+  "value": 30,
+  "tags": [
+    "potion",
+    "heal"
+  ],
+  "use": {
+    "consume": true,
+    "cooldown": 3.0,
+    "targetType": "allySingle",
+    "effects": [
+      "regenerate"
+    ]
+  },
+  "extra": {
+    "icon": "ui/items/potion.heal.png"
+  }
+}

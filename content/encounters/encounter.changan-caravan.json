@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.changan-caravan",
+  "title": "长安西市·劫道",
+  "description": "长安西市·劫道：3 名敌人。",
+  "displayName": "长安西市·劫道",
+  "map": "changan",
+  "members": [
+    {
+      "enemy": "enemy.caravan-raider",
+      "count": 1
+    },
+    {
+      "enemy": "enemy.grain-bandit",
+      "count": 2
+    }
+  ],
+  "xpReward": 70,
+  "xpGrowth": 1.2,
+  "goldReward": 32,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "raider",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

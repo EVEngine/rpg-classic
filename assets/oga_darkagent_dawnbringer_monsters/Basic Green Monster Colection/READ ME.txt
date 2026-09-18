@@ -1,0 +1,13 @@
+Basic Green Monster Collection
+------------------------------------------------------------
+When I see Crawl and Nethack art made by Crawl Stone Soup team (http://crawl.develz.org/wordpress/), 
+I really like it and realized that their art is compatible with dawnbringer palette so I decided to recoloring 
+some of the monster art to match gameboy style using dawnbringer palette.
+
+Right now this art collection contain random 18 monster from Crawltiles Asset and will be updated regularly.
+
+-------------------------------------------------------------
+License
+-------------------------------------------------------------
+All of this art was released in public domain (Common Creative Zero).
+If you use this art you can give credit to original author Crawl Stone Soup Team (http://crawl.develz.org/wordpress/) and darkagent but is not mandatory.

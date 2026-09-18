@@ -1,0 +1,38 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.twin-sword.left",
+  "title": "双剑合璧·左",
+  "description": "合击第一段。金属性，与第二段的水构成相生链。",
+  "combo": "combo.twin-sword",
+  "targetType": "enemySingle",
+  "cooldown": 0,
+  "castTime": 0.25,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 15
+    }
+  ],
+  "tags": [
+    "sword",
+    "metal"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.1",
+    "element": "metal",
+    "critChance": 0.1,
+    "hitChance": 0.9
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "attack",
+        "on": "caster",
+        "hold": 0.1
+      }
+    ],
+    "vfx": "fx/sword-slash"
+  }
+}

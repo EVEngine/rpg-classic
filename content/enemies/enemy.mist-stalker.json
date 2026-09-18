@@ -1,0 +1,48 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.mist-stalker",
+  "title": "雾影",
+  "description": "雾里比人矮一截的黑影，走近了就只剩雾。",
+  "displayName": "雾影",
+  "tier": "minion",
+  "element": "earth",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "sword"
+  ],
+  "combat": {
+    "attack": 12,
+    "defense": 2.5,
+    "maxHp": 40,
+    "speed": 10
+  },
+  "breakMax": 40,
+  "skillId": "skill.enemy-drain",
+  "skills": [
+    "skill.enemy-drain"
+  ],
+  "habitat": [
+    "mist-forest"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "shadow"
+  },
+  "drops": [
+    {
+      "itemId": "material.herb",
+      "chance": 0.25,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.75,
+    "fleeBelowHp": 0.35,
+    "opener": "skill.enemy-drain"
+  },
+  "lore": "雾里比人矮一截的黑影，走近了就只剩雾。"
+}

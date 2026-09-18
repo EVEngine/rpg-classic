@@ -1,0 +1,36 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "armor.chain",
+  "title": "锁子甲",
+  "description": "边军制式锁甲。护得住刀锋，代价是拖慢身法——这条负面用 multiply 表达，不是第二套字段。",
+  "displayName": "锁子甲",
+  "category": "armor",
+  "rarity": "uncommon",
+  "maxStack": 1,
+  "weight": 12.0,
+  "volume": 7.0,
+  "value": 420,
+  "tags": [
+    "armor",
+    "heavy"
+  ],
+  "equipSlot": "armor",
+  "equipStats": [
+    {
+      "attribute": "defense",
+      "op": "add",
+      "value": 12,
+      "priority": 0
+    },
+    {
+      "attribute": "speed",
+      "op": "multiply",
+      "value": 0.95,
+      "priority": 1
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/armor.chain.png"
+  }
+}

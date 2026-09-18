@@ -1,0 +1,72 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.liuhe-blade.ultimate",
+  "title": "六合斩",
+  "description": "六合刀绝招，五品解锁。全场重击，同时挂流血与虚弱。带 ultimate tag，项目侧按品级校验可用性。",
+  "art": "art.liuhe-blade",
+  "targetType": "enemyAll",
+  "cooldown": 24,
+  "castTime": 1.2,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 30
+    },
+    {
+      "attribute": "mana",
+      "amount": 10
+    }
+  ],
+  "effects": [
+    "bleed",
+    "weaken"
+  ],
+  "tags": [
+    "blade",
+    "metal",
+    "ultimate"
+  ],
+  "damage": {
+    "formula": "a.attack * 2.2",
+    "element": "metal",
+    "critChance": 0.18,
+    "hitChance": 0.85
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "blade",
+        "clip": "draw",
+        "on": "caster",
+        "hold": 0.3
+      },
+      {
+        "anim": "blade",
+        "clip": "cleave",
+        "on": "caster",
+        "hold": 0.25
+      },
+      {
+        "anim": "thunder",
+        "clip": "impact",
+        "on": "screen",
+        "hold": 0.2
+      }
+    ],
+    "vfx": "fx/liuhe-ultimate",
+    "screenShake": 0.5,
+    "levels": [
+      {
+        "level": 5,
+        "magnitude": 1.0,
+        "vfx": "fx/liuhe-ultimate"
+      },
+      {
+        "level": 9,
+        "magnitude": 1.35,
+        "vfx": "fx/liuhe-ultimate-gold"
+      }
+    ]
+  }
+}

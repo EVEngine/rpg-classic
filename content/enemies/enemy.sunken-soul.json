@@ -1,0 +1,56 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.sunken-soul",
+  "title": "溺魂",
+  "description": "落霞岛外的沉船不止一艘，认得路的那几个一直没走。",
+  "displayName": "溺魂",
+  "tier": "elite",
+  "element": "water",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "sword"
+  ],
+  "combat": {
+    "attack": 25,
+    "defense": 6.2,
+    "maxHp": 126,
+    "speed": 8
+  },
+  "breakMax": 90,
+  "skillId": "skill.enemy-drain",
+  "skills": [
+    "skill.enemy-drain",
+    "skill.enemy-frost"
+  ],
+  "habitat": [
+    "canglang-ferry",
+    "luoxia-isle"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "soul-eater"
+  },
+  "drops": [
+    {
+      "itemId": "accessory.jade-pendant",
+      "chance": 0.1,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "potion.focus",
+      "chance": 0.12,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.75,
+    "fleeBelowHp": 0.1,
+    "opener": "skill.enemy-drain"
+  },
+  "lore": "落霞岛外的沉船不止一艘，认得路的那几个一直没走。"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.liuhe-blade.p1",
+  "title": "六合刀·劈山",
+  "description": "六合刀一品招式。金属性直劈，伤害平稳，不带附加效果。",
+  "art": "art.liuhe-blade",
+  "targetType": "enemySingle",
+  "cooldown": 0,
+  "castTime": 0.3,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 4
+    }
+  ],
+  "tags": [
+    "blade",
+    "metal"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.0",
+    "element": "metal",
+    "critChance": 0.08,
+    "hitChance": 0.92
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "blade",
+        "clip": "slash",
+        "on": "caster",
+        "hold": 0.1
+      }
+    ],
+    "vfx": "fx/blade-slash",
+    "screenShake": 0.08
+  }
+}

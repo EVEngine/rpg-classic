@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "material.pelt",
+  "title": "兽皮",
+  "description": "雾林猎来的皮子，硝过之后就是皮甲。",
+  "displayName": "兽皮",
+  "category": "material",
+  "rarity": "common",
+  "maxStack": 99,
+  "weight": 1.2,
+  "volume": 0.8,
+  "value": 14,
+  "tags": [
+    "material",
+    "leather"
+  ],
+  "extra": {
+    "icon": "ui/items/material.pelt.png"
+  }
+}

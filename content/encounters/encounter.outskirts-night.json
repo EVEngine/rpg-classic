@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.outskirts-night",
+  "title": "村郊·夜行",
+  "description": "村郊·夜行：3 名敌人。",
+  "displayName": "村郊·夜行",
+  "map": "village-outskirts",
+  "members": [
+    {
+      "enemy": "enemy.blood-bat",
+      "count": 2
+    },
+    {
+      "enemy": "enemy.market-thug",
+      "count": 1
+    }
+  ],
+  "xpReward": 44,
+  "xpGrowth": 1.2,
+  "goldReward": 20,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "bat",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

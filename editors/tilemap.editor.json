@@ -1,0 +1,174 @@
+{
+  "id": "tilemap",
+  "title": "等距地图编辑器 · Tilemap",
+  "vm": "TilemapVM",
+  "x": 900,
+  "y": 20,
+  "width": 360,
+  "height": 760,
+  "layout": "vertical",
+  "resizable": true,
+  "theme": {
+    "preset": "dark",
+    "accent": [0.30, 0.72, 0.52],
+    "bg": [0.10, 0.11, 0.14],
+    "panel": [0.14, 0.15, 0.18],
+    "text": [0.92, 0.93, 0.95],
+    "radius": 4.0,
+    "fontScale": 1.0
+  },
+  "children": [
+    { "type": "text", "id": "tm-header", "text": "等距地图编辑器 — 主窗口网格 / 图层 / 图块选择 / 对象" },
+    { "type": "separator", "id": "tm-sep-top" },
+    {
+      "type": "tabs",
+      "id": "tm-tabs",
+      "children": [
+        {
+          "type": "tab",
+          "label": "地图",
+          "layout": "vertical",
+          "children": [
+            { "type": "label", "id": "tm-map-cap", "bind:label": "vm.folderLabel", "tooltip": "编辑器直接读取项目文件夹 content/maps，不需要打开文档" },
+            {
+              "type": "listbox",
+              "id": "map",
+              "bind:options": "vm.mapList",
+              "bind": "vm.mapId",
+              "onChange": "onChange",
+              "heightItems": 6,
+              "tooltip": "选中即载入该地图（文件夹内容就是文档列表）"
+            },
+            {
+              "type": "group",
+              "id": "tm-doc-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "refresh-map", "label": "重扫文件夹", "command": "refresh", "width": 110 },
+                { "type": "button", "id": "new-map", "label": "新建", "command": "newMap", "width": 76 },
+                { "type": "button", "id": "save", "label": "保存", "command": "saveMap", "width": 76 }
+              ]
+            },
+            { "type": "separator", "id": "tm-sep-doc" },
+            { "type": "slider", "id": "new-w", "label": "宽度 (newWidth)", "bind": "vm.newWidth", "min": 1.0, "max": 200.0, "format": "%.0f" },
+            { "type": "slider", "id": "new-h", "label": "高度 (newHeight)", "bind": "vm.newHeight", "min": 1.0, "max": 200.0, "format": "%.0f" },
+            { "type": "button", "id": "resize", "label": "应用尺寸 (resizeMap)", "command": "resizeMap" },
+            { "type": "separator", "id": "tm-sep-doc2" },
+            { "type": "label", "id": "tm-title-doc", "bind:label": "vm.mapTitle" },
+            { "type": "label", "id": "tm-doc-note", "text": "网格按文档宽高画在主窗口；保存后请跑 tools/rpgc.py export" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "图层与视图",
+          "layout": "vertical",
+          "children": [
+            { "type": "dropdown", "id": "layer", "label": "图层 (layer)", "bind:options": "vm.layerList", "bind": "vm.layer", "onChange": "onChange" },
+            { "type": "label", "id": "tm-tileset-cap", "text": "图集 (tilesetId)" },
+            { "type": "label", "id": "tileset", "bind:label": "vm.tilesetId" },
+            { "type": "separator", "id": "tm-sep-view" },
+            { "type": "slider", "id": "zoom", "label": "缩放 (zoom)", "bind": "vm.zoom", "min": 0.05, "max": 1.5, "format": "%.2f" },
+            { "type": "checkbox", "id": "grid", "label": "网格 (grid)", "bind": "vm.grid" },
+            { "type": "checkbox", "id": "collision", "label": "碰撞叠加 (collision)", "bind": "vm.collision" },
+            { "type": "button", "id": "frame-all", "label": "适应窗口 (frameAll)", "command": "frameAll" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "笔刷",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "group",
+              "id": "tm-tool-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "brush-paint", "label": "画笔", "command": "paint", "width": 70 },
+                { "type": "button", "id": "brush-erase", "label": "橡皮", "command": "erase", "width": 70 },
+                { "type": "button", "id": "brush-fill", "label": "填充", "command": "fill", "width": 70 },
+                { "type": "button", "id": "brush-rect", "label": "矩形", "command": "rect", "width": 70 }
+              ]
+            },
+            { "type": "label", "id": "tm-tile-cap", "bind:label": "vm.tileCaption" },
+            {
+              "type": "group",
+              "id": "tm-picker-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "picker-prev", "label": "上一页", "command": "pickerPrev", "width": 90 },
+                { "type": "button", "id": "picker-next", "label": "下一页", "command": "pickerNext", "width": 90 }
+              ]
+            },
+            { "type": "label", "id": "tm-picker-page", "bind:label": "vm.pickerPageLabel" },
+            { "type": "label", "id": "tm-picker-note", "text": "主窗口底部点选图块；不使用下拉列表" },
+            { "type": "button", "id": "brush-apply", "label": "在光标处落笔 (stampBrush)", "command": "stampBrush" },
+            {
+              "type": "group",
+              "id": "tm-cursor-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "cursor-left", "label": "←", "command": "moveLeft", "width": 46 },
+                { "type": "button", "id": "cursor-right", "label": "→", "command": "moveRight", "width": 46 },
+                { "type": "button", "id": "cursor-up", "label": "↑", "command": "moveUp", "width": 46 },
+                { "type": "button", "id": "cursor-down", "label": "↓", "command": "moveDown", "width": 46 }
+              ]
+            },
+            { "type": "input", "id": "cursor-to", "label": "光标 x,y", "bind": "vm.cursorTo" },
+            { "type": "button", "id": "cursor-set", "label": "定位 (setCursor)", "command": "setCursor" },
+            { "type": "separator", "id": "tm-sep-brush" },
+            { "type": "label", "id": "tm-brush-cursor", "bind:label": "vm.cursor" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "对象",
+          "layout": "vertical",
+          "children": [
+            { "type": "label", "id": "tm-object-cap", "text": "对象层 (objectList)" },
+            { "type": "listbox", "id": "object", "bind:options": "vm.objectList", "onChange": "onChange", "heightItems": 6 },
+            { "type": "input", "id": "object-name", "label": "对象名", "bind": "vm.objectName" },
+            { "type": "input", "id": "object-type", "label": "对象类型", "bind": "vm.objectType" },
+            {
+              "type": "group",
+              "id": "tm-object-row",
+              "border": false,
+              "layout": "horizontal",
+              "children": [
+                { "type": "button", "id": "add-object", "label": "添加", "command": "spawnObject", "width": 90 },
+                { "type": "button", "id": "remove-object", "label": "删除", "command": "removeObject", "width": 90 }
+              ]
+            },
+            { "type": "label", "id": "tm-object-note", "text": "新对象落在当前光标格；名字必须是稳定 id" }
+          ]
+        },
+        {
+          "type": "tab",
+          "label": "诊断",
+          "layout": "vertical",
+          "children": [
+            { "type": "label", "id": "tm-status-cap", "text": "状态 (status)" },
+            { "type": "label", "id": "status", "bind:label": "vm.status" },
+            { "type": "separator", "id": "tm-sep-diag" },
+            { "type": "label", "id": "tm-diag-cap", "text": "诊断 (diagnostics)" },
+            { "type": "label", "id": "diagnostics", "bind:label": "vm.diagnostics" }
+          ]
+        }
+      ]
+    },
+    { "type": "separator", "id": "tm-sep-bottom" },
+    {
+      "type": "group",
+      "id": "tm-footer",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        { "type": "label", "id": "tm-footer-cap", "text": "光标：" },
+        { "type": "label", "id": "cursor", "bind:label": "vm.cursor" }
+      ]
+    }
+  ]
+}

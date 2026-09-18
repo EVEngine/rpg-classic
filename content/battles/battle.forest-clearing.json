@@ -1,0 +1,169 @@
+{
+  "schema": "eve.rpgc.battle",
+  "version": 1,
+  "id": "battle.forest-clearing",
+  "title": "林间空地",
+  "description": "林中的一片硬土：敌阵从树干之间压上来，8 位；我方 5 位依右下的坡地列阵。迷雾森林与苗岭寨的遭遇共用。",
+  "displayName": "林间空地",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "zones": {
+    "enemy": {
+      "x": 60,
+      "y": 100,
+      "width": 800,
+      "height": 400
+    },
+    "ally": {
+      "x": 1120,
+      "y": 620,
+      "width": 720,
+      "height": 400
+    }
+  },
+  "enemySlots": [
+    {
+      "id": "enemy.1",
+      "x": 108,
+      "y": 382
+    },
+    {
+      "id": "enemy.2",
+      "x": 248,
+      "y": 312
+    },
+    {
+      "id": "enemy.3",
+      "x": 388,
+      "y": 242
+    },
+    {
+      "id": "enemy.4",
+      "x": 528,
+      "y": 172
+    },
+    {
+      "id": "enemy.5",
+      "x": 248,
+      "y": 452
+    },
+    {
+      "id": "enemy.6",
+      "x": 388,
+      "y": 382
+    },
+    {
+      "id": "enemy.7",
+      "x": 528,
+      "y": 312
+    },
+    {
+      "id": "enemy.8",
+      "x": 668,
+      "y": 242
+    }
+  ],
+  "allySlots": [
+    {
+      "id": "ally.1",
+      "x": 1168,
+      "y": 820
+    },
+    {
+      "id": "ally.2",
+      "x": 1248,
+      "y": 780
+    },
+    {
+      "id": "ally.3",
+      "x": 1328,
+      "y": 740
+    },
+    {
+      "id": "ally.4",
+      "x": 1408,
+      "y": 700
+    },
+    {
+      "id": "ally.5",
+      "x": 1488,
+      "y": 660
+    }
+  ],
+  "encounters": [
+    "encounter.mist-forest-deep",
+    "encounter.miaoling-hex"
+  ],
+  "ui": {
+    "party": {
+      "x": 1310,
+      "y": 840,
+      "width": 570,
+      "height": 200,
+      "slots": 5,
+      "slotWidth": 104,
+      "slotGap": 8,
+      "portraitHeight": 130,
+      "bars": [
+        {
+          "id": "hp",
+          "offsetY": 8,
+          "height": 18,
+          "colour": [
+            0.3,
+            0.72,
+            0.36
+          ]
+        },
+        {
+          "id": "mana",
+          "offsetY": 32,
+          "height": 18,
+          "colour": [
+            0.25,
+            0.48,
+            0.85
+          ]
+        }
+      ]
+    },
+    "commandRing": {
+      "cx": 300,
+      "cy": 800,
+      "radius": 190,
+      "buttons": [
+        {
+          "id": "cmd.attack",
+          "x": 410,
+          "y": 800,
+          "radius": 40,
+          "label": "攻击"
+        },
+        {
+          "id": "cmd.skill",
+          "x": 300,
+          "y": 690,
+          "radius": 40,
+          "label": "招式"
+        },
+        {
+          "id": "cmd.item",
+          "x": 190,
+          "y": 800,
+          "radius": 40,
+          "label": "物品"
+        },
+        {
+          "id": "cmd.defend",
+          "x": 300,
+          "y": 910,
+          "radius": 40,
+          "label": "防御"
+        }
+      ]
+    }
+  },
+  "background": "backdrops/backdrop.golden-plain.png"
+}

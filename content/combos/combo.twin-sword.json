@@ -1,0 +1,42 @@
+{
+  "schema": "eve.rpgc.combo",
+  "version": 1,
+  "id": "combo.twin-sword",
+  "title": "双剑合璧",
+  "members": {
+    "min": 2,
+    "max": 2,
+    "order": "declared"
+  },
+  "condition": {
+    "elements": {
+      "kind": "generates",
+      "chain": ["metal", "water"]
+    },
+    "vitals": [
+      {
+        "attribute": "mana",
+        "min": 30,
+        "perMember": true
+      }
+    ]
+  },
+  "stages": [
+    {
+      "actor": 0,
+      "skill": "skill.twin-sword.left"
+    },
+    {
+      "actor": 1,
+      "skill": "skill.twin-sword.right"
+    }
+  ],
+  "finish": {
+    "skill": "skill.twin-sword.cross",
+    "anim": {
+      "anim": "fireball",
+      "clip": "impact"
+    },
+    "breakBonus": 40
+  }
+}

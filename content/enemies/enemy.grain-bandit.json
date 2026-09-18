@@ -1,0 +1,58 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.grain-bandit",
+  "title": "劫粮盗",
+  "description": "专挑漕运粮队下手的一伙，刀口都磨得很薄。",
+  "displayName": "劫粮盗",
+  "tier": "minion",
+  "element": "wood",
+  "weakElements": [
+    "metal"
+  ],
+  "weakStyles": [
+    "sword",
+    "blade"
+  ],
+  "combat": {
+    "attack": 11,
+    "defense": 2.6,
+    "maxHp": 44,
+    "speed": 5
+  },
+  "breakMax": 55,
+  "skillId": "skill.enemy-blade",
+  "skills": [
+    "skill.enemy-blade"
+  ],
+  "habitat": [
+    "changan",
+    "jiange-post",
+    "luoyang",
+    "xiangyang"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "dragoon"
+  },
+  "drops": [
+    {
+      "itemId": "material.silk",
+      "chance": 0.25,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "itemId": "food.dry-ration",
+      "chance": 0.3,
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "ai": {
+    "aggression": 0.75,
+    "fleeBelowHp": 0.1,
+    "opener": "skill.enemy-blade"
+  },
+  "lore": "专挑漕运粮队下手的一伙，刀口都磨得很薄。"
+}

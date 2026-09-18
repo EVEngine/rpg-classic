@@ -1,0 +1,112 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.fireball",
+  "title": "火球术",
+  "description": "蓄力后掷出火球，命中后附加灼烧。等级越高，演出与特效越强。",
+  "targetType": "enemySingle",
+  "cooldown": 3.0,
+  "castTime": 0.6,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 15
+    }
+  ],
+  "effects": [
+    "burn"
+  ],
+  "tags": [
+    "attack",
+    "magic",
+    "fire"
+  ],
+  "damage": {
+    "formula": "a.attack * 2",
+    "element": "fire",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "cast",
+        "on": "caster",
+        "hold": 0.2
+      },
+      {
+        "anim": "fireball",
+        "clip": "cast",
+        "on": "caster",
+        "atEvent": "release",
+        "hold": 0.1
+      },
+      {
+        "anim": "fireball",
+        "clip": "impact",
+        "on": "impact",
+        "hold": 0.15
+      }
+    ],
+    "vfx": "fx/fireball-impact",
+    "screenShake": 0.3,
+    "levels": [
+      {
+        "level": 1,
+        "magnitude": 1.0,
+        "vfx": "fx/fireball-impact",
+        "segments": [
+          {
+            "anim": "hero",
+            "clip": "cast",
+            "on": "caster",
+            "hold": 0.2
+          },
+          {
+            "anim": "fireball",
+            "clip": "cast",
+            "on": "caster",
+            "atEvent": "release"
+          },
+          {
+            "anim": "fireball",
+            "clip": "impact",
+            "on": "impact"
+          }
+        ]
+      },
+      {
+        "level": 5,
+        "magnitude": 1.8,
+        "vfx": "fx/fireball-inferno",
+        "segments": [
+          {
+            "anim": "hero",
+            "clip": "cast",
+            "on": "caster",
+            "hold": 0.3
+          },
+          {
+            "anim": "fireball",
+            "clip": "cast",
+            "on": "caster",
+            "atEvent": "release"
+          },
+          {
+            "anim": "fireball",
+            "clip": "fly",
+            "on": "target",
+            "hold": 0.2
+          },
+          {
+            "anim": "fireball",
+            "clip": "impact",
+            "on": "impact",
+            "hold": 0.25
+          }
+        ]
+      }
+    ]
+  }
+}

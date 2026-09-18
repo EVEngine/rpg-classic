@@ -1,0 +1,28 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "stun",
+  "title": "击破眩晕",
+  "durationPolicy": "duration",
+  "duration": 12.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "break",
+    "stun",
+    "debuff"
+  ],
+  "modifiers": [
+    {
+      "attribute": "speed",
+      "op": "multiply",
+      "value": 0.0,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/status/stun.png",
+    "vfx": "fx/stun",
+    "note": "时长必须等于 rules.wuxing 的 breakEffects.stun.turns * clock.turnSeconds；引擎的单位是秒"
+  }
+}

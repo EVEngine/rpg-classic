@@ -1,0 +1,67 @@
+{
+  "schema": "eve.rpgc.rules",
+  "version": 1,
+  "id": "rules.wuxing",
+  "title": "五行与破绽规则",
+  "elements": [
+    "metal",
+    "wood",
+    "water",
+    "fire",
+    "earth"
+  ],
+  "generates": {
+    "wood": "fire",
+    "fire": "earth",
+    "earth": "metal",
+    "metal": "water",
+    "water": "wood"
+  },
+  "overcomes": {
+    "wood": "earth",
+    "earth": "water",
+    "water": "fire",
+    "fire": "metal",
+    "metal": "wood"
+  },
+  "weakStyles": [
+    "sword",
+    "palm",
+    "blade"
+  ],
+  "equipmentSlots": [
+    "weapon",
+    "offhand",
+    "armor",
+    "helm",
+    "boots",
+    "accessory"
+  ],
+  "traits": [
+    { "id": "trait.taiji-guard", "kind": "paramRate", "target": "defense", "value": 1.1 },
+    { "id": "trait.taiji-parry", "kind": "exParam", "target": "parry", "value": 0.15 },
+    { "id": "trait.ice-affinity", "kind": "elementRate", "target": "water", "value": 0.7 },
+    { "id": "trait.liuhe-flow", "kind": "paramRate", "target": "attack", "value": 1.08 },
+    { "id": "trait.liuhe-mastery", "kind": "exParam", "target": "parry", "value": 0.12 },
+    { "id": "trait.yanqing-agility", "kind": "paramRate", "target": "speed", "value": 1.12 },
+    { "id": "trait.xuanming-cold", "kind": "attackElement", "target": "water", "value": 1.0 }
+  ],
+  "break": {
+    "max": 100,
+    "onOvercome": 30,
+    "onWeakElement": 20,
+    "onWeakStyle": 25,
+    "regenPerRound": 10
+  },
+  "clock": {
+    "turnSeconds": 6.0
+  },
+  "resources": [
+    { "attribute": "stamina", "max": 40 },
+    { "attribute": "mana", "max": 30 }
+  ],
+  "breakEffects": [
+    { "effect": "exposed", "turns": 2 },
+    { "effect": "stun", "turns": 2 }
+  ]
+}

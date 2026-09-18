@@ -1,0 +1,34 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "weapon.liuhe-blade",
+  "title": "六合刀",
+  "description": "六合刀的配兵。刀身錾六道血槽，对应六合路数。",
+  "displayName": "六合刀",
+  "category": "weapon",
+  "rarity": "rare",
+  "maxStack": 1,
+  "weight": 4.5,
+  "volume": 3.0,
+  "value": 1200,
+  "tags": [
+    "weapon",
+    "blade"
+  ],
+  "equipSlot": "weapon",
+  "equipStats": [
+    {
+      "attribute": "attack",
+      "op": "add",
+      "value": 12,
+      "priority": 0
+    }
+  ],
+  "requires": {
+    "artId": "art.liuhe-blade",
+    "minGrade": 1
+  },
+  "extra": {
+    "icon": "ui/items/weapon.liuhe-blade.png"
+  }
+}

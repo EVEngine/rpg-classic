@@ -1,0 +1,57 @@
+{
+  "id": "eve.rpgc.art",
+  "schemaVersion": 1,
+  "title": "rpg-classic martial art",
+  "description": "One martial art (or inner art) and its grade ladder. The engine has no grade concept at all: SkillDefinition carries id/cooldown/castTime/targetType/costs/grantedEffects/tags/castCondition/extra and nothing else, and its closest primitive (ClassLearnSkill{skillId, level}) keys on the CHARACTER's level, not on a per-art grade. So the grade ladder is project data, and the runtime projection is 'compile the current grade into a set of already-registered skill ids'. maxGrade is declared per art because the ceiling is content, not an engine switch. Each grade is an independent skill document so rpg.registerSkillDamage has a fixed key per grade variant. See docs/06-game-design.md §2.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "category", "type": "string", "required": true, "enum": ["martial", "inner"] },
+    { "name": "element", "type": "string" },
+    { "name": "maxGrade", "type": "integer", "required": true, "minimum": 1, "maximum": 9 },
+    {
+      "name": "grades",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "grade", "type": "integer", "required": true, "minimum": 1, "maximum": 9 },
+          { "name": "title", "type": "string" },
+          {
+            "name": "requirement",
+            "type": "object",
+            "additionalProperties": false,
+            "fields": [
+              { "name": "kind", "type": "string", "required": true },
+              { "name": "value", "type": "number", "required": true }
+            ]
+          },
+          { "name": "skills", "type": "array", "elementType": "string", "maxItems": 16 },
+          { "name": "ultimates", "type": "array", "elementType": "string", "maxItems": 8 },
+          { "name": "traits", "type": "array", "elementType": "string", "maxItems": 16 },
+          {
+            "name": "modifiers",
+            "type": "array",
+            "maxItems": 16,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "fields": [
+                { "name": "attribute", "type": "string", "required": true },
+                { "name": "op", "type": "string", "required": true, "enum": ["add", "mul", "mulAdd", "set"] },
+                { "name": "value", "type": "number", "required": true }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

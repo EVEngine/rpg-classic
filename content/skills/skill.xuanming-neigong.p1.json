@@ -1,0 +1,35 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.xuanming-neigong.p1",
+  "title": "玄冥·凝霜",
+  "description": "玄冥神功一品心法招式（功法）。不出手，给自己挂护体。纯增益，没有伤害半段，因此不注册 registerSkillDamage。",
+  "art": "art.xuanming-neigong",
+  "targetType": "self",
+  "cooldown": 12,
+  "castTime": 0.5,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 12
+    }
+  ],
+  "effects": [
+    "shield"
+  ],
+  "tags": [
+    "inner",
+    "water"
+  ],
+  "presentation": {
+    "segments": [
+      {
+        "anim": "palm",
+        "clip": "seal",
+        "on": "caster",
+        "hold": 0.15
+      }
+    ],
+    "vfx": "fx/xuanming-frost"
+  }
+}

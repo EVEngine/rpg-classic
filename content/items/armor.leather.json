@@ -1,0 +1,30 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "armor.leather",
+  "title": "皮甲",
+  "description": "硝过的牛皮甲，轻，不妨碍身法。",
+  "displayName": "皮甲",
+  "category": "armor",
+  "rarity": "common",
+  "maxStack": 1,
+  "weight": 6.0,
+  "volume": 5.0,
+  "value": 100,
+  "tags": [
+    "armor",
+    "light"
+  ],
+  "equipSlot": "armor",
+  "equipStats": [
+    {
+      "attribute": "defense",
+      "op": "add",
+      "value": 6,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/armor.leather.png"
+  }
+}

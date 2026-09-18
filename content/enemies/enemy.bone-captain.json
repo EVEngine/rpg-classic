@@ -1,0 +1,57 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.bone-captain",
+  "title": "骸骨甲士",
+  "description": "甲片还挂在骨架上，说明它死的时候是穿着甲的。",
+  "displayName": "骸骨甲士",
+  "tier": "elite",
+  "element": "metal",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "blade",
+    "palm"
+  ],
+  "combat": {
+    "attack": 30,
+    "defense": 10.0,
+    "maxHp": 180,
+    "speed": 6
+  },
+  "breakMax": 95,
+  "skillId": "skill.enemy-bone-smash",
+  "skills": [
+    "skill.enemy-bone-smash",
+    "skill.enemy-blade"
+  ],
+  "habitat": [
+    "mist-forest",
+    "xueling-hold"
+  ],
+  "sprite": {
+    "anim": "enemy-warrior-skeleton",
+    "clip": "idle.s"
+  },
+  "drops": [
+    {
+      "itemId": "armor.chain",
+      "chance": 0.12,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "material.iron-ore",
+      "chance": 0.4,
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "ai": {
+    "aggression": 0.6,
+    "fleeBelowHp": 0.0,
+    "opener": "skill.enemy-bone-smash"
+  },
+  "lore": "甲片还挂在骨架上，说明它死的时候是穿着甲的。"
+}

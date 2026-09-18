@@ -1,0 +1,48 @@
+{
+  "schema": "eve.rpgc.art",
+  "version": 1,
+  "id": "art.taiji-fist",
+  "title": "太极拳",
+  "category": "martial",
+  "element": "earth",
+  "maxGrade": 5,
+  "grades": [
+    {
+      "grade": 1,
+      "title": "起势",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 0
+      },
+      "skills": ["skill.taiji-fist.p1"],
+      "modifiers": [
+        {
+          "attribute": "defense",
+          "op": "mulAdd",
+          "value": 0.05
+        }
+      ]
+    },
+    {
+      "grade": 3,
+      "title": "云手",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 120
+      },
+      "skills": ["skill.taiji-fist.p3"],
+      "traits": ["trait.taiji-guard"]
+    },
+    {
+      "grade": 5,
+      "title": "如封似闭",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 400
+      },
+      "skills": ["skill.taiji-fist.p5"],
+      "ultimates": ["skill.taiji-seal"],
+      "traits": ["trait.taiji-parry"]
+    }
+  ]
+}

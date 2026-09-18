@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.wharf-brawler",
+  "title": "码头打手",
+  "description": "漕帮养在栈桥边的人，肩背厚得像一堵墙。",
+  "displayName": "码头打手",
+  "tier": "minion",
+  "element": "earth",
+  "weakElements": [
+    "wood"
+  ],
+  "weakStyles": [
+    "palm"
+  ],
+  "combat": {
+    "attack": 12,
+    "defense": 3.4,
+    "maxHp": 52,
+    "speed": 4
+  },
+  "breakMax": 60,
+  "skillId": "skill.enemy-claw",
+  "skills": [
+    "skill.enemy-claw"
+  ],
+  "habitat": [
+    "canglang-ferry",
+    "kaifeng"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "vault-guard"
+  },
+  "drops": [
+    {
+      "itemId": "material.iron-ore",
+      "chance": 0.2,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "potion.heal",
+      "chance": 0.12,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.65,
+    "fleeBelowHp": 0.2,
+    "opener": "skill.enemy-claw"
+  },
+  "lore": "漕帮养在栈桥边的人，肩背厚得像一堵墙。"
+}

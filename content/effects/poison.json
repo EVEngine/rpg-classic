@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "poison",
+  "title": "中毒",
+  "durationPolicy": "duration",
+  "duration": 18.0,
+  "period": 3.0,
+  "stackPolicy": "stack",
+  "maxStacks": 3,
+  "tags": [
+    "dot",
+    "wood",
+    "debuff"
+  ],
+  "extra": {
+    "icon": "ui/status/poison.png",
+    "vfx": "fx/poison",
+    "note": "可叠三层，每层单独跳伤；叠层的倍率由 StatusSystem 的 stackScale 施加"
+  }
+}

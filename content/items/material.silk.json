@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "material.silk",
+  "title": "蚕丝",
+  "description": "金陵与洛阳织坊的细丝，素绸袍一类衣物的料子。",
+  "displayName": "蚕丝",
+  "category": "material",
+  "rarity": "uncommon",
+  "maxStack": 99,
+  "weight": 0.1,
+  "volume": 0.2,
+  "value": 25,
+  "tags": [
+    "material",
+    "cloth"
+  ],
+  "extra": {
+    "icon": "ui/items/material.silk.png"
+  }
+}

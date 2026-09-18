@@ -1,0 +1,25 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "manual.liuhe-blade",
+  "title": "六合刀谱",
+  "description": "习得六合刀一品的入门刀谱。teaches 同时写 art 与 skill，校验门要求这个 skill 确实属于这门 art。",
+  "displayName": "六合刀谱",
+  "category": "manual",
+  "rarity": "uncommon",
+  "maxStack": 1,
+  "weight": 0.3,
+  "volume": 0.2,
+  "value": 500,
+  "tags": [
+    "manual",
+    "blade"
+  ],
+  "teaches": {
+    "art": "art.liuhe-blade",
+    "skill": "skill.liuhe-blade.p1"
+  },
+  "extra": {
+    "icon": "ui/items/manual.liuhe-blade.png"
+  }
+}

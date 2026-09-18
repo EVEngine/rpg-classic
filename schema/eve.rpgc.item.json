@@ -1,0 +1,69 @@
+{
+  "id": "eve.rpgc.item",
+  "schemaVersion": 1,
+  "title": "rpg-classic item",
+  "description": "An item is an engine item definition plus the project-side halves the engine does not carry. The engine half (id/displayName/maxStack/weight/volume/category/tags/equipSlot/extra) is consumed verbatim by eve.Inventory().registerItemsFromJson, whose parser is silent in four ways: unknown keys are dropped, a duplicate id overwrites the earlier definition, maxStack <= 0 is coerced to 1, and an empty displayName becomes the id (inventory/Item.cpp:45-80). equipStats is the project half that reaches rpg.registerItemStatsFromJson; `use` and `teaches` have no engine field at all and are the adapter's, like a skill's `presentation`. equipSlot is documented by the engine itself as a suggestion that nothing ever validates (inventory/ItemTypes.h:21), so the closed slot vocabulary lives in eve.rpgc.rules.equipmentSlots and the gate resolves every item against it. See docs/08-items-and-equipment.md.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "description", "type": "string" },
+    { "name": "displayName", "type": "string", "required": true },
+    { "name": "category", "type": "string", "required": true, "enum": ["consumable", "weapon", "armor", "accessory", "material", "quest", "manual"] },
+    { "name": "rarity", "type": "string", "enum": ["common", "uncommon", "rare", "epic", "legendary"] },
+    { "name": "maxStack", "type": "integer", "minimum": 1, "maximum": 9999 },
+    { "name": "weight", "type": "number", "minimum": 0, "maximum": 10000 },
+    { "name": "volume", "type": "number", "minimum": 0, "maximum": 10000 },
+    { "name": "value", "type": "integer", "minimum": 0, "maximum": 100000000 },
+    { "name": "tags", "type": "array", "elementType": "string", "maxItems": 8 },
+    { "name": "equipSlot", "type": "string" },
+    {
+      "name": "equipStats",
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "attribute", "type": "string", "required": true },
+          { "name": "op", "type": "string", "enum": ["add", "additive_percent", "mulAdd", "multiplicative_percent", "mulMul", "multiply", "override", "clamp_min", "clampMin", "min", "clamp_max", "clampMax", "max"] },
+          { "name": "value", "type": "number", "required": true },
+          { "name": "priority", "type": "integer" }
+        ]
+      }
+    },
+    {
+      "name": "use",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "consume", "type": "boolean" },
+        { "name": "cooldown", "type": "number", "minimum": 0, "maximum": 600 },
+        { "name": "targetType", "type": "string", "enum": ["self", "enemySingle", "enemyAll", "allySingle", "allyAll", "anySingle", "anyAll"] },
+        { "name": "effects", "type": "array", "elementType": "string", "maxItems": 8 }
+      ]
+    },
+    {
+      "name": "teaches",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "art", "type": "string" },
+        { "name": "skill", "type": "string" }
+      ]
+    },
+    {
+      "name": "requires",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "level", "type": "integer", "minimum": 1, "maximum": 999 },
+        { "name": "artId", "type": "string" },
+        { "name": "minGrade", "type": "integer", "minimum": 1, "maximum": 9 }
+      ]
+    },
+    { "name": "extra", "type": "object" }
+  ]
+}

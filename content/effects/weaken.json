@@ -1,0 +1,25 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "weaken",
+  "title": "虚弱",
+  "durationPolicy": "duration",
+  "duration": 12.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "debuff"
+  ],
+  "modifiers": [
+    {
+      "attribute": "attack",
+      "op": "multiply",
+      "value": 0.8,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/status/weaken.png",
+    "vfx": "fx/weaken"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "eve.rpgc.asset-source",
+  "version": 1,
+  "pack": "oga_jap_oil_painting_landscapes",
+  "title": "Oil painting landscapes",
+  "author": "JAP",
+  "licence": "CC0-1.0",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "pageUrl": "https://opengameart.org/content/oil-painting-landscapes",
+  "container": "image",
+  "files": [
+    {
+      "member": "coldmountain.png",
+      "fileUrl": "https://opengameart.org/sites/default/files/coldmountain.png",
+      "sha256": "6714ff67f67c3a566756e303161cb47f2abab1ba3a3091e5e7c54a4a9b0377e7",
+      "bytes": 783620,
+      "backdrop": "backdrop.snow-mountain-pass.png"
+    },
+    {
+      "member": "sunsetintheswamp.png",
+      "fileUrl": "https://opengameart.org/sites/default/files/sunsetintheswamp.png",
+      "sha256": "f43381c78a89598ab0bbd9837f79ab81ba8916bbb9bd40f6dc60e6f901acd143",
+      "bytes": 691476,
+      "backdrop": "backdrop.golden-plain.png"
+    },
+    {
+      "member": "cloudsinthedesert.png",
+      "fileUrl": "https://opengameart.org/sites/default/files/cloudsinthedesert.png",
+      "sha256": "831ea265c85ef5ab508bcbd85517ecac8a5399f865af416288906b4b751c745f",
+      "bytes": 606663,
+      "backdrop": "backdrop.desert.png"
+    }
+  ],
+  "note": "Vendored verbatim. CC0 1.0 requires no attribution; the record exists so the provenance can be audited and the upstream bytes re-verified with tools/import_battle_backdrops.py --check."
+}

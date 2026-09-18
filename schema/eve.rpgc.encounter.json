@@ -1,0 +1,51 @@
+{
+  "id": "eve.rpgc.encounter",
+  "schemaVersion": 1,
+  "title": "rpg-classic encounter",
+  "description": "One encounter composition: which enemies appear, how many, and what the whole battle pays out. This projects onto ONE element of the array that eve.rpg.EncounterCatalogue.replaceFromJsonStrict consumes; tools/build_encounters.py concatenates every encounter document into that array. The engine loader is strict AND atomic: it rejects unknown fields outright and replaces the whole catalogue or nothing (EncounterCatalogue.cpp:63-176), so a single malformed encounter would silently cost the project every other encounter — which is why this is a validated content kind rather than a hand-written JSON blob. Members name an enemy id plus a count instead of restating stats: attack/defense/maxHp/speed belong to the enemy document and exactly one of them is the authority. Two engine constraints the schema cannot express are enforced by the semantic gate: xpReward must be strictly positive, and the same enemy may not appear twice in one encounter (the projection derives member ids from the enemy id, so a repeat would collide in a loader that rejects duplicate member ids).",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "description", "type": "string" },
+    { "name": "displayName", "type": "string", "required": true },
+    { "name": "map", "type": "string" },
+    {
+      "name": "members",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "enemy", "type": "string", "required": true },
+          { "name": "count", "type": "integer", "minimum": 1, "maximum": 8 }
+        ]
+      }
+    },
+    { "name": "xpReward", "type": "number", "required": true, "minimum": 0, "maximum": 10000000 },
+    { "name": "xpGrowth", "type": "number", "minimum": 1, "maximum": 10 },
+    { "name": "goldReward", "type": "number", "minimum": 0, "maximum": 100000000 },
+    {
+      "name": "quest",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "requiredQuestId", "type": "string", "required": true },
+        { "name": "notifyTopic", "type": "string", "required": true },
+        { "name": "notifyTarget", "type": "string", "required": true },
+        { "name": "notifyAmount", "type": "integer", "required": true, "minimum": 1, "maximum": 10000 },
+        { "name": "defeatCounterId", "type": "string", "required": true },
+        { "name": "defeatCounterAmount", "type": "integer", "required": true, "minimum": 1, "maximum": 10000 },
+        { "name": "levelPointAttributeId", "type": "string", "required": true },
+        { "name": "pointsPerLevel", "type": "integer", "required": true, "minimum": 0, "maximum": 10000 }
+      ]
+    },
+    { "name": "extra", "type": "object" }
+  ]
+}

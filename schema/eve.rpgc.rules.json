@@ -1,0 +1,81 @@
+{
+  "id": "eve.rpgc.rules",
+  "schemaVersion": 1,
+  "title": "rpg-classic combat rules",
+  "description": "The project's single shared rule table: the five-element algebra, the break/stagger thresholds, the turn clock, the closed style-tag set, the equipment-slot vocabulary, the trait registry and the resource-pool table a skill's `costs[]` is paid from. Nothing here is engine-native — the engine's damage model exposes exactly one multiplier channel (TraitSystem::getElementRate) and a free-form damage `element` string, so the relationship tables must live project-side. Combat resolution, the validation gates and combo resonance all read this one document; a second hard-coded copy of any table in a runtime script is the drift this schema exists to prevent. See docs/06-game-design.md §3.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "elements", "type": "array", "required": true, "elementType": "string", "minItems": 2, "maxItems": 8 },
+    { "name": "generates", "type": "object", "required": true },
+    { "name": "overcomes", "type": "object", "required": true },
+    { "name": "weakStyles", "type": "array", "elementType": "string", "maxItems": 16 },
+    { "name": "equipmentSlots", "type": "array", "elementType": "string", "maxItems": 16 },
+    {
+      "name": "traits",
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "id", "type": "string", "required": true },
+          { "name": "kind", "type": "string", "required": true, "enum": ["paramRate", "elementRate", "stateRate", "stateResist", "exParam", "attackElement", "attackState", "attackSpeed", "attackTimes"] },
+          { "name": "target", "type": "string" },
+          { "name": "value", "type": "number" }
+        ]
+      }
+    },
+    {
+      "name": "break",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "max", "type": "integer", "required": true, "minimum": 1, "maximum": 100000 },
+        { "name": "onOvercome", "type": "integer", "minimum": 0, "maximum": 100000 },
+        { "name": "onWeakElement", "type": "integer", "minimum": 0, "maximum": 100000 },
+        { "name": "onWeakStyle", "type": "integer", "minimum": 0, "maximum": 100000 },
+        { "name": "regenPerRound", "type": "integer", "minimum": 0, "maximum": 100000 }
+      ]
+    },
+    {
+      "name": "resources",
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "attribute", "type": "string", "required": true },
+          { "name": "max", "type": "number", "required": true, "maximum": 1000000 }
+        ]
+      }
+    },
+    {
+      "name": "clock",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "turnSeconds", "type": "number", "required": true, "minimum": 0.1, "maximum": 600 }
+      ]
+    },
+    {
+      "name": "breakEffects",
+      "type": "array",
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "effect", "type": "string", "required": true },
+          { "name": "turns", "type": "integer", "required": true, "minimum": 1, "maximum": 99 }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "bleed",
+  "title": "流血",
+  "durationPolicy": "duration",
+  "duration": 12.0,
+  "period": 3.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "dot",
+    "physical",
+    "debuff"
+  ],
+  "extra": {
+    "icon": "ui/status/bleed.png",
+    "vfx": "fx/bleed",
+    "note": "周期性效果不绑定常驻修改器：StatusSystem 在 period > 0 时提前返回空绑定表（src/modules/rpg/StatusSystem.cpp:202），每跳的结算走项目侧 tick"
+  }
+}

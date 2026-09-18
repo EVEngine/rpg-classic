@@ -1,0 +1,25 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "manual.xuanming-neigong",
+  "title": "玄冥神功谱",
+  "description": "玄冥一脉的内功谱。招式本身不出手，是给自己挂护体的那一类。",
+  "displayName": "玄冥神功谱",
+  "category": "manual",
+  "rarity": "rare",
+  "maxStack": 1,
+  "weight": 0.3,
+  "volume": 0.2,
+  "value": 780,
+  "tags": [
+    "manual",
+    "inner"
+  ],
+  "teaches": {
+    "art": "art.xuanming-neigong",
+    "skill": "skill.xuanming-neigong.p1"
+  },
+  "extra": {
+    "icon": "ui/items/manual.xuanming-neigong.png"
+  }
+}

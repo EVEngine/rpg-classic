@@ -1,0 +1,1204 @@
+{
+  "schema": "eve.rpgc.tileset",
+  "version": 2,
+  "id": "kenney-farm",
+  "title": "Kenney 等距农场（农田 / 木墙 / 屋顶 / 围栏）",
+  "image": "kenney-farm.png",
+  "firstGid": 1,
+  "tileWidth": 128,
+  "tileHeight": 64,
+  "margin": 0,
+  "spacing": 0,
+  "count": 220,
+  "layout": {
+    "pack": "shelf",
+    "width": 1280,
+    "maxDim": 8192,
+    "firstTile": 0
+  },
+  "classes": {
+    "floor": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": true,
+      "cost": 1,
+      "sortBias": 0
+    },
+    "block": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    },
+    "prop": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "ground-anchor",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    }
+  },
+  "runs": [
+    {
+      "count": 2,
+      "cell": [
+        68,
+        100
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        101
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        100
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        26,
+        96
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        27,
+        96
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        26,
+        96
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        115,
+        103
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        116,
+        100
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        121,
+        98
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        116,
+        102
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        94,
+        57
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        96,
+        56
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        97,
+        55
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        96,
+        57
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        78,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        81,
+        49
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        82,
+        48
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        49
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        100,
+        96
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        107,
+        92
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        110,
+        92
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        106,
+        94
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        67,
+        87
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        67,
+        68
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        94,
+        72
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        98,
+        70
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        94,
+        71
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        62,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        62,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        61,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        62,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        44,
+        33
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        97
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        66,
+        78
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        51,
+        96
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        51,
+        78
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        97
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        66,
+        78
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        51,
+        96
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        51,
+        78
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        52,
+        91
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        52,
+        92
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 3,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 4,
+      "cell": [
+        128,
+        78
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        77
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        68
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        77
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        68
+      ],
+      "class": "block"
+    },
+    {
+      "count": 4,
+      "cell": [
+        128,
+        78
+      ],
+      "class": "block"
+    },
+    {
+      "count": 8,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 3,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 4,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        136
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        106
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        49
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        135
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        106
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        46
+      ],
+      "class": "block"
+    },
+    {
+      "count": 8,
+      "cell": [
+        128,
+        100
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        135
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        78
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        24,
+        27
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        23,
+        26
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        21,
+        28
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        21,
+        26
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        46,
+        34
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        54,
+        37
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        58,
+        37
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        42,
+        43
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        12,
+        88
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 3,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 5,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        126
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        87,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        88,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 19,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        124
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        124
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 3,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 12,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        105
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        106
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        76
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        76
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        76
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        76
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        105
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        106
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 3,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        117
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 6,
+      "cell": [
+        70,
+        118
+      ],
+      "class": "prop"
+    }
+  ],
+  "names": [
+    "chimneyBase_E",
+    "chimneyBase_N",
+    "chimneyBase_S",
+    "chimneyBase_W",
+    "chimneyTop_E",
+    "chimneyTop_N",
+    "chimneyTop_S",
+    "chimneyTop_W",
+    "cornDouble_E",
+    "cornDouble_N",
+    "cornDouble_S",
+    "cornDouble_W",
+    "cornYoungDouble_E",
+    "cornYoungDouble_N",
+    "cornYoungDouble_S",
+    "cornYoungDouble_W",
+    "cornYoung_E",
+    "cornYoung_N",
+    "cornYoung_S",
+    "cornYoung_W",
+    "corn_E",
+    "corn_N",
+    "corn_S",
+    "corn_W",
+    "dirtFarmland_E",
+    "dirtFarmland_N",
+    "dirtFarmland_S",
+    "dirtFarmland_W",
+    "dirt_E",
+    "dirt_N",
+    "dirt_S",
+    "dirt_W",
+    "fenceHighBroken_E",
+    "fenceHighBroken_N",
+    "fenceHighBroken_S",
+    "fenceHighBroken_W",
+    "fenceLowBroken_E",
+    "fenceLowBroken_N",
+    "fenceLowBroken_S",
+    "fenceLowBroken_W",
+    "fenceLow_E",
+    "fenceLow_N",
+    "fenceLow_S",
+    "fenceLow_W",
+    "hayBalesStacked_E",
+    "hayBalesStacked_N",
+    "hayBalesStacked_S",
+    "hayBalesStacked_W",
+    "hayBales_E",
+    "hayBales_N",
+    "hayBales_S",
+    "hayBales_W",
+    "hay_E",
+    "hay_N",
+    "hay_S",
+    "hay_W",
+    "ladderStandBroken_E",
+    "ladderStandBroken_N",
+    "ladderStandBroken_S",
+    "ladderStandBroken_W",
+    "ladderStand_E",
+    "ladderStand_N",
+    "ladderStand_S",
+    "ladderStand_W",
+    "ladderStraight_E",
+    "ladderStraight_N",
+    "ladderStraight_S",
+    "ladderStraight_W",
+    "planksCornerLeft_E",
+    "planksCornerLeft_N",
+    "planksCornerLeft_S",
+    "planksCornerLeft_W",
+    "planksCornerRight_E",
+    "planksCornerRight_N",
+    "planksCornerRight_S",
+    "planksCornerRight_W",
+    "planksHighOld_E",
+    "planksHighOld_N",
+    "planksHighOld_S",
+    "planksHighOld_W",
+    "planksHighSlope_E",
+    "planksHighSlope_N",
+    "planksHighSlope_S",
+    "planksHighSlope_W",
+    "planksHigh_E",
+    "planksHigh_N",
+    "planksHigh_S",
+    "planksHigh_W",
+    "planksHole_E",
+    "planksHole_N",
+    "planksHole_S",
+    "planksHole_W",
+    "planksOld_E",
+    "planksOld_N",
+    "planksOld_S",
+    "planksOld_W",
+    "planksSideVertical_E",
+    "planksSideVertical_N",
+    "planksSideVertical_S",
+    "planksSideVertical_W",
+    "planksSide_E",
+    "planksSide_N",
+    "planksSide_S",
+    "planksSide_W",
+    "planks_E",
+    "planks_N",
+    "planks_S",
+    "planks_W",
+    "roofCorner_E",
+    "roofCorner_N",
+    "roofCorner_S",
+    "roofCorner_W",
+    "roofInnerCorner_E",
+    "roofInnerCorner_N",
+    "roofInnerCorner_S",
+    "roofInnerCorner_W",
+    "roofSingleWall_E",
+    "roofSingleWall_N",
+    "roofSingleWall_S",
+    "roofSingleWall_W",
+    "roofSingle_E",
+    "roofSingle_N",
+    "roofSingle_S",
+    "roofSingle_W",
+    "roof_E",
+    "roof_N",
+    "roof_S",
+    "roof_W",
+    "sack_E",
+    "sack_N",
+    "sack_S",
+    "sack_W",
+    "sacksCrate_E",
+    "sacksCrate_N",
+    "sacksCrate_S",
+    "sacksCrate_W",
+    "woodWallCorner_E",
+    "woodWallCorner_N",
+    "woodWallCorner_S",
+    "woodWallCorner_W",
+    "woodWallCross_E",
+    "woodWallCross_N",
+    "woodWallCross_S",
+    "woodWallCross_W",
+    "woodWallDiagional_E",
+    "woodWallDiagional_S",
+    "woodWallDoorClosed_E",
+    "woodWallDoorClosed_N",
+    "woodWallDoorClosed_S",
+    "woodWallDoorClosed_W",
+    "woodWallDoorOpen_E",
+    "woodWallDoorOpen_N",
+    "woodWallDoorOpen_S",
+    "woodWallDoorOpen_W",
+    "woodWallDoorway_E",
+    "woodWallDoorway_N",
+    "woodWallDoorway_S",
+    "woodWallDoorway_W",
+    "woodWallEmptyCross_E",
+    "woodWallEmptyCross_N",
+    "woodWallEmptyCross_S",
+    "woodWallEmptyCross_W",
+    "woodWallEmptyDiagonal_E",
+    "woodWallEmptyDiagonal_N",
+    "woodWallEmptyDiagonal_S",
+    "woodWallEmptyDiagonal_W",
+    "woodWallEmptyOpen_E",
+    "woodWallEmptyOpen_N",
+    "woodWallEmptyOpen_S",
+    "woodWallEmptyOpen_W",
+    "woodWallEmpty_E",
+    "woodWallEmpty_N",
+    "woodWallEmpty_S",
+    "woodWallEmpty_W",
+    "woodWallGateClosed_E",
+    "woodWallGateClosed_N",
+    "woodWallGateClosed_S",
+    "woodWallGateClosed_W",
+    "woodWallGateOpen_E",
+    "woodWallGateOpen_N",
+    "woodWallGateOpen_S",
+    "woodWallGateOpen_W",
+    "woodWallGateway_E",
+    "woodWallGateway_N",
+    "woodWallGateway_S",
+    "woodWallGateway_W",
+    "woodWallHoleCross_E",
+    "woodWallHoleCross_N",
+    "woodWallHoleCross_S",
+    "woodWallHoleCross_W",
+    "woodWallHoleDiagonal_E",
+    "woodWallHoleDiagonal_N",
+    "woodWallHoleDiagonal_S",
+    "woodWallHoleDiagonal_W",
+    "woodWallHole_E",
+    "woodWallHole_N",
+    "woodWallHole_S",
+    "woodWallHole_W",
+    "woodWallRoofLeft_E",
+    "woodWallRoofLeft_N",
+    "woodWallRoofLeft_S",
+    "woodWallRoofLeft_W",
+    "woodWallRoofRight_E",
+    "woodWallRoofRight_N",
+    "woodWallRoofRight_S",
+    "woodWallRoofRight_W",
+    "woodWallSupport_E",
+    "woodWallSupport_N",
+    "woodWallSupport_S",
+    "woodWallSupport_W",
+    "woodWallWindowGlass_E",
+    "woodWallWindowGlass_N",
+    "woodWallWindowGlass_S",
+    "woodWallWindowGlass_W",
+    "woodWallWindow_E",
+    "woodWallWindow_N",
+    "woodWallWindow_S",
+    "woodWallWindow_W",
+    "woodWall_E",
+    "woodWall_S"
+  ]
+}

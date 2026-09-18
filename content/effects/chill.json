@@ -1,0 +1,28 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "chill",
+  "title": "冰寒",
+  "durationPolicy": "duration",
+  "duration": 6.0,
+  "period": 3.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "dot",
+    "water",
+    "debuff"
+  ],
+  "modifiers": [
+    {
+      "attribute": "waterResist",
+      "op": "add",
+      "value": -5,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/status/chill.png",
+    "vfx": "fx/chill"
+  }
+}

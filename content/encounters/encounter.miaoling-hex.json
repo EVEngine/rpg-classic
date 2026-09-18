@@ -1,0 +1,36 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.miaoling-hex",
+  "title": "苗岭寨外·蛊阵",
+  "description": "苗岭寨外·蛊阵：4 名敌人。",
+  "displayName": "苗岭寨外·蛊阵",
+  "map": "miaoling-village",
+  "members": [
+    {
+      "enemy": "enemy.gu-poison-worm",
+      "count": 2
+    },
+    {
+      "enemy": "enemy.miao-hexer",
+      "count": 1
+    },
+    {
+      "enemy": "enemy.corpse-puppet",
+      "count": 1
+    }
+  ],
+  "xpReward": 102,
+  "xpGrowth": 1.2,
+  "goldReward": 46,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "hexer",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

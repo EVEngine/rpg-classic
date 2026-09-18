@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.asset-source",
+  "version": 1,
+  "pack": "oga_rh0_few_water_backgrounds",
+  "title": "Few Water Backgrounds (1366x768)",
+  "author": "rh0",
+  "licence": "CC0-1.0",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "pageUrl": "https://opengameart.org/content/few-water-backgrounds-1366%C3%97768",
+  "container": "image",
+  "files": [
+    {
+      "member": "water1_1.png",
+      "fileUrl": "https://opengameart.org/sites/default/files/water1_1.png",
+      "sha256": "c13105015b73461150c0377e5bd3d279eef93baefa112295693b60a047749088",
+      "bytes": 612204,
+      "backdrop": "backdrop.waterfront.png"
+    }
+  ],
+  "note": "Vendored verbatim. CC0 1.0 requires no attribution; the record exists so the provenance can be audited and the upstream bytes re-verified with tools/import_battle_backdrops.py --check."
+}

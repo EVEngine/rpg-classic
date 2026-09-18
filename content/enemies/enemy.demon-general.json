@@ -1,0 +1,57 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.demon-general",
+  "title": "魔骨将",
+  "description": "雾林最深处那副骨架比树还高，走过去的时候它才低头看你。",
+  "displayName": "魔骨将",
+  "tier": "boss",
+  "element": "earth",
+  "weakElements": [
+    "metal"
+  ],
+  "weakStyles": [
+    "sword",
+    "blade"
+  ],
+  "combat": {
+    "attack": 42,
+    "defense": 14.0,
+    "maxHp": 420,
+    "speed": 9
+  },
+  "breakMax": 100,
+  "skillId": "skill.enemy-bone-smash",
+  "skills": [
+    "skill.enemy-bone-smash",
+    "skill.enemy-hex",
+    "skill.enemy-drain"
+  ],
+  "habitat": [
+    "mist-forest"
+  ],
+  "sprite": {
+    "anim": "enemy-demon-skeleton",
+    "clip": "idle.s"
+  },
+  "drops": [
+    {
+      "itemId": "weapon.liuhe-blade",
+      "chance": 0.1,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "accessory.jade-pendant",
+      "chance": 0.25,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.7,
+    "fleeBelowHp": 0.0,
+    "opener": "skill.enemy-bone-smash"
+  },
+  "lore": "雾林最深处那副骨架比树还高，走过去的时候它才低头看你。"
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.mountain-sprite",
+  "title": "山魈",
+  "description": "蜀道夜里会笑的东西，笑声比人还像人。",
+  "displayName": "山魈",
+  "tier": "elite",
+  "element": "wood",
+  "weakElements": [
+    "metal"
+  ],
+  "weakStyles": [
+    "blade"
+  ],
+  "combat": {
+    "attack": 21,
+    "defense": 5.5,
+    "maxHp": 104,
+    "speed": 9
+  },
+  "breakMax": 80,
+  "skillId": "skill.enemy-claw",
+  "skills": [
+    "skill.enemy-claw",
+    "skill.enemy-bite"
+  ],
+  "habitat": [
+    "jiange-post"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "goblin"
+  },
+  "drops": [
+    {
+      "itemId": "material.pelt",
+      "chance": 0.4,
+      "min": 1,
+      "max": 2
+    },
+    {
+      "itemId": "material.herb",
+      "chance": 0.3,
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "ai": {
+    "aggression": 0.7,
+    "fleeBelowHp": 0.2,
+    "opener": "skill.enemy-claw"
+  },
+  "lore": "蜀道夜里会笑的东西，笑声比人还像人。"
+}

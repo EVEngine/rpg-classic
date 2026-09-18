@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.sea-wraith",
+  "title": "海鬼",
+  "description": "退潮时从滩上站起来的影子，衣角还在滴海水。",
+  "displayName": "海鬼",
+  "tier": "minion",
+  "element": "water",
+  "weakElements": [
+    "earth"
+  ],
+  "weakStyles": [
+    "palm"
+  ],
+  "combat": {
+    "attack": 11,
+    "defense": 2.9,
+    "maxHp": 42,
+    "speed": 7
+  },
+  "breakMax": 45,
+  "skillId": "skill.enemy-drain",
+  "skills": [
+    "skill.enemy-drain"
+  ],
+  "habitat": [
+    "canglang-ferry",
+    "luoxia-isle"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "ghost"
+  },
+  "drops": [
+    {
+      "itemId": "quest.frontier-map",
+      "chance": 0.05,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "material.silk",
+      "chance": 0.15,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.7,
+    "fleeBelowHp": 0.2,
+    "opener": "skill.enemy-drain"
+  },
+  "lore": "退潮时从滩上站起来的影子，衣角还在滴海水。"
+}

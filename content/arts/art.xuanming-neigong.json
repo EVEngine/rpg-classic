@@ -1,0 +1,43 @@
+{
+  "schema": "eve.rpgc.art",
+  "version": 1,
+  "id": "art.xuanming-neigong",
+  "title": "玄冥神功",
+  "category": "inner",
+  "element": "water",
+  "maxGrade": 3,
+  "grades": [
+    {
+      "grade": 1,
+      "title": "凝霜",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 0
+      },
+      "skills": [
+        "skill.xuanming-neigong.p1"
+      ],
+      "modifiers": [
+        {
+          "attribute": "mana",
+          "op": "mulAdd",
+          "value": 0.06
+        }
+      ]
+    },
+    {
+      "grade": 3,
+      "title": "寒冰真气",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 260
+      },
+      "skills": [
+        "skill.xuanming-neigong.p3"
+      ],
+      "traits": [
+        "trait.xuanming-cold"
+      ]
+    }
+  ]
+}

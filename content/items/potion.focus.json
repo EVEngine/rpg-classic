@@ -1,0 +1,29 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "potion.focus",
+  "title": "醒神散",
+  "description": "薄荷与冰片调的提神散，服下后出手更快。",
+  "displayName": "醒神散",
+  "category": "consumable",
+  "rarity": "common",
+  "maxStack": 20,
+  "weight": 0.1,
+  "volume": 0.1,
+  "value": 45,
+  "tags": [
+    "potion",
+    "buff"
+  ],
+  "use": {
+    "consume": true,
+    "cooldown": 8.0,
+    "targetType": "self",
+    "effects": [
+      "haste"
+    ]
+  },
+  "extra": {
+    "icon": "ui/items/potion.focus.png"
+  }
+}

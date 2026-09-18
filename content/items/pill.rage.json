@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "pill.rage",
+  "title": "狂血丹",
+  "description": "以攻换守的险药：疾行叠虚弱。两半段都写在同一份 use 里，不靠第二套字段。",
+  "displayName": "狂血丹",
+  "category": "consumable",
+  "rarity": "rare",
+  "maxStack": 5,
+  "weight": 0.1,
+  "volume": 0.1,
+  "value": 260,
+  "tags": [
+    "pill",
+    "buff",
+    "debuff"
+  ],
+  "use": {
+    "consume": true,
+    "cooldown": 30.0,
+    "targetType": "self",
+    "effects": [
+      "haste",
+      "weaken"
+    ]
+  },
+  "extra": {
+    "icon": "ui/items/pill.rage.png",
+    "note": "引擎侧没有「使用时施加效果」的字段，这是适配器按 /use/effects 顺序 applyEffect 的项目侧半段"
+  }
+}

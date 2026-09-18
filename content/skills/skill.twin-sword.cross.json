@@ -1,0 +1,40 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.twin-sword.cross",
+  "title": "双剑合璧·合击",
+  "description": "收尾合击。加成破绽值，由 combo.finish.breakBonus 声明。",
+  "combo": "combo.twin-sword",
+  "targetType": "enemySingle",
+  "cooldown": 0,
+  "castTime": 0.0,
+  "costs": [],
+  "tags": [
+    "sword",
+    "metal",
+    "combo"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.8",
+    "element": "metal",
+    "critChance": 0.2,
+    "hitChance": 1.0
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "attack",
+        "on": "caster",
+        "hold": 0.2
+      },
+      {
+        "anim": "fireball",
+        "clip": "impact",
+        "on": "impact"
+      }
+    ],
+    "vfx": "fx/twin-sword-cross",
+    "screenShake": 0.35
+  }
+}

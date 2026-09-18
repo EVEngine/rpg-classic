@@ -1,0 +1,51 @@
+{
+  "id": "eve.rpgc.anim",
+  "schemaVersion": 1,
+  "title": "rpg-classic sprite animation set",
+  "description": "A frame-grid atlas plus named clips. Maps directly onto the animation module: the grid becomes SpriteSheet::setGrid, each clip becomes SpriteClip with addFrame/setFPS/setLoop/addEvent.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "image", "type": "string", "required": true },
+    { "name": "frameWidth", "type": "integer", "required": true, "minimum": 1, "maximum": 1024 },
+    { "name": "frameHeight", "type": "integer", "required": true, "minimum": 1, "maximum": 1024 },
+    { "name": "columns", "type": "integer", "required": true, "minimum": 1, "maximum": 256 },
+    { "name": "rows", "type": "integer", "minimum": 1, "maximum": 256 },
+    { "name": "margin", "type": "integer", "minimum": 0 },
+    { "name": "spacing", "type": "integer", "minimum": 0 },
+    {
+      "name": "clips",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "id", "type": "string", "required": true },
+          { "name": "title", "type": "string" },
+          { "name": "frames", "type": "array", "required": true, "elementType": "integer", "minItems": 1, "maxItems": 512 },
+          { "name": "fps", "type": "number", "required": true, "minimum": 0.1, "maximum": 120 },
+          { "name": "loop", "type": "boolean" },
+          {
+            "name": "events",
+            "type": "array",
+            "maxItems": 32,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "fields": [
+                { "name": "frame", "type": "integer", "required": true, "minimum": 0 },
+                { "name": "name", "type": "string", "required": true }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

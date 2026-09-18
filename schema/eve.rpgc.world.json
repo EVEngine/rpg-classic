@@ -1,0 +1,53 @@
+{
+  "id": "eve.rpgc.world",
+  "schemaVersion": 1,
+  "title": "rpg-classic world",
+  "description": "The open-world document: the moment-of-day bands, the portal gates, and the atlas/tint style variants. Nothing here is engine-native. The engine has a day/night clock (daynight.getTimeOfDay / isNight) but no notion of a triggered world gate, and it has no event on the clock, so the project polls it. The design rule this schema encodes is that 'not yet open' is a CONDITION, not missing content: a gated portal stays in the object layer so a human and an agent can both read 'this door exists, but is locked' out of the documents. `gates[].open` reuses eve.rpgc.condition by whole-schema reference, so the gate vocabulary cannot drift from the event vocabulary. See docs/06-game-design.md §1.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    {
+      "name": "clock",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "moments", "type": "object", "required": true }
+      ]
+    },
+    {
+      "name": "gates",
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "portal", "type": "string", "required": true },
+          { "name": "open", "ref": "eve.rpgc.condition", "refVersion": 1 },
+          { "name": "lockedMessage", "type": "string" }
+        ]
+      }
+    },
+    {
+      "name": "styleVariants",
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "id", "type": "string", "required": true },
+          { "name": "moments", "type": "array", "required": true, "elementType": "string", "minItems": 1, "maxItems": 8 },
+          { "name": "mode", "type": "string", "required": true, "enum": ["tint", "atlas"] },
+          { "name": "tint", "type": "array", "elementType": "number", "minItems": 4, "maxItems": 4 },
+          { "name": "tileset", "type": "string" },
+          { "name": "baseTileset", "type": "string" }
+        ]
+      }
+    }
+  ]
+}

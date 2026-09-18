@@ -1,0 +1,84 @@
+{
+  "id": "eve.rpgc.map",
+  "schemaVersion": 1,
+  "title": "rpg-classic isometric level",
+  "description": "A level document that is also a valid engine map file: the engine reader (src/modules/map/TileConfig.cpp) resolves width/height/tile sizes/orientation/renderSpacing/origin/tilesets/layers, including objectgroup layers. The schema/version/id/title header is ignored by the engine. Object property values are strings, matching Tiled's property encoding and the engine's asString coercion.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "width", "type": "integer", "required": true, "minimum": 1, "maximum": 512 },
+    { "name": "height", "type": "integer", "required": true, "minimum": 1, "maximum": 512 },
+    { "name": "tilewidth", "type": "number", "required": true, "minimum": 1, "maximum": 512 },
+    { "name": "tileheight", "type": "number", "required": true, "minimum": 1, "maximum": 512 },
+    { "name": "orientation", "type": "string", "required": true, "enum": ["isometric"] },
+    { "name": "renderSpacing", "type": "array", "required": true, "elementType": "number", "minItems": 2, "maxItems": 2 },
+    { "name": "origin", "type": "array", "required": true, "elementType": "number", "minItems": 2, "maxItems": 2 },
+    { "name": "autoReload", "type": "boolean" },
+    {
+      "name": "tilesets",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "source", "type": "string", "required": true },
+          { "name": "firstgid", "type": "integer", "required": true, "minimum": 1 }
+        ]
+      }
+    },
+    {
+      "name": "layers",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "id", "type": "string", "required": true },
+          { "name": "name", "type": "string" },
+          { "name": "type", "type": "string", "enum": ["tilelayer", "objectgroup"] },
+          { "name": "layer", "type": "integer", "minimum": 0, "maximum": 15 },
+          { "name": "visible", "type": "boolean" },
+          { "name": "data", "type": "array", "elementType": "integer" },
+          {
+            "name": "objects",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "fields": [
+                { "name": "name", "type": "string", "required": true },
+                { "name": "type", "type": "string", "required": true },
+                { "name": "x", "type": "number", "required": true },
+                { "name": "y", "type": "number", "required": true },
+                { "name": "width", "type": "number", "minimum": 0 },
+                { "name": "height", "type": "number", "minimum": 0 },
+                {
+                  "name": "properties",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "fields": [
+                      { "name": "name", "type": "string", "required": true },
+                      { "name": "type", "type": "string" },
+                      { "name": "value", "type": "string" }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "schema": "eve.rpgc.event",
+  "version": 1,
+  "id": "mist-forest.arrival",
+  "title": "迷雾森林 · 抵达演出",
+  "repeatable": false,
+  "trigger": {
+    "kind": "portal_entered",
+    "mapId": "village-outskirts",
+    "targetMap": "mist-forest"
+  },
+  "steps": [
+    {
+      "kind": "load_map",
+      "mapId": "mist-forest",
+      "x": 4,
+      "y": 10
+    },
+    {
+      "kind": "face_actor",
+      "actorId": "player",
+      "facingX": 0,
+      "facingY": 1
+    },
+    {
+      "kind": "camera_focus",
+      "x": 1024,
+      "y": 512,
+      "zoom": 1.25,
+      "duration": 0.6
+    },
+    {
+      "kind": "wait",
+      "duration": 0.4
+    },
+    {
+      "kind": "play_animation",
+      "anim": "hero",
+      "clip": "walk",
+      "actorId": "player",
+      "loop": false
+    },
+    {
+      "kind": "message",
+      "reference": "gameplayLog.story.forestArrival"
+    },
+    {
+      "kind": "parallel",
+      "steps": [
+        {
+          "kind": "camera_pan",
+          "x": 1088,
+          "y": 576,
+          "zoom": 1.0,
+          "duration": 1.2
+        },
+        {
+          "kind": "play_animation",
+          "anim": "hero",
+          "clip": "idle",
+          "actorId": "player",
+          "loop": true
+        }
+      ]
+    },
+    {
+      "kind": "camera_focus",
+      "x": 1152,
+      "y": 384
+    },
+    {
+      "kind": "dialogue",
+      "reference": "story.forest.arrival"
+    },
+    {
+      "kind": "branch",
+      "condition": {
+        "kind": "switch",
+        "name": "switch.forestWarningRead"
+      },
+      "then": [
+        {
+          "kind": "message",
+          "reference": "gameplayLog.story.forestWarned"
+        },
+        {
+          "kind": "play_animation",
+          "anim": "fireball",
+          "clip": "cast",
+          "actorId": "player"
+        }
+      ],
+      "else": [
+        {
+          "kind": "set_variable",
+          "name": "switch.forestWarningRead",
+          "op": "switchOn",
+          "value": 1
+        },
+        {
+          "kind": "message",
+          "reference": "gameplayLog.story.forestRecorded"
+        }
+      ]
+    }
+  ]
+}

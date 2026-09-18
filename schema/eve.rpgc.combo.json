@@ -1,0 +1,89 @@
+{
+  "id": "eve.rpgc.combo",
+  "schemaVersion": 1,
+  "title": "rpg-classic combo",
+  "description": "A combo: an ordered list of ordinary skill casts by 2..4 party members, plus one finisher. The engine has no combo/joint/coop concept anywhere in src/modules/rpg, and Battle::executeNextAction advances exactly one action per call, so a combo is a sequence of actions the project schedules, never one atomic action. Its element condition is evaluated against the SAME generates/overcomes tables as weak-point breaking (eve.rpgc.rules), not a second copy. See docs/06-game-design.md §5.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    {
+      "name": "members",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "min", "type": "integer", "required": true, "minimum": 2, "maximum": 4 },
+        { "name": "max", "type": "integer", "required": true, "minimum": 2, "maximum": 4 },
+        { "name": "order", "type": "string", "enum": ["declared", "initiative"] }
+      ]
+    },
+    {
+      "name": "condition",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        {
+          "name": "elements",
+          "type": "object",
+          "additionalProperties": false,
+          "fields": [
+            { "name": "kind", "type": "string", "required": true, "enum": ["generates", "overcomes"] },
+            { "name": "chain", "type": "array", "required": true, "elementType": "string", "minItems": 2, "maxItems": 4 }
+          ]
+        },
+        {
+          "name": "vitals",
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "fields": [
+              { "name": "attribute", "type": "string", "required": true },
+              { "name": "min", "type": "number", "required": true, "minimum": 0 },
+              { "name": "perMember", "type": "boolean" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "stages",
+      "type": "array",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "actor", "type": "integer", "required": true, "minimum": 0, "maximum": 3 },
+          { "name": "skill", "type": "string", "required": true }
+        ]
+      }
+    },
+    {
+      "name": "finish",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "skill", "type": "string", "required": true },
+        {
+          "name": "anim",
+          "type": "object",
+          "additionalProperties": false,
+          "fields": [
+            { "name": "anim", "type": "string", "required": true },
+            { "name": "clip", "type": "string", "required": true }
+          ]
+        },
+        { "name": "breakBonus", "type": "number", "minimum": 0, "maximum": 100 }
+      ]
+    }
+  ]
+}

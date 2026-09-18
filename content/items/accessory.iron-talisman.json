@@ -1,0 +1,30 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "accessory.iron-talisman",
+  "title": "铁护符",
+  "description": "走镖的人挂在襟前的铁牌，挡一刀是一刀。",
+  "displayName": "铁护符",
+  "category": "accessory",
+  "rarity": "common",
+  "maxStack": 1,
+  "weight": 0.4,
+  "volume": 0.1,
+  "value": 80,
+  "tags": [
+    "accessory",
+    "iron"
+  ],
+  "equipSlot": "accessory",
+  "equipStats": [
+    {
+      "attribute": "defense",
+      "op": "add",
+      "value": 3,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/accessory.iron-talisman.png"
+  }
+}

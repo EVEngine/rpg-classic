@@ -1,0 +1,169 @@
+{
+  "schema": "eve.rpgc.battle",
+  "version": 1,
+  "id": "battle.town-square",
+  "title": "城镇广场",
+  "description": "城墙内的石板广场：敌阵自街口涌出，8 位铺满左上；我方 5 位背靠右下的门洞。长安、洛阳、金陵三城的遭遇共用。",
+  "displayName": "城镇广场",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "zones": {
+    "enemy": {
+      "x": 100,
+      "y": 60,
+      "width": 760,
+      "height": 440
+    },
+    "ally": {
+      "x": 1140,
+      "y": 600,
+      "width": 720,
+      "height": 420
+    }
+  },
+  "enemySlots": [
+    {
+      "id": "enemy.1",
+      "x": 148,
+      "y": 381
+    },
+    {
+      "id": "enemy.2",
+      "x": 290,
+      "y": 310
+    },
+    {
+      "id": "enemy.3",
+      "x": 433,
+      "y": 238
+    },
+    {
+      "id": "enemy.4",
+      "x": 576,
+      "y": 167
+    },
+    {
+      "id": "enemy.5",
+      "x": 290,
+      "y": 452
+    },
+    {
+      "id": "enemy.6",
+      "x": 433,
+      "y": 381
+    },
+    {
+      "id": "enemy.7",
+      "x": 576,
+      "y": 310
+    },
+    {
+      "id": "enemy.8",
+      "x": 718,
+      "y": 238
+    }
+  ],
+  "allySlots": [
+    {
+      "id": "ally.1",
+      "x": 1188,
+      "y": 810
+    },
+    {
+      "id": "ally.2",
+      "x": 1272,
+      "y": 768
+    },
+    {
+      "id": "ally.3",
+      "x": 1356,
+      "y": 726
+    },
+    {
+      "id": "ally.4",
+      "x": 1440,
+      "y": 684
+    },
+    {
+      "id": "ally.5",
+      "x": 1524,
+      "y": 642
+    }
+  ],
+  "encounters": [
+    "encounter.changan-caravan",
+    "encounter.luoyang-market",
+    "encounter.jinling-alley"
+  ],
+  "ui": {
+    "party": {
+      "x": 1310,
+      "y": 840,
+      "width": 570,
+      "height": 200,
+      "slots": 5,
+      "slotWidth": 104,
+      "slotGap": 8,
+      "portraitHeight": 130,
+      "bars": [
+        {
+          "id": "hp",
+          "offsetY": 8,
+          "height": 18,
+          "colour": [
+            0.3,
+            0.72,
+            0.36
+          ]
+        },
+        {
+          "id": "mana",
+          "offsetY": 32,
+          "height": 18,
+          "colour": [
+            0.25,
+            0.48,
+            0.85
+          ]
+        }
+      ]
+    },
+    "commandRing": {
+      "cx": 300,
+      "cy": 800,
+      "radius": 190,
+      "buttons": [
+        {
+          "id": "cmd.attack",
+          "x": 410,
+          "y": 800,
+          "radius": 40,
+          "label": "攻击"
+        },
+        {
+          "id": "cmd.skill",
+          "x": 300,
+          "y": 690,
+          "radius": 40,
+          "label": "招式"
+        },
+        {
+          "id": "cmd.item",
+          "x": 190,
+          "y": 800,
+          "radius": 40,
+          "label": "物品"
+        },
+        {
+          "id": "cmd.defend",
+          "x": 300,
+          "y": 910,
+          "radius": 40,
+          "label": "防御"
+        }
+      ]
+    }
+  }
+}

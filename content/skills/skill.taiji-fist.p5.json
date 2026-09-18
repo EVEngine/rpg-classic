@@ -1,0 +1,40 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.taiji-fist.p5",
+  "title": "太极拳·如封似闭",
+  "description": "太极拳五品招式。",
+  "art": "art.taiji-fist",
+  "targetType": "enemySingle",
+  "cooldown": 4,
+  "castTime": 0.6,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 6
+    }
+  ],
+  "tags": [
+    "martial",
+    "palm",
+    "earth"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.6 + a.defense * 0.8",
+    "element": "earth",
+    "critChance": 0.1,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "cast",
+        "on": "caster",
+        "hold": 0.2
+      }
+    ],
+    "vfx": "fx/taiji-seal",
+    "screenShake": 0.2
+  }
+}

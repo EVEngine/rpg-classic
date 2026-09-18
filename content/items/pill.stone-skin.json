@@ -1,0 +1,30 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "pill.stone-skin",
+  "title": "石肤丹",
+  "description": "短时护体。丹方出自玄冥一脉，寒性，服多了伤身。",
+  "displayName": "石肤丹",
+  "category": "consumable",
+  "rarity": "uncommon",
+  "maxStack": 10,
+  "weight": 0.1,
+  "volume": 0.1,
+  "value": 120,
+  "tags": [
+    "pill",
+    "buff",
+    "inner"
+  ],
+  "use": {
+    "consume": true,
+    "cooldown": 20.0,
+    "targetType": "self",
+    "effects": [
+      "shield"
+    ]
+  },
+  "extra": {
+    "icon": "ui/items/pill.stone-skin.png"
+  }
+}

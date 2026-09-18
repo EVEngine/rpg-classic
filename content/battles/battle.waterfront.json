@@ -1,0 +1,170 @@
+{
+  "schema": "eve.rpgc.battle",
+  "version": 1,
+  "id": "battle.waterfront",
+  "title": "渡口",
+  "description": "滩涂与码头：敌阵沿水线横向铺开 8 位，我方 5 位贴右下岸。沧浪渡、开封码头、落霞岛三场遭遇共用。",
+  "displayName": "渡口",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "zones": {
+    "enemy": {
+      "x": 60,
+      "y": 80,
+      "width": 800,
+      "height": 400
+    },
+    "ally": {
+      "x": 1120,
+      "y": 600,
+      "width": 720,
+      "height": 420
+    }
+  },
+  "enemySlots": [
+    {
+      "id": "enemy.1",
+      "x": 108,
+      "y": 362
+    },
+    {
+      "id": "enemy.2",
+      "x": 248,
+      "y": 292
+    },
+    {
+      "id": "enemy.3",
+      "x": 388,
+      "y": 222
+    },
+    {
+      "id": "enemy.4",
+      "x": 528,
+      "y": 152
+    },
+    {
+      "id": "enemy.5",
+      "x": 248,
+      "y": 432
+    },
+    {
+      "id": "enemy.6",
+      "x": 388,
+      "y": 362
+    },
+    {
+      "id": "enemy.7",
+      "x": 528,
+      "y": 292
+    },
+    {
+      "id": "enemy.8",
+      "x": 668,
+      "y": 222
+    }
+  ],
+  "allySlots": [
+    {
+      "id": "ally.1",
+      "x": 1168,
+      "y": 810
+    },
+    {
+      "id": "ally.2",
+      "x": 1252,
+      "y": 768
+    },
+    {
+      "id": "ally.3",
+      "x": 1336,
+      "y": 726
+    },
+    {
+      "id": "ally.4",
+      "x": 1420,
+      "y": 684
+    },
+    {
+      "id": "ally.5",
+      "x": 1504,
+      "y": 642
+    }
+  ],
+  "encounters": [
+    "encounter.canglang-night",
+    "encounter.kaifeng-wharf",
+    "encounter.luoxia-wreck"
+  ],
+  "ui": {
+    "party": {
+      "x": 1310,
+      "y": 840,
+      "width": 570,
+      "height": 200,
+      "slots": 5,
+      "slotWidth": 104,
+      "slotGap": 8,
+      "portraitHeight": 130,
+      "bars": [
+        {
+          "id": "hp",
+          "offsetY": 8,
+          "height": 18,
+          "colour": [
+            0.3,
+            0.72,
+            0.36
+          ]
+        },
+        {
+          "id": "mana",
+          "offsetY": 32,
+          "height": 18,
+          "colour": [
+            0.25,
+            0.48,
+            0.85
+          ]
+        }
+      ]
+    },
+    "commandRing": {
+      "cx": 300,
+      "cy": 800,
+      "radius": 190,
+      "buttons": [
+        {
+          "id": "cmd.attack",
+          "x": 410,
+          "y": 800,
+          "radius": 40,
+          "label": "攻击"
+        },
+        {
+          "id": "cmd.skill",
+          "x": 300,
+          "y": 690,
+          "radius": 40,
+          "label": "招式"
+        },
+        {
+          "id": "cmd.item",
+          "x": 190,
+          "y": 800,
+          "radius": 40,
+          "label": "物品"
+        },
+        {
+          "id": "cmd.defend",
+          "x": 300,
+          "y": 910,
+          "radius": 40,
+          "label": "防御"
+        }
+      ]
+    }
+  },
+  "background": "backdrops/backdrop.waterfront.png"
+}

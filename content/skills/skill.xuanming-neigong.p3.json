@@ -1,0 +1,49 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.xuanming-neigong.p3",
+  "title": "玄冥·寒冰",
+  "description": "玄冥神功三品招式。也是组合技「冰雷交击」的第二段：水属性，接在六合刀的金属性之后构成本身相生链。",
+  "art": "art.xuanming-neigong",
+  "combo": "combo.frost-blade",
+  "targetType": "enemySingle",
+  "cooldown": 4,
+  "castTime": 0.7,
+  "costs": [
+    {
+      "attribute": "mana",
+      "amount": 18
+    }
+  ],
+  "effects": [
+    "chill"
+  ],
+  "tags": [
+    "inner",
+    "water"
+  ],
+  "damage": {
+    "formula": "a.attack * 0.9 + a.mana * 0.25",
+    "element": "water",
+    "critChance": 0.1,
+    "hitChance": 0.92
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "thunder",
+        "clip": "cast",
+        "on": "caster",
+        "hold": 0.2
+      },
+      {
+        "anim": "thunder",
+        "clip": "bolt",
+        "on": "target",
+        "hold": 0.15
+      }
+    ],
+    "vfx": "fx/xuanming-ice",
+    "screenShake": 0.15
+  }
+}

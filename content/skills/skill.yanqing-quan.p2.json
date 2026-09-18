@@ -1,0 +1,48 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.yanqing-quan.p2",
+  "title": "燕青拳·连击",
+  "description": "燕青拳二品招式。两段手法，命中后削弱对手攻击。",
+  "art": "art.yanqing-quan",
+  "targetType": "enemySingle",
+  "cooldown": 3,
+  "castTime": 0.3,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 7
+    }
+  ],
+  "effects": [
+    "weaken"
+  ],
+  "tags": [
+    "palm",
+    "wood"
+  ],
+  "damage": {
+    "formula": "a.attack * 0.7 + a.speed * 0.35",
+    "element": "wood",
+    "critChance": 0.15,
+    "hitChance": 0.93
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "palm",
+        "clip": "push",
+        "on": "caster",
+        "hold": 0.1
+      },
+      {
+        "anim": "palm",
+        "clip": "push",
+        "on": "target",
+        "hold": 0.1
+      }
+    ],
+    "vfx": "fx/yanqing-combo",
+    "screenShake": 0.1
+  }
+}

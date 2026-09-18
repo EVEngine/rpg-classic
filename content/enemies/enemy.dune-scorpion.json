@@ -1,0 +1,54 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.dune-scorpion",
+  "title": "沙蝎",
+  "description": "半个身子埋在沙里，等的是踩上来的那只脚。",
+  "displayName": "沙蝎",
+  "tier": "minion",
+  "element": "earth",
+  "weakElements": [
+    "water"
+  ],
+  "weakStyles": [
+    "palm"
+  ],
+  "combat": {
+    "attack": 10,
+    "defense": 3.6,
+    "maxHp": 34,
+    "speed": 6
+  },
+  "breakMax": 40,
+  "skillId": "skill.enemy-venom",
+  "skills": [
+    "skill.enemy-venom"
+  ],
+  "habitat": [
+    "yumen-town"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "bee"
+  },
+  "drops": [
+    {
+      "itemId": "material.herb",
+      "chance": 0.25,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "potion.heal",
+      "chance": 0.08,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.75,
+    "fleeBelowHp": 0.3,
+    "opener": "skill.enemy-venom"
+  },
+  "lore": "半个身子埋在沙里，等的是踩上来的那只脚。"
+}

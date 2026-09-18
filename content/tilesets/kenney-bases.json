@@ -1,0 +1,696 @@
+{
+  "schema": "eve.rpgc.tileset",
+  "version": 2,
+  "id": "kenney-bases",
+  "title": "Kenney 等距底座（草地 / 泥土 / 雪地 / 石地 / 木地板）",
+  "image": "kenney-bases.png",
+  "firstGid": 1,
+  "tileWidth": 128,
+  "tileHeight": 64,
+  "margin": 0,
+  "spacing": 0,
+  "count": 160,
+  "layout": {
+    "pack": "shelf",
+    "width": 768,
+    "maxDim": 8192,
+    "firstTile": 0
+  },
+  "classes": {
+    "floor": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": true,
+      "cost": 1,
+      "sortBias": 0
+    },
+    "block": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    },
+    "prop": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "ground-anchor",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    }
+  },
+  "runs": [
+    {
+      "count": 4,
+      "cell": [
+        73,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        73,
+        41
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 5,
+      "cell": [
+        73,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        51
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        54
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        55
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        54
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        48
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        74,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        50
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        51
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        50
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        54
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        55
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        54
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        73,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        73,
+        41
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 8,
+      "cell": [
+        73,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        74,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        73,
+        41
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        73,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        50
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        50
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        74,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        74,
+        46
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        73,
+        41
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 5,
+      "cell": [
+        73,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        73,
+        50
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        73,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        53
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 8,
+      "cell": [
+        90,
+        57
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        60
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        90,
+        62
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        60
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        50
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        90,
+        52
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        50
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        57
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        90,
+        58
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        57
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        60
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        90,
+        62
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        90,
+        60
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        53
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 8,
+      "cell": [
+        90,
+        57
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        53
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 8,
+      "cell": [
+        90,
+        57
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        53
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        90,
+        49
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 8,
+      "cell": [
+        90,
+        57
+      ],
+      "class": "floor"
+    }
+  ],
+  "names": [
+    "base_dirt_detail_E",
+    "base_dirt_detail_N",
+    "base_dirt_detail_S",
+    "base_dirt_detail_W",
+    "base_dirt_float_E",
+    "base_dirt_float_N",
+    "base_dirt_float_S",
+    "base_dirt_float_W",
+    "base_dirt_high_E",
+    "base_dirt_high_N",
+    "base_dirt_high_S",
+    "base_dirt_high_W",
+    "base_dirt_high_detail_E",
+    "base_dirt_high_detail_N",
+    "base_dirt_high_detail_S",
+    "base_dirt_high_detail_W",
+    "base_grass_detail_E",
+    "base_grass_detail_N",
+    "base_grass_detail_S",
+    "base_grass_detail_W",
+    "base_grass_flat_E",
+    "base_grass_flat_N",
+    "base_grass_flat_S",
+    "base_grass_flat_W",
+    "base_grass_high_E",
+    "base_grass_high_N",
+    "base_grass_high_S",
+    "base_grass_high_W",
+    "base_grass_high_detail_E",
+    "base_grass_high_detail_N",
+    "base_grass_high_detail_S",
+    "base_grass_high_detail_W",
+    "base_snow_detail_E",
+    "base_snow_detail_N",
+    "base_snow_detail_S",
+    "base_snow_detail_W",
+    "base_snow_flat_E",
+    "base_snow_flat_N",
+    "base_snow_flat_S",
+    "base_snow_flat_W",
+    "base_snow_high_E",
+    "base_snow_high_N",
+    "base_snow_high_S",
+    "base_snow_high_W",
+    "base_snow_high_detail_E",
+    "base_snow_high_detail_N",
+    "base_snow_high_detail_S",
+    "base_snow_high_detail_W",
+    "base_stone_detail_E",
+    "base_stone_detail_N",
+    "base_stone_detail_S",
+    "base_stone_detail_W",
+    "base_stone_flat_E",
+    "base_stone_flat_N",
+    "base_stone_flat_S",
+    "base_stone_flat_W",
+    "base_stone_high_E",
+    "base_stone_high_N",
+    "base_stone_high_S",
+    "base_stone_high_W",
+    "base_stone_high_detail_E",
+    "base_stone_high_detail_N",
+    "base_stone_high_detail_S",
+    "base_stone_high_detail_W",
+    "base_wood_detail_E",
+    "base_wood_detail_N",
+    "base_wood_detail_S",
+    "base_wood_detail_W",
+    "base_wood_flat_E",
+    "base_wood_flat_N",
+    "base_wood_flat_S",
+    "base_wood_flat_W",
+    "base_wood_high_E",
+    "base_wood_high_N",
+    "base_wood_high_S",
+    "base_wood_high_W",
+    "base_wood_high_detail_E",
+    "base_wood_high_detail_N",
+    "base_wood_high_detail_S",
+    "base_wood_high_detail_W",
+    "square_dirt_detail_E",
+    "square_dirt_detail_N",
+    "square_dirt_detail_S",
+    "square_dirt_detail_W",
+    "square_dirt_float_E",
+    "square_dirt_float_N",
+    "square_dirt_float_S",
+    "square_dirt_float_W",
+    "square_dirt_high_E",
+    "square_dirt_high_N",
+    "square_dirt_high_S",
+    "square_dirt_high_W",
+    "square_dirt_high_detail_E",
+    "square_dirt_high_detail_N",
+    "square_dirt_high_detail_S",
+    "square_dirt_high_detail_W",
+    "square_grass_detail_E",
+    "square_grass_detail_N",
+    "square_grass_detail_S",
+    "square_grass_detail_W",
+    "square_grass_flat_E",
+    "square_grass_flat_N",
+    "square_grass_flat_S",
+    "square_grass_flat_W",
+    "square_grass_high_E",
+    "square_grass_high_N",
+    "square_grass_high_S",
+    "square_grass_high_W",
+    "square_grass_high_detail_E",
+    "square_grass_high_detail_N",
+    "square_grass_high_detail_S",
+    "square_grass_high_detail_W",
+    "square_snow_detail_E",
+    "square_snow_detail_N",
+    "square_snow_detail_S",
+    "square_snow_detail_W",
+    "square_snow_float_E",
+    "square_snow_float_N",
+    "square_snow_float_S",
+    "square_snow_float_W",
+    "square_snow_high_E",
+    "square_snow_high_N",
+    "square_snow_high_S",
+    "square_snow_high_W",
+    "square_snow_high_detail_E",
+    "square_snow_high_detail_N",
+    "square_snow_high_detail_S",
+    "square_snow_high_detail_W",
+    "square_stone_detail_E",
+    "square_stone_detail_N",
+    "square_stone_detail_S",
+    "square_stone_detail_W",
+    "square_stone_flat_E",
+    "square_stone_flat_N",
+    "square_stone_flat_S",
+    "square_stone_flat_W",
+    "square_stone_high_E",
+    "square_stone_high_N",
+    "square_stone_high_S",
+    "square_stone_high_W",
+    "square_stone_high_detail_E",
+    "square_stone_high_detail_N",
+    "square_stone_high_detail_S",
+    "square_stone_high_detail_W",
+    "square_wood_detail_E",
+    "square_wood_detail_N",
+    "square_wood_detail_S",
+    "square_wood_detail_W",
+    "square_wood_flat_E",
+    "square_wood_flat_N",
+    "square_wood_flat_S",
+    "square_wood_flat_W",
+    "square_wood_high_E",
+    "square_wood_high_N",
+    "square_wood_high_S",
+    "square_wood_high_W",
+    "square_wood_high_detail_E",
+    "square_wood_high_detail_N",
+    "square_wood_high_detail_S",
+    "square_wood_high_detail_W"
+  ]
+}

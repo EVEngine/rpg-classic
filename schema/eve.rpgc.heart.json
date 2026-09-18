@@ -1,0 +1,63 @@
+{
+  "id": "eve.rpgc.heart",
+  "schemaVersion": 1,
+  "title": "rpg-classic heart method",
+  "description": "A heart method (心法): it grants no new move, it attaches element/resistance/parameter traits and effects to moves the actor already has. Everything here lands on engine primitives that already exist — Trait (via rpg.registerTraitsFromJson + rpg.applyTrait) and EffectDefinition (via rpg.registerEffectsFromJson) — except `onHit`, which is a project hook because the engine has no 'effect triggers another effect' channel. The data cannot hide in the engine's `extra` string bag: RPG.cpp binds neither EffectRegistry::find nor EffectDefinition.extra, so a script cannot read a definition-side extra at all. See docs/06-game-design.md §4.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    {
+      "name": "slots",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "count", "type": "integer", "required": true, "minimum": 1, "maximum": 4 },
+        { "name": "exclusiveGroup", "type": "string" }
+      ]
+    },
+    {
+      "name": "grants",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "traits", "type": "array", "elementType": "string", "maxItems": 8 },
+        { "name": "effects", "type": "array", "elementType": "string", "maxItems": 8 },
+        { "name": "elementOverride", "type": "string" },
+        {
+          "name": "costScale",
+          "type": "object",
+          "additionalProperties": false,
+          "fields": [
+            { "name": "attribute", "type": "string", "required": true },
+            { "name": "mul", "type": "number", "required": true, "minimum": 0, "maximum": 10 }
+          ]
+        },
+        {
+          "name": "onHit",
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "fields": [
+              { "name": "effectId", "type": "string", "required": true },
+              { "name": "chance", "type": "number", "required": true, "minimum": 0, "maximum": 1 }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "requires",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "artId", "type": "string", "required": true },
+        { "name": "minGrade", "type": "integer", "minimum": 1, "maximum": 9 }
+      ]
+    }
+  ]
+}

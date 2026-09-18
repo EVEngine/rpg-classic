@@ -1,0 +1,33 @@
+{
+  "schema": "eve.rpgc.anim",
+  "version": 1,
+  "id": "enemy-beasts",
+  "title": "妖物图集（18 种，DawnBringer 调色板）",
+  "image": "enemy-beasts.png",
+  "frameWidth": 32,
+  "frameHeight": 32,
+  "columns": 5,
+  "rows": 4,
+  "margin": 0,
+  "spacing": 0,
+  "clips": [
+    { "id": "bat", "title": "蝙蝠", "frames": [0], "fps": 1.0, "loop": true },
+    { "id": "bee", "title": "毒蜂", "frames": [1], "fps": 1.0, "loop": true },
+    { "id": "centaur", "title": "半人马", "frames": [2], "fps": 1.0, "loop": true },
+    { "id": "death-mage-elf", "title": "死灵术士", "frames": [3], "fps": 1.0, "loop": true },
+    { "id": "death-cob", "title": "死亡眼镜蛇", "frames": [4], "fps": 1.0, "loop": true },
+    { "id": "dragoon", "title": "龙骑兵", "frames": [5], "fps": 1.0, "loop": true },
+    { "id": "ghost", "title": "游魂", "frames": [6], "fps": 1.0, "loop": true },
+    { "id": "goblin", "title": "哥布林", "frames": [7], "fps": 1.0, "loop": true },
+    { "id": "hell-knight", "title": "地狱骑士", "frames": [8], "fps": 1.0, "loop": true },
+    { "id": "naga", "title": "娜迦", "frames": [9], "fps": 1.0, "loop": true },
+    { "id": "naga-mage", "title": "娜迦法师", "frames": [10], "fps": 1.0, "loop": true },
+    { "id": "shadow", "title": "暗影", "frames": [11], "fps": 1.0, "loop": true },
+    { "id": "soul-eater", "title": "噬魂者", "frames": [12], "fps": 1.0, "loop": true },
+    { "id": "spectral-warrior", "title": "幽魂武士", "frames": [13], "fps": 1.0, "loop": true },
+    { "id": "vault-guard", "title": "宝库守卫", "frames": [14], "fps": 1.0, "loop": true },
+    { "id": "worm", "title": "巨虫", "frames": [15], "fps": 1.0, "loop": true },
+    { "id": "wraith", "title": "怨灵", "frames": [16], "fps": 1.0, "loop": true },
+    { "id": "yaktaur", "title": "牛头怪", "frames": [17], "fps": 1.0, "loop": true }
+  ]
+}

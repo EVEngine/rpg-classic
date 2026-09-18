@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.strike",
+  "title": "重击",
+  "description": "一次朴实无华的近身挥击，只依赖角色攻击力。",
+  "targetType": "enemySingle",
+  "cooldown": 0,
+  "castTime": 0.25,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 2
+    }
+  ],
+  "tags": [
+    "attack",
+    "physical"
+  ],
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "attack",
+        "on": "caster",
+        "hold": 0.1
+      }
+    ],
+    "vfx": "fx/hit-spark",
+    "screenShake": 0.15
+  }
+}

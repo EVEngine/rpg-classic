@@ -1,0 +1,1528 @@
+{
+  "schema": "eve.rpgc.tileset",
+  "version": 2,
+  "id": "kenney-dungeon",
+  "title": "Kenney 等距地牢（地面 / 石墙 / 楼梯 / 家具）",
+  "image": "kenney-dungeon.png",
+  "firstGid": 1,
+  "tileWidth": 128,
+  "tileHeight": 64,
+  "margin": 0,
+  "spacing": 0,
+  "count": 288,
+  "layout": {
+    "pack": "shelf",
+    "width": 1408,
+    "maxDim": 8192,
+    "firstTile": 0
+  },
+  "classes": {
+    "floor": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": true,
+      "cost": 1,
+      "sortBias": 0
+    },
+    "block": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "cell-origin",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    },
+    "prop": {
+      "footprint": [
+        1,
+        1
+      ],
+      "enterMask": 15,
+      "exitMask": 15,
+      "opaque": false,
+      "pivotRule": "ground-anchor",
+      "walkable": false,
+      "cost": 8,
+      "sortBias": 8
+    }
+  },
+  "runs": [
+    {
+      "count": 4,
+      "cell": [
+        40,
+        42
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        89,
+        73
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 3,
+      "cell": [
+        88,
+        73
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        76,
+        54
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        70,
+        57
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        58
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        75,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        95,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        31,
+        37
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        31,
+        34
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        25,
+        37
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        25,
+        34
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        40,
+        34
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        48,
+        48
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        48,
+        39
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        44,
+        48
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        44,
+        39
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 12,
+      "cell": [
+        128,
+        66
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        99
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        78
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        104
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        80
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        104
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        80
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        92,
+        112
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        98,
+        85
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        109
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        85
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        104
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        80
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        104
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        80
+      ],
+      "class": "block"
+    },
+    {
+      "count": 8,
+      "cell": [
+        32,
+        94
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 3,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 4,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 5,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 3,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        70
+      ],
+      "class": "block"
+    },
+    {
+      "count": 4,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        72
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        76
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        72
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 2,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        100
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        98
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        108
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        106
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 12,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        94
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        92
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        94
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        93
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        120
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        83,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        83,
+        121
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        84,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        32,
+        94
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        33,
+        94
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        32,
+        94
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        142
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        118
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        120
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        142
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        80,
+        122
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        87,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 21,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        80,
+        79
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        100
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        44,
+        142
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        100
+      ],
+      "class": "block"
+    },
+    {
+      "count": 4,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        100
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        44,
+        142
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        100
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        142
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        141
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        142
+      ],
+      "class": "block"
+    },
+    {
+      "count": 1,
+      "cell": [
+        128,
+        141
+      ],
+      "class": "block"
+    },
+    {
+      "count": 2,
+      "cell": [
+        80,
+        68
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        80,
+        76
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 12,
+      "cell": [
+        80,
+        118
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        128,
+        74
+      ],
+      "class": "floor"
+    },
+    {
+      "count": 1,
+      "cell": [
+        65,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        64,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        66,
+        44
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        48
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        63,
+        53
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        62,
+        53
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        62,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        62,
+        56
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        68,
+        53
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        47,
+        38
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        46,
+        38
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        47,
+        38
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        62,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        60,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        62,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        60,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 2,
+      "cell": [
+        58,
+        44
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        59,
+        44
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        58,
+        44
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        44,
+        39
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        56,
+        47
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        44,
+        50
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        44,
+        48
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        56,
+        46
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        64,
+        52
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        76,
+        53
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        77,
+        51
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 1,
+      "cell": [
+        69,
+        61
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 8,
+      "cell": [
+        70,
+        112
+      ],
+      "class": "prop"
+    },
+    {
+      "count": 4,
+      "cell": [
+        128,
+        141
+      ],
+      "class": "block"
+    },
+    {
+      "count": 4,
+      "cell": [
+        70,
+        112
+      ],
+      "class": "prop"
+    }
+  ],
+  "names": [
+    "barrel_E",
+    "barrel_N",
+    "barrel_S",
+    "barrel_W",
+    "barrelsStacked_E",
+    "barrelsStacked_N",
+    "barrelsStacked_S",
+    "barrelsStacked_W",
+    "barrels_E",
+    "barrels_N",
+    "barrels_S",
+    "barrels_W",
+    "bridgeBroken_E",
+    "bridgeBroken_N",
+    "bridgeBroken_S",
+    "bridgeBroken_W",
+    "bridge_E",
+    "bridge_N",
+    "bridge_S",
+    "bridge_W",
+    "chair_E",
+    "chair_N",
+    "chair_S",
+    "chair_W",
+    "chestClosed_E",
+    "chestClosed_N",
+    "chestClosed_S",
+    "chestClosed_W",
+    "chestOpen_E",
+    "chestOpen_N",
+    "chestOpen_S",
+    "chestOpen_W",
+    "dirtTiles_E",
+    "dirtTiles_N",
+    "dirtTiles_S",
+    "dirtTiles_W",
+    "dirt_E",
+    "dirt_N",
+    "dirt_S",
+    "dirt_W",
+    "planksBroken_E",
+    "planksBroken_N",
+    "planksBroken_S",
+    "planksBroken_W",
+    "planksHole_E",
+    "planksHole_N",
+    "planksHole_S",
+    "planksHole_W",
+    "planks_E",
+    "planks_N",
+    "planks_S",
+    "planks_W",
+    "stairsAged_E",
+    "stairsAged_N",
+    "stairsAged_S",
+    "stairsAged_W",
+    "stairsCorner_E",
+    "stairsCorner_N",
+    "stairsCorner_S",
+    "stairsCorner_W",
+    "stairsSpiral_E",
+    "stairsSpiral_N",
+    "stairsSpiral_S",
+    "stairsSpiral_W",
+    "stairs_E",
+    "stairs_N",
+    "stairs_S",
+    "stairs_W",
+    "stoneColumnWood_E",
+    "stoneColumnWood_N",
+    "stoneColumnWood_S",
+    "stoneColumnWood_W",
+    "stoneColumn_E",
+    "stoneColumn_N",
+    "stoneColumn_S",
+    "stoneColumn_W",
+    "stoneCorner_E",
+    "stoneCorner_N",
+    "stoneCorner_S",
+    "stoneCorner_W",
+    "stoneInset_E",
+    "stoneInset_N",
+    "stoneInset_S",
+    "stoneInset_W",
+    "stoneLeft_E",
+    "stoneLeft_N",
+    "stoneLeft_S",
+    "stoneLeft_W",
+    "stoneMissingTiles_E",
+    "stoneMissingTiles_N",
+    "stoneMissingTiles_S",
+    "stoneMissingTiles_W",
+    "stoneRight_E",
+    "stoneRight_N",
+    "stoneRight_S",
+    "stoneRight_W",
+    "stoneSideUneven_E",
+    "stoneSideUneven_N",
+    "stoneSideUneven_S",
+    "stoneSideUneven_W",
+    "stoneSide_E",
+    "stoneSide_N",
+    "stoneSide_S",
+    "stoneSide_W",
+    "stoneStep_E",
+    "stoneStep_N",
+    "stoneStep_S",
+    "stoneStep_W",
+    "stoneSteps_E",
+    "stoneSteps_N",
+    "stoneSteps_S",
+    "stoneSteps_W",
+    "stoneTile_E",
+    "stoneTile_N",
+    "stoneTile_S",
+    "stoneTile_W",
+    "stoneUneven_E",
+    "stoneUneven_N",
+    "stoneUneven_S",
+    "stoneUneven_W",
+    "stoneWallAgedLeft_E",
+    "stoneWallAgedLeft_N",
+    "stoneWallAgedLeft_S",
+    "stoneWallAgedLeft_W",
+    "stoneWallAgedRight_E",
+    "stoneWallAgedRight_N",
+    "stoneWallAgedRight_S",
+    "stoneWallAgedRight_W",
+    "stoneWallAged_E",
+    "stoneWallAged_N",
+    "stoneWallAged_S",
+    "stoneWallAged_W",
+    "stoneWallArchway_E",
+    "stoneWallArchway_N",
+    "stoneWallArchway_S",
+    "stoneWallArchway_W",
+    "stoneWallBrokenLeft_E",
+    "stoneWallBrokenLeft_N",
+    "stoneWallBrokenLeft_S",
+    "stoneWallBrokenLeft_W",
+    "stoneWallBrokenRight_E",
+    "stoneWallBrokenRight_N",
+    "stoneWallBrokenRight_S",
+    "stoneWallBrokenRight_W",
+    "stoneWallBroken_E",
+    "stoneWallBroken_N",
+    "stoneWallBroken_S",
+    "stoneWallBroken_W",
+    "stoneWallColumnIn_E",
+    "stoneWallColumnIn_N",
+    "stoneWallColumnIn_S",
+    "stoneWallColumnIn_W",
+    "stoneWallColumn_E",
+    "stoneWallColumn_N",
+    "stoneWallColumn_S",
+    "stoneWallColumn_W",
+    "stoneWallCorner_E",
+    "stoneWallCorner_N",
+    "stoneWallCorner_S",
+    "stoneWallCorner_W",
+    "stoneWallDoorBars_E",
+    "stoneWallDoorBars_N",
+    "stoneWallDoorBars_S",
+    "stoneWallDoorBars_W",
+    "stoneWallDoorClosed_E",
+    "stoneWallDoorClosed_N",
+    "stoneWallDoorClosed_S",
+    "stoneWallDoorClosed_W",
+    "stoneWallDoorOpen_E",
+    "stoneWallDoorOpen_N",
+    "stoneWallDoorOpen_S",
+    "stoneWallDoorOpen_W",
+    "stoneWallDoor_E",
+    "stoneWallDoor_N",
+    "stoneWallDoor_S",
+    "stoneWallDoor_W",
+    "stoneWallGateBars_E",
+    "stoneWallGateBars_N",
+    "stoneWallGateBars_S",
+    "stoneWallGateBars_W",
+    "stoneWallGateClosed_E",
+    "stoneWallGateClosed_N",
+    "stoneWallGateClosed_S",
+    "stoneWallGateClosed_W",
+    "stoneWallGateOpen_E",
+    "stoneWallGateOpen_N",
+    "stoneWallGateOpen_S",
+    "stoneWallGateOpen_W",
+    "stoneWallGate_E",
+    "stoneWallGate_N",
+    "stoneWallGate_S",
+    "stoneWallGate_W",
+    "stoneWallHalf_E",
+    "stoneWallHalf_N",
+    "stoneWallHalf_S",
+    "stoneWallHalf_W",
+    "stoneWallHole_E",
+    "stoneWallHole_N",
+    "stoneWallHole_S",
+    "stoneWallHole_W",
+    "stoneWallRoundBroken_E",
+    "stoneWallRoundBroken_N",
+    "stoneWallRoundBroken_S",
+    "stoneWallRoundBroken_W",
+    "stoneWallRoundWindow_E",
+    "stoneWallRoundWindow_N",
+    "stoneWallRoundWindow_S",
+    "stoneWallRoundWindow_W",
+    "stoneWallRound_E",
+    "stoneWallRound_N",
+    "stoneWallRound_S",
+    "stoneWallRound_W",
+    "stoneWallStructure_E",
+    "stoneWallStructure_N",
+    "stoneWallStructure_S",
+    "stoneWallStructure_W",
+    "stoneWallTop_E",
+    "stoneWallTop_N",
+    "stoneWallTop_S",
+    "stoneWallTop_W",
+    "stoneWallWindowBars_E",
+    "stoneWallWindowBars_N",
+    "stoneWallWindowBars_S",
+    "stoneWallWindowBars_W",
+    "stoneWallWindow_E",
+    "stoneWallWindow_N",
+    "stoneWallWindow_S",
+    "stoneWallWindow_W",
+    "stoneWall_E",
+    "stoneWall_N",
+    "stoneWall_S",
+    "stoneWall_W",
+    "stone_E",
+    "stone_N",
+    "stone_S",
+    "stone_W",
+    "tableChairsBroken_E",
+    "tableChairsBroken_N",
+    "tableChairsBroken_S",
+    "tableChairsBroken_W",
+    "tableRoundChairs_E",
+    "tableRoundChairs_N",
+    "tableRoundChairs_S",
+    "tableRoundChairs_W",
+    "tableRoundItemsChairs_E",
+    "tableRoundItemsChairs_N",
+    "tableRoundItemsChairs_S",
+    "tableRoundItemsChairs_W",
+    "tableRound_E",
+    "tableRound_N",
+    "tableRound_S",
+    "tableRound_W",
+    "tableShortChairs_E",
+    "tableShortChairs_N",
+    "tableShortChairs_S",
+    "tableShortChairs_W",
+    "tableShort_E",
+    "tableShort_N",
+    "tableShort_S",
+    "tableShort_W",
+    "woodenCrate_E",
+    "woodenCrate_N",
+    "woodenCrate_S",
+    "woodenCrate_W",
+    "woodenCrates_E",
+    "woodenCrates_N",
+    "woodenCrates_S",
+    "woodenCrates_W",
+    "woodenPile_E",
+    "woodenPile_N",
+    "woodenPile_S",
+    "woodenPile_W",
+    "woodenSupportBeams_E",
+    "woodenSupportBeams_N",
+    "woodenSupportBeams_S",
+    "woodenSupportBeams_W",
+    "woodenSupportsBeam_E",
+    "woodenSupportsBeam_N",
+    "woodenSupportsBeam_S",
+    "woodenSupportsBeam_W",
+    "woodenSupportsBlock_E",
+    "woodenSupportsBlock_N",
+    "woodenSupportsBlock_S",
+    "woodenSupportsBlock_W",
+    "woodenSupports_E",
+    "woodenSupports_N",
+    "woodenSupports_S",
+    "woodenSupports_W"
+  ]
+}

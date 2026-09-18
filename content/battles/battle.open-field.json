@@ -1,0 +1,169 @@
+{
+  "schema": "eve.rpgc.battle",
+  "version": 1,
+  "id": "battle.open-field",
+  "title": "旷野",
+  "description": "无遮拦的开阔地：敌人 8 位按斜 45 度排成两排，我方 5 位斜 45 度一字排开。郊野与沙丘两场遭遇共用这一块布局。",
+  "displayName": "旷野",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "zones": {
+    "enemy": {
+      "x": 80,
+      "y": 60,
+      "width": 760,
+      "height": 420
+    },
+    "ally": {
+      "x": 1120,
+      "y": 620,
+      "width": 720,
+      "height": 400
+    }
+  },
+  "enemySlots": [
+    {
+      "id": "enemy.1",
+      "x": 128,
+      "y": 361
+    },
+    {
+      "id": "enemy.2",
+      "x": 270,
+      "y": 290
+    },
+    {
+      "id": "enemy.3",
+      "x": 413,
+      "y": 218
+    },
+    {
+      "id": "enemy.4",
+      "x": 556,
+      "y": 147
+    },
+    {
+      "id": "enemy.5",
+      "x": 270,
+      "y": 432
+    },
+    {
+      "id": "enemy.6",
+      "x": 413,
+      "y": 361
+    },
+    {
+      "id": "enemy.7",
+      "x": 556,
+      "y": 290
+    },
+    {
+      "id": "enemy.8",
+      "x": 698,
+      "y": 218
+    }
+  ],
+  "allySlots": [
+    {
+      "id": "ally.1",
+      "x": 1168,
+      "y": 820
+    },
+    {
+      "id": "ally.2",
+      "x": 1248,
+      "y": 780
+    },
+    {
+      "id": "ally.3",
+      "x": 1328,
+      "y": 740
+    },
+    {
+      "id": "ally.4",
+      "x": 1408,
+      "y": 700
+    },
+    {
+      "id": "ally.5",
+      "x": 1488,
+      "y": 660
+    }
+  ],
+  "encounters": [
+    "encounter.outskirts-night",
+    "encounter.yumen-dunes"
+  ],
+  "ui": {
+    "party": {
+      "x": 1310,
+      "y": 840,
+      "width": 570,
+      "height": 200,
+      "slots": 5,
+      "slotWidth": 104,
+      "slotGap": 8,
+      "portraitHeight": 130,
+      "bars": [
+        {
+          "id": "hp",
+          "offsetY": 8,
+          "height": 18,
+          "colour": [
+            0.3,
+            0.72,
+            0.36
+          ]
+        },
+        {
+          "id": "mana",
+          "offsetY": 32,
+          "height": 18,
+          "colour": [
+            0.25,
+            0.48,
+            0.85
+          ]
+        }
+      ]
+    },
+    "commandRing": {
+      "cx": 300,
+      "cy": 800,
+      "radius": 190,
+      "buttons": [
+        {
+          "id": "cmd.attack",
+          "x": 410,
+          "y": 800,
+          "radius": 40,
+          "label": "攻击"
+        },
+        {
+          "id": "cmd.skill",
+          "x": 300,
+          "y": 690,
+          "radius": 40,
+          "label": "招式"
+        },
+        {
+          "id": "cmd.item",
+          "x": 190,
+          "y": 800,
+          "radius": 40,
+          "label": "物品"
+        },
+        {
+          "id": "cmd.defend",
+          "x": 300,
+          "y": 910,
+          "radius": 40,
+          "label": "防御"
+        }
+      ]
+    }
+  },
+  "background": "backdrops/backdrop.desert.png"
+}

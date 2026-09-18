@@ -1,0 +1,77 @@
+{
+  "id": "eve.rpgc.tileset",
+  "schemaVersion": 1,
+  "title": "rpg-classic tileset",
+  "description": "Tiled-flat atlas document. A map references it through tilesets[].source. Version 2 stores *rules*: the atlas grid plus the ordered size runs, from which every GID's region and pivot is replayed on demand -- a 3256-tile library costs a few KB instead of 1.5 MB. Version 1 (the hand-curated `sbs-atlas`) is still accepted: its GID 1-8 are a public contract and it spells every tile out. `tools/bake_tilesets.py` expands a version-2 document into the version-1 shape the engine's loader reads today.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 2 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "image", "type": "string", "required": true },
+    { "name": "firstGid", "type": "integer", "required": true, "minimum": 1 },
+    { "name": "columns", "type": "integer", "minimum": 1 },
+    { "name": "tileWidth", "type": "integer", "required": true, "minimum": 1, "maximum": 512 },
+    { "name": "tileHeight", "type": "integer", "required": true, "minimum": 1, "maximum": 512 },
+    { "name": "margin", "type": "integer", "minimum": 0 },
+    { "name": "spacing", "type": "integer", "minimum": 0 },
+    { "name": "count", "type": "integer", "minimum": 1 },
+    { "name": "layout", "type": "object" },
+    { "name": "classes", "type": "object" },
+    {
+      "name": "runs",
+      "type": "array",
+      "minItems": 1,
+      "elementType": "object",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "count", "type": "integer", "required": true, "minimum": 1 },
+          {
+            "name": "cell",
+            "type": "array",
+            "required": true,
+            "elementType": "integer",
+            "minItems": 2,
+            "maxItems": 2
+          },
+          { "name": "class", "type": "string", "required": true }
+        ]
+      }
+    },
+    { "name": "names", "type": "array", "elementType": "string" },
+    {
+      "name": "tiles",
+      "type": "array",
+      "minItems": 1,
+      "elementType": "object",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "gid", "type": "integer", "required": true, "minimum": 1 },
+          { "name": "name", "type": "string" },
+          {
+            "name": "region",
+            "type": "array",
+            "required": true,
+            "elementType": "integer",
+            "minItems": 4,
+            "maxItems": 4
+          },
+          { "name": "pivot", "type": "array", "elementType": "number", "minItems": 2, "maxItems": 2 },
+          { "name": "sortBias", "type": "number" },
+          { "name": "footprint", "type": "array", "elementType": "integer", "minItems": 2, "maxItems": 2 },
+          { "name": "walkable", "type": "boolean" },
+          { "name": "cost", "type": "number", "minimum": 0.001 },
+          { "name": "enterMask", "type": "integer", "minimum": 0, "maximum": 15 },
+          { "name": "exitMask", "type": "integer", "minimum": 0, "maximum": 15 },
+          { "name": "opaque", "type": "boolean" },
+          { "name": "tags", "type": "array", "elementType": "string" }
+        ]
+      }
+    }
+  ]
+}

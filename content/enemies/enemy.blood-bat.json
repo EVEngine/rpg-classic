@@ -1,0 +1,49 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.blood-bat",
+  "title": "血蝠",
+  "description": "贴着头顶掠过去的动静，比风还轻。",
+  "displayName": "血蝠",
+  "tier": "minion",
+  "element": "fire",
+  "weakElements": [
+    "water"
+  ],
+  "weakStyles": [
+    "palm"
+  ],
+  "combat": {
+    "attack": 10,
+    "defense": 1.8,
+    "maxHp": 28,
+    "speed": 12
+  },
+  "breakMax": 30,
+  "skillId": "skill.enemy-bite",
+  "skills": [
+    "skill.enemy-bite"
+  ],
+  "habitat": [
+    "mist-forest",
+    "village-outskirts"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "bat"
+  },
+  "drops": [
+    {
+      "itemId": "material.pelt",
+      "chance": 0.25,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.85,
+    "fleeBelowHp": 0.15,
+    "opener": "skill.enemy-bite"
+  },
+  "lore": "贴着头顶掠过去的动静，比风还轻。"
+}

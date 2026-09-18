@@ -1,0 +1,37 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.enemy-claw",
+  "title": "利爪撕抓",
+  "description": "兽类的本能一击，靠人身肉体硬吃。",
+  "targetType": "enemySingle",
+  "cooldown": 2.0,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 3
+    }
+  ],
+  "tags": [
+    "attack",
+    "physical"
+  ],
+  "damage": {
+    "formula": "a.attack - b.defense * 0.4",
+    "element": "none",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "enemy-beasts",
+        "clip": "goblin",
+        "on": "caster",
+        "hold": 0.2
+      }
+    ],
+    "screenShake": 0.1
+  }
+}

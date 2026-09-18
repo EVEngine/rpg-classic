@@ -1,0 +1,40 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.taiji-fist.p3",
+  "title": "太极拳·云手",
+  "description": "太极拳三品招式。",
+  "art": "art.taiji-fist",
+  "targetType": "enemySingle",
+  "cooldown": 2,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 4
+    }
+  ],
+  "tags": [
+    "martial",
+    "palm",
+    "earth"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.2 + a.defense * 0.5",
+    "element": "earth",
+    "critChance": 0.08,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "attack",
+        "on": "caster",
+        "hold": 0.15
+      }
+    ],
+    "vfx": "fx/taiji-palm",
+    "screenShake": 0.15
+  }
+}

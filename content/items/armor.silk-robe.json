@@ -1,0 +1,41 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "armor.silk-robe",
+  "title": "素绸袍",
+  "description": "练气的人穿的宽袍。护体有限，但通透，不碍真气运行。",
+  "displayName": "素绸袍",
+  "category": "armor",
+  "rarity": "uncommon",
+  "maxStack": 1,
+  "weight": 2.5,
+  "volume": 3.0,
+  "value": 380,
+  "tags": [
+    "armor",
+    "robe",
+    "inner"
+  ],
+  "equipSlot": "armor",
+  "equipStats": [
+    {
+      "attribute": "defense",
+      "op": "add",
+      "value": 4,
+      "priority": 0
+    },
+    {
+      "attribute": "mana",
+      "op": "add",
+      "value": 12,
+      "priority": 0
+    }
+  ],
+  "requires": {
+    "artId": "art.xuanming-neigong",
+    "minGrade": 1
+  },
+  "extra": {
+    "icon": "ui/items/armor.silk-robe.png"
+  }
+}

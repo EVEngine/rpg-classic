@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.frost-wraith",
+  "title": "冰魈",
+  "description": "死在雪里没被埋的人，第二年开春就还在雪里走。",
+  "displayName": "冰魈",
+  "tier": "elite",
+  "element": "water",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "palm"
+  ],
+  "combat": {
+    "attack": 20,
+    "defense": 5.0,
+    "maxHp": 96,
+    "speed": 8
+  },
+  "breakMax": 75,
+  "skillId": "skill.enemy-frost",
+  "skills": [
+    "skill.enemy-frost",
+    "skill.enemy-drain"
+  ],
+  "habitat": [
+    "xueling-hold"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "wraith"
+  },
+  "drops": [
+    {
+      "itemId": "accessory.jade-pendant",
+      "chance": 0.08,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "material.herb",
+      "chance": 0.2,
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "ai": {
+    "aggression": 0.6,
+    "fleeBelowHp": 0.25,
+    "opener": "skill.enemy-frost"
+  },
+  "lore": "死在雪里没被埋的人，第二年开春就还在雪里走。"
+}

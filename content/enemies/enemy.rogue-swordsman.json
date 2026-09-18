@@ -1,0 +1,56 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.rogue-swordsman",
+  "title": "蜀道游侠",
+  "description": "驿站灯火下坐着的人，没人问过他的名号，他也不问别人的。",
+  "displayName": "蜀道游侠",
+  "tier": "elite",
+  "element": "metal",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "sword"
+  ],
+  "combat": {
+    "attack": 27,
+    "defense": 6.8,
+    "maxHp": 118,
+    "speed": 12
+  },
+  "breakMax": 85,
+  "skillId": "skill.enemy-blade",
+  "skills": [
+    "skill.enemy-blade"
+  ],
+  "habitat": [
+    "jiange-post",
+    "jinling",
+    "xiangyang"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "spectral-warrior"
+  },
+  "drops": [
+    {
+      "itemId": "weapon.iron-sword",
+      "chance": 0.1,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "material.silk",
+      "chance": 0.2,
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "ai": {
+    "aggression": 0.65,
+    "fleeBelowHp": 0.15,
+    "opener": "skill.enemy-blade"
+  },
+  "lore": "驿站灯火下坐着的人，没人问过他的名号，他也不问别人的。"
+}

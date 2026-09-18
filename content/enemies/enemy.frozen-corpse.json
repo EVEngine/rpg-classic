@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.frozen-corpse",
+  "title": "冰尸",
+  "description": "冻土里立着的人形，眼窝中一点红光始终不灭。",
+  "displayName": "冰尸",
+  "tier": "elite",
+  "element": "water",
+  "weakElements": [
+    "fire"
+  ],
+  "weakStyles": [
+    "blade"
+  ],
+  "combat": {
+    "attack": 18,
+    "defense": 8.0,
+    "maxHp": 130,
+    "speed": 3
+  },
+  "breakMax": 90,
+  "skillId": "skill.enemy-drain",
+  "skills": [
+    "skill.enemy-drain"
+  ],
+  "habitat": [
+    "miaoling-village",
+    "xueling-hold"
+  ],
+  "sprite": {
+    "anim": "enemy-skeleton-red-eyes",
+    "clip": "idle.s"
+  },
+  "drops": [
+    {
+      "itemId": "material.iron-ore",
+      "chance": 0.25,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "accessory.iron-talisman",
+      "chance": 0.1,
+      "min": 1,
+      "max": 1
+    }
+  ],
+  "ai": {
+    "aggression": 0.55,
+    "fleeBelowHp": 0.0,
+    "opener": "skill.enemy-drain"
+  },
+  "lore": "冻土里立着的人形，眼窝中一点红光始终不灭。"
+}

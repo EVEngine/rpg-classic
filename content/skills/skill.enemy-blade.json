@@ -1,0 +1,38 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.enemy-blade",
+  "title": "横刀劈砍",
+  "description": "江湖刀客的路数，一记不留余地的斜劈。",
+  "targetType": "enemySingle",
+  "cooldown": 2.0,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 3
+    }
+  ],
+  "tags": [
+    "attack",
+    "physical",
+    "blade"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.15 - b.defense * 0.5",
+    "element": "metal",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "enemy-beasts",
+        "clip": "dragoon",
+        "on": "caster",
+        "hold": 0.2
+      }
+    ],
+    "screenShake": 0.15
+  }
+}

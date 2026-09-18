@@ -1,0 +1,27 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "regenerate",
+  "title": "再生",
+  "durationPolicy": "duration",
+  "duration": 8.0,
+  "period": 2.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "hot",
+    "buff"
+  ],
+  "modifiers": [
+    {
+      "attribute": "hp",
+      "op": "add",
+      "value": 12,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/status/regenerate.png",
+    "vfx": "fx/regenerate"
+  }
+}

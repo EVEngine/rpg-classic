@@ -1,0 +1,40 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.enemy-bone-smash",
+  "title": "骨槌震地",
+  "description": "以断骨为槌砸落，甲士的看家本事。",
+  "targetType": "enemySingle",
+  "cooldown": 2.0,
+  "castTime": 0.4,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 3
+    }
+  ],
+  "tags": [
+    "attack",
+    "physical"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.5 - b.defense * 0.6",
+    "element": "earth",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "enemy-warrior-skeleton",
+        "clip": "walk.s",
+        "on": "caster",
+        "hold": 0.2
+      }
+    ],
+    "screenShake": 0.25
+  },
+  "effects": [
+    "stun"
+  ]
+}

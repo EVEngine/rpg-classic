@@ -1,0 +1,186 @@
+{
+  "id": "battle",
+  "title": "战场编辑器 · Battle",
+  "vm": "BattleVM",
+  "x": 1360,
+  "y": 40,
+  "width": 1040,
+  "height": 700,
+  "layout": "vertical",
+  "resizable": true,
+  "theme": {
+    "preset": "dark",
+    "accent": [0.86, 0.42, 0.36],
+    "bg": [0.10, 0.11, 0.14],
+    "panel": [0.14, 0.15, 0.18],
+    "text": [0.92, 0.93, 0.95],
+    "radius": 4.0,
+    "fontScale": 1.0
+  },
+  "children": [
+    { "type": "text", "id": "bt-header", "text": "战场编辑器 — 左上敌阵 (≤8) / 右下我方 (≤5) / 设计坐标 1920×1080" },
+    { "type": "separator", "id": "bt-sep-top" },
+    {
+      "type": "group",
+      "id": "bt-body",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        {
+          "type": "viewport",
+          "id": "field",
+          "width": 660,
+          "height": 460,
+          "bg": [0.06, 0.07, 0.10],
+          "tooltip": "战场预览：BattleVM 把设计空间等比缩放进本矩形，绘制两半、两块阵地与每个阵位；矩形取自 eve.host.widgetRect"
+        },
+        {
+          "type": "group",
+          "id": "bt-side",
+          "border": true,
+          "width": 344,
+          "height": 482,
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "tabs",
+              "id": "bt-tabs",
+              "children": [
+                {
+                  "type": "tab",
+                  "label": "场景",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "bt-list-cap", "bind:label": "vm.folderLabel", "tooltip": "编辑器直接读取项目文件夹 content/battles，不需要打开文档" },
+                    {
+                      "type": "listbox",
+                      "id": "battle",
+                      "bind:options": "vm.battleList",
+                      "bind": "vm.battleId",
+                      "onChange": "onChange",
+                      "heightItems": 6,
+                      "tooltip": "选中即载入该战场（文件夹内容就是文档列表）"
+                    },
+                    {
+                      "type": "group",
+                      "id": "bt-doc-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "bt-refresh", "label": "重扫文件夹", "command": "refreshFolder", "width": 110 },
+                        { "type": "button", "id": "bt-new", "label": "新建", "command": "newBattle", "width": 76 },
+                        { "type": "button", "id": "bt-save", "label": "保存", "command": "saveBattle", "width": 76 }
+                      ]
+                    },
+                    { "type": "separator", "id": "bt-sep-canvas" },
+                    { "type": "label", "id": "bt-title-live", "bind:label": "vm.battleTitle" },
+                    { "type": "label", "id": "bt-canvas-live", "bind:label": "vm.canvasLabel" },
+                    { "type": "label", "id": "bt-enemy-zone-live", "bind:label": "vm.enemyZoneLabel" },
+                    { "type": "label", "id": "bt-ally-zone-live", "bind:label": "vm.allyZoneLabel" },
+                    { "type": "label", "id": "bt-hosts-live", "bind:label": "vm.hostLabel" },
+                    { "type": "label", "id": "bt-doc-note", "text": "保存会把文档暂存并提示运行 tools/rpgc.py export" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "界面",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "bt-ui-cap", "text": "战斗背景 (background)" },
+                    { "type": "label", "id": "bt-bg-live", "bind:label": "vm.backgroundDeclared" },
+                    { "type": "label", "id": "bt-bg-resolved", "bind:label": "vm.backgroundPath" },
+                    { "type": "label", "id": "bt-bg-size-live", "bind:label": "vm.backgroundSize" },
+                    { "type": "label", "id": "bt-bg-note", "text": "路径相对本文档，解析后的工程路径见上一行；编辑器报告图片真实像素尺寸，不假装它正好合画布" },
+                    { "type": "separator", "id": "bt-sep-ui" },
+                    { "type": "label", "id": "bt-ui-live", "bind:label": "vm.uiLabel" },
+                    { "type": "label", "id": "bt-ui-bars", "bind:label": "vm.barsLabel" },
+                    { "type": "label", "id": "bt-ui-buttons", "bind:label": "vm.buttonsLabel" },
+                    { "type": "label", "id": "bt-ui-note", "text": "HUD 与操作环是纯几何；显示的数值是运行期状态，文档里刻意不写" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "阵位",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "bt-enemy-cap", "text": "敌阵 (左上，最多 8 位)" },
+                    {
+                      "type": "listbox",
+                      "id": "enemySlot",
+                      "bind:options": "vm.enemySlotList",
+                      "onChange": "onChange",
+                      "heightItems": 5
+                    },
+                    {
+                      "type": "group",
+                      "id": "bt-enemy-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "bt-enemy-add", "label": "新增", "command": "addEnemySlot", "width": 72 },
+                        { "type": "button", "id": "bt-enemy-del", "label": "删除", "command": "removeEnemySlot", "width": 72 },
+                        { "type": "button", "id": "bt-enemy-apply", "label": "应用坐标", "command": "applyEnemySlot", "width": 120 }
+                      ]
+                    },
+                    { "type": "slider", "id": "bt-enemy-x", "label": "X (0..1920)", "bind": "vm.enemyX", "min": 0.0, "max": 1920.0, "format": "%.0f" },
+                    { "type": "slider", "id": "bt-enemy-y", "label": "Y (0..1080)", "bind": "vm.enemyY", "min": 0.0, "max": 1080.0, "format": "%.0f" },
+                    { "type": "separator", "id": "bt-sep-slot" },
+                    { "type": "label", "id": "bt-ally-cap", "text": "我方 (右下，最多 5 位)" },
+                    {
+                      "type": "listbox",
+                      "id": "allySlot",
+                      "bind:options": "vm.allySlotList",
+                      "onChange": "onChange",
+                      "heightItems": 5
+                    },
+                    {
+                      "type": "group",
+                      "id": "bt-ally-row",
+                      "border": false,
+                      "layout": "horizontal",
+                      "children": [
+                        { "type": "button", "id": "bt-ally-add", "label": "新增", "command": "addAllySlot", "width": 72 },
+                        { "type": "button", "id": "bt-ally-del", "label": "删除", "command": "removeAllySlot", "width": 72 },
+                        { "type": "button", "id": "bt-ally-apply", "label": "应用坐标", "command": "applyAllySlot", "width": 120 }
+                      ]
+                    },
+                    { "type": "slider", "id": "bt-ally-x", "label": "X (0..1920)", "bind": "vm.allyX", "min": 0.0, "max": 1920.0, "format": "%.0f" },
+                    { "type": "slider", "id": "bt-ally-y", "label": "Y (0..1080)", "bind": "vm.allyY", "min": 0.0, "max": 1080.0, "format": "%.0f" },
+                    { "type": "label", "id": "bt-slot-note", "text": "位置超出所属阵地会被语义门拒绝，预览同时把越界的阵位画成红色" }
+                  ]
+                },
+                {
+                  "type": "tab",
+                  "label": "诊断",
+                  "layout": "vertical",
+                  "children": [
+                    { "type": "label", "id": "bt-status-cap", "text": "状态 (status)" },
+                    { "type": "label", "id": "bt-status", "bind:label": "vm.status" },
+                    { "type": "separator", "id": "bt-sep-diag" },
+                    { "type": "label", "id": "bt-diag-cap", "text": "诊断 (diagnostics)" },
+                    { "type": "label", "id": "bt-diagnostics", "bind:label": "vm.diagnostics" },
+                    { "type": "separator", "id": "bt-sep-diag2" },
+                    { "type": "button", "id": "bt-validate", "label": "校验当前文档 (validate)", "command": "validate" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { "type": "separator", "id": "bt-sep-bottom" },
+    {
+      "type": "group",
+      "id": "bt-footer",
+      "border": false,
+      "layout": "horizontal",
+      "children": [
+        { "type": "label", "id": "bt-footer-cap", "text": "当前战场：" },
+        { "type": "label", "id": "bt-title-footer", "bind:label": "vm.battleTitle" },
+        { "type": "spacer", "id": "bt-gap", "width": 24 },
+        { "type": "label", "id": "bt-slots-footer", "bind:label": "vm.slotLabel" }
+      ]
+    }
+  ]
+}

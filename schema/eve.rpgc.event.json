@@ -1,0 +1,48 @@
+{
+  "id": "eve.rpgc.event",
+  "schemaVersion": 1,
+  "title": "rpg-classic staged event",
+  "description": "A cutscene document: an ordered step list that can load a map, take control of actors, play sprite animations, move the camera, run dialogue and branch on GameState. Every step kind maps to a real engine API or to a documented project hook (see docs/03-event-editor.md). The schema bounds the step vocabulary; per-kind required fields and the nesting depth limit are enforced by the semantic gate in lib/rpgc_event.nut.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "repeatable", "type": "boolean" },
+    { "name": "trigger", "type": "object", "additionalProperties": false, "fields": [
+        { "name": "kind", "type": "string", "required": true, "enum": ["manual", "portal_entered", "map_entered", "object_interacted", "quest_completed", "game_started"] },
+        { "name": "mapId", "type": "string" },
+        { "name": "targetMap", "type": "string" },
+        { "name": "objectName", "type": "string" },
+        { "name": "questId", "type": "string" }
+      ] },
+    { "name": "steps", "type": "array", "required": true, "minItems": 1, "maxItems": 512, "items": { "type": "object", "additionalProperties": false, "fields": [
+        { "name": "kind", "type": "string", "required": true, "enum": [
+            "load_map", "move_actor", "face_actor", "play_animation", "wait",
+            "camera_focus", "camera_pan", "dialogue", "message",
+            "set_variable", "consume_object", "parallel", "branch"
+          ] },
+        { "name": "reference", "type": "string" },
+        { "name": "actorId", "type": "string" },
+        { "name": "mapId", "type": "string" },
+        { "name": "objectName", "type": "string" },
+        { "name": "anim", "type": "string" },
+        { "name": "clip", "type": "string" },
+        { "name": "name", "type": "string" },
+        { "name": "value", "type": "number" },
+        { "name": "op", "type": "string", "enum": ["set", "add", "sub", "switchOn", "switchOff"] },
+        { "name": "x", "type": "number" },
+        { "name": "y", "type": "number" },
+        { "name": "facingX", "type": "integer", "minimum": -1, "maximum": 1 },
+        { "name": "facingY", "type": "integer", "minimum": -1, "maximum": 1 },
+        { "name": "zoom", "type": "number", "minimum": 0.1, "maximum": 8 },
+        { "name": "duration", "type": "number", "minimum": 0, "maximum": 600 },
+        { "name": "loop", "type": "boolean" },
+        { "name": "condition", "ref": "eve.rpgc.condition", "refVersion": 1 },
+        { "name": "then", "type": "array", "items": { "type": "object" } },
+        { "name": "else", "type": "array", "items": { "type": "object" } },
+        { "name": "steps", "type": "array", "items": { "type": "object" } }
+      ] } }
+  ]
+}

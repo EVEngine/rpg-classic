@@ -1,0 +1,36 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.mist-forest-deep",
+  "title": "雾林深处·魔骨将",
+  "description": "雾林深处·魔骨将：4 名敌人。",
+  "displayName": "雾林深处·魔骨将",
+  "map": "mist-forest",
+  "members": [
+    {
+      "enemy": "enemy.demon-general",
+      "count": 1
+    },
+    {
+      "enemy": "enemy.bone-captain",
+      "count": 1
+    },
+    {
+      "enemy": "enemy.corpse-puppet",
+      "count": 2
+    }
+  ],
+  "xpReward": 260,
+  "xpGrowth": 1.2,
+  "goldReward": 180,
+  "quest": {
+    "requiredQuestId": "quest.main.boneseal",
+    "notifyTopic": "kill",
+    "notifyTarget": "general",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

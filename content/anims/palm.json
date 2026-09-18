@@ -1,0 +1,73 @@
+{
+  "schema": "eve.rpgc.anim",
+  "version": 1,
+  "id": "palm",
+  "title": "掌法动画集",
+  "image": "palm.png",
+  "frameWidth": 32,
+  "frameHeight": 48,
+  "columns": 4,
+  "rows": 2,
+  "margin": 0,
+  "spacing": 0,
+  "clips": [
+    {
+      "id": "idle",
+      "title": "起架",
+      "frames": [
+        0,
+        1
+      ],
+      "fps": 3.0,
+      "loop": true
+    },
+    {
+      "id": "gather",
+      "title": "蓄劲",
+      "frames": [
+        2,
+        3
+      ],
+      "fps": 6.0,
+      "loop": false,
+      "events": [
+        {
+          "frame": 1,
+          "name": "charge"
+        }
+      ]
+    },
+    {
+      "id": "push",
+      "title": "推掌",
+      "frames": [
+        4,
+        5
+      ],
+      "fps": 10.0,
+      "loop": false,
+      "events": [
+        {
+          "frame": 1,
+          "name": "release"
+        }
+      ]
+    },
+    {
+      "id": "seal",
+      "title": "结印",
+      "frames": [
+        6,
+        7
+      ],
+      "fps": 6.0,
+      "loop": false,
+      "events": [
+        {
+          "frame": 1,
+          "name": "release"
+        }
+      ]
+    }
+  ]
+}

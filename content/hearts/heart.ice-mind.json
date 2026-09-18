@@ -1,0 +1,29 @@
+{
+  "schema": "eve.rpgc.heart",
+  "version": 1,
+  "id": "heart.ice-mind",
+  "title": "玄冰心法",
+  "slots": {
+    "count": 1,
+    "exclusiveGroup": "heart.ice"
+  },
+  "grants": {
+    "traits": ["trait.ice-affinity"],
+    "effects": ["regenerate"],
+    "elementOverride": "water",
+    "costScale": {
+      "attribute": "mana",
+      "mul": 0.9
+    },
+    "onHit": [
+      {
+        "effectId": "chill",
+        "chance": 0.25
+      }
+    ]
+  },
+  "requires": {
+    "artId": "art.taiji-fist",
+    "minGrade": 3
+  }
+}

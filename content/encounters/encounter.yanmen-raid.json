@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.encounter",
+  "version": 1,
+  "id": "encounter.yanmen-raid",
+  "title": "雁门关外·掠阵",
+  "description": "雁门关外·掠阵：3 名敌人。",
+  "displayName": "雁门关外·掠阵",
+  "map": "yanmen-fortress",
+  "members": [
+    {
+      "enemy": "enemy.steppe-rider",
+      "count": 2
+    },
+    {
+      "enemy": "enemy.snow-wolf",
+      "count": 1
+    }
+  ],
+  "xpReward": 96,
+  "xpGrowth": 1.2,
+  "goldReward": 44,
+  "quest": {
+    "requiredQuestId": "quest.bounty",
+    "notifyTopic": "kill",
+    "notifyTarget": "rider",
+    "notifyAmount": 1,
+    "defeatCounterId": "kills",
+    "defeatCounterAmount": 1,
+    "levelPointAttributeId": "statPoints",
+    "pointsPerLevel": 3
+  }
+}

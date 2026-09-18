@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "material.iron-ore",
+  "title": "铁矿石",
+  "description": "剑门关外与燕门堡一带的矿料，是打造与修理的原料。",
+  "displayName": "铁矿石",
+  "category": "material",
+  "rarity": "common",
+  "maxStack": 99,
+  "weight": 0.8,
+  "volume": 0.3,
+  "value": 8,
+  "tags": [
+    "material",
+    "metal"
+  ],
+  "extra": {
+    "icon": "ui/items/material.iron-ore.png"
+  }
+}

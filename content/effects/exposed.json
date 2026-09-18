@@ -1,0 +1,32 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "exposed",
+  "title": "破防",
+  "durationPolicy": "duration",
+  "duration": 12.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "break",
+    "debuff"
+  ],
+  "modifiers": [
+    {
+      "attribute": "defense",
+      "op": "multiply",
+      "value": 0.75,
+      "priority": 0
+    },
+    {
+      "attribute": "damageTaken",
+      "op": "multiply",
+      "value": 1.2,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/status/exposed.png",
+    "vfx": "fx/exposed"
+  }
+}

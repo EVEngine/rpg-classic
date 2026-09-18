@@ -1,0 +1,19 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "silence",
+  "title": "闭气",
+  "durationPolicy": "duration",
+  "duration": 6.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "silence",
+    "debuff"
+  ],
+  "extra": {
+    "icon": "ui/status/silence.png",
+    "vfx": "fx/silence",
+    "note": "引擎不内置沉默：禁用技能的判定在项目侧按 tag 做（src/modules/rpg/SkillSystem.h:5-8 明确说明）。这里只留下 tag 这个可读事实，没有修改器"
+  }
+}

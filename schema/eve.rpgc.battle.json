@@ -1,0 +1,161 @@
+{
+  "id": "eve.rpgc.battle",
+  "schemaVersion": 1,
+  "title": "rpg-classic battle scene",
+  "description": "One battle scene: where the combatants stand on screen. The screen is split into an enemy half in the TOP-LEFT and a party half in the BOTTOM-RIGHT; the enemy half holds at most 8 positions and the party half at most 5. `canvas` is the design space the slot coordinates are expressed in, so a slot is a pure layout fact and never depends on the window size at runtime. The engine has NO type for any of this (no battlefield, no formation, no slot) -- `src/modules/rpg` has no such symbol, so unlike eve.rpgc.map or eve.rpgc.encounter there is no engine loader to satisfy and no projection tool: the document IS the truth and the project adapter is a pure projection (04-runtime-integration.md). The 8/5 bank caps are deliberately NOT written as `maxItems` here: they are design constants (`RpgcSystems.maxBattleEnemySlots` / `maxBattleAllySlots`, the numbers the cross-document capacity check reads), and a second copy in the schema would be a second authority. `RpgcValidate.validateDocument` short-circuits on a schema failure, so a `maxItems` cap would also make the semantic bank-count check unreachable -- a gate nothing can trigger. Everything the schema cannot express lives in RpgcSystems.battleDiagnostics: that the enemy bank really lies in the top-left half AND the party bank in the bottom-right half, that every slot sits inside its own bank, that no two slots of one side share a position, and that the scene's enemy capacity covers every encounter it hosts. The ally count is a CAP and not a count of party members: who stands in those slots is runtime `Party` state and is deliberately not modelled here, because a content document cannot know the roster. `background` and `ui` are OPTIONAL additive fields -- a scene without them is a legal scene that simply draws no backdrop and no screen furniture, which is why the six scenes that shipped before they existed stay valid and why the schema `version` stays 1: the document envelope did not change. `additionalProperties: false` means a document that USES them needs a validator that knows them, and that is the fail-closed direction -- an old reader rejects such a scene instead of silently dropping the layer. `background` is the painted backdrop layer ONLY; the gameplay location is still the encounter's `map`, and the two are different facts (a fight on the Canglang ferry and a fight on the Kaifeng wharf can share one backdrops/ image). It is a plain document-relative path with the same semantics as `tileset.image` and `anim.image`, and for the same reason it carries no `fit` / `tint` / `parallax` knob: the script-facing graphics API exposes `drawTexturedRect(texture, x, y, w, h, r, g, b, a)` but NOT `drawTexturedRectUV`, so a fit mode this document could declare is a mode no projection could honour -- the picture would silently disagree with the document, which is the failure this workflow exists to prevent. The editor reports the texture's real pixel size instead, so a backdrop whose aspect does not match `canvas` is visible rather than invisible. `ui.party` is the bottom-right party HUD: a HORIZONTAL ROW of portrait cells (`slots` of `slotWidth`, separated by `slotGap`, all `portraitHeight` tall) with the resource bars underneath, measured from the bottom of the portrait strip. It is deliberately not a stacked list of portrait-left/number-right rows: a party of five is five faces in a line along the bottom of the screen, which is both smaller and readable at a glance, and the bars it needs are two short strips rather than ten. `ui.commandRing` is the left-hand command wheel. Both are pure geometry. Their FLOORS are schema bounds (`minItems`, `minimum`) and their CEILINGS are semantic ones (`RpgcSystems.maxBattleCommandButtons` / `maxBattlePartyBars`), split that way for the reason above: a schema ceiling fires before the semantic gate is ever reached, so writing `maxItems: 8` here would leave `systems.battle-ui-button-count` as a gate nothing can trigger. The values the UI will display at runtime (the hp and resource numbers, which command is available) are deliberately NOT here for the same reason the roster is not: a content document cannot know them.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "description", "type": "string" },
+    { "name": "displayName", "type": "string", "required": true },
+    {
+      "name": "canvas",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "width", "type": "number", "required": true, "minimum": 320, "maximum": 7680 },
+        { "name": "height", "type": "number", "required": true, "minimum": 240, "maximum": 4320 }
+      ]
+    },
+    {
+      "name": "zones",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        {
+          "name": "enemy",
+          "type": "object",
+          "required": true,
+          "additionalProperties": false,
+          "fields": [
+            { "name": "x", "type": "number", "required": true, "minimum": 0, "maximum": 7680 },
+            { "name": "y", "type": "number", "required": true, "minimum": 0, "maximum": 4320 },
+            { "name": "width", "type": "number", "required": true, "minimum": 1, "maximum": 7680 },
+            { "name": "height", "type": "number", "required": true, "minimum": 1, "maximum": 4320 }
+          ]
+        },
+        {
+          "name": "ally",
+          "type": "object",
+          "required": true,
+          "additionalProperties": false,
+          "fields": [
+            { "name": "x", "type": "number", "required": true, "minimum": 0, "maximum": 7680 },
+            { "name": "y", "type": "number", "required": true, "minimum": 0, "maximum": 4320 },
+            { "name": "width", "type": "number", "required": true, "minimum": 1, "maximum": 7680 },
+            { "name": "height", "type": "number", "required": true, "minimum": 1, "maximum": 4320 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "enemySlots",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "id", "type": "string", "required": true },
+          { "name": "x", "type": "number", "required": true, "minimum": 0, "maximum": 7680 },
+          { "name": "y", "type": "number", "required": true, "minimum": 0, "maximum": 4320 }
+        ]
+      }
+    },
+    {
+      "name": "allySlots",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "id", "type": "string", "required": true },
+          { "name": "x", "type": "number", "required": true, "minimum": 0, "maximum": 7680 },
+          { "name": "y", "type": "number", "required": true, "minimum": 0, "maximum": 4320 }
+        ]
+      }
+    },
+    { "name": "encounters", "type": "array", "required": true, "elementType": "string", "minItems": 1, "maxItems": 14 },
+    {
+      "name": "background",
+      "type": "string",
+      "description": "Document-relative path to the painted backdrop, e.g. backdrops/backdrop.forest-clearing.png"
+    },
+    {
+      "name": "ui",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        {
+          "name": "party",
+          "type": "object",
+          "required": true,
+          "additionalProperties": false,
+          "fields": [
+            { "name": "x", "type": "number", "required": true, "minimum": 0, "maximum": 7680 },
+            { "name": "y", "type": "number", "required": true, "minimum": 0, "maximum": 4320 },
+            { "name": "width", "type": "number", "required": true, "minimum": 1, "maximum": 7680 },
+            { "name": "height", "type": "number", "required": true, "minimum": 1, "maximum": 4320 },
+            { "name": "slots", "type": "integer", "required": true, "minimum": 1 },
+            { "name": "slotWidth", "type": "number", "required": true, "minimum": 1, "maximum": 4320 },
+            { "name": "slotGap", "type": "number", "required": true, "minimum": 0, "maximum": 4320 },
+            { "name": "portraitHeight", "type": "number", "required": true, "minimum": 1, "maximum": 4320 },
+            {
+              "name": "bars",
+              "type": "array",
+              "required": true,
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "fields": [
+                  { "name": "id", "type": "string", "required": true, "description": "`hp`, or the `attribute` of a pool the rule document's /resources declares. The runtime resolves this name in the unit's resource table, so an unregistered id draws a bar that can never fill (systems.battle-ui-bar-unregistered)" },
+                  { "name": "offsetY", "type": "number", "required": true, "minimum": 0, "maximum": 4320 },
+                  { "name": "height", "type": "number", "required": true, "minimum": 1, "maximum": 4320 },
+                  { "name": "colour", "type": "array", "required": true, "elementType": "number", "minItems": 3, "maxItems": 3 }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "commandRing",
+          "type": "object",
+          "required": true,
+          "additionalProperties": false,
+          "fields": [
+            { "name": "cx", "type": "number", "required": true, "minimum": 0, "maximum": 7680 },
+            { "name": "cy", "type": "number", "required": true, "minimum": 0, "maximum": 4320 },
+            { "name": "radius", "type": "number", "required": true, "minimum": 1, "maximum": 4320 },
+            {
+              "name": "buttons",
+              "type": "array",
+              "required": true,
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "fields": [
+                  { "name": "id", "type": "string", "required": true },
+                  { "name": "x", "type": "number", "required": true, "minimum": 0, "maximum": 7680 },
+                  { "name": "y", "type": "number", "required": true, "minimum": 0, "maximum": 4320 },
+                  { "name": "radius", "type": "number", "required": true, "minimum": 1, "maximum": 4320 },
+                  { "name": "label", "type": "string" }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    { "name": "extra", "type": "object" }
+  ]
+}

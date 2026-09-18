@@ -1,0 +1,37 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "weapon.twin-sword",
+  "title": "双股剑",
+  "description": "一鞘双剑，是双剑合璧组合技的配兵。另一口剑算在同一件物品里。",
+  "displayName": "双股剑",
+  "category": "weapon",
+  "rarity": "rare",
+  "maxStack": 1,
+  "weight": 4.0,
+  "volume": 2.5,
+  "value": 900,
+  "tags": [
+    "weapon",
+    "sword"
+  ],
+  "equipSlot": "weapon",
+  "equipStats": [
+    {
+      "attribute": "attack",
+      "op": "add",
+      "value": 10,
+      "priority": 0
+    },
+    {
+      "attribute": "speed",
+      "op": "multiply",
+      "value": 1.03,
+      "priority": 1
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/weapon.twin-sword.png",
+    "combo": "combo.twin-sword"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "schema": "eve.rpgc.party",
+  "version": 1,
+  "id": "party.default",
+  "title": "默认队伍：五人行",
+  "description": "开局可用的五人名单。每个成员只声明「我是谁、我练哪门武学到第几品」，招式表由 art 文档的品级在运行期编译出来（docs/06-game-design.md §2.4），所以这里没有一份会和武学文档漂移的招式副本。",
+  "members": [
+    {
+      "id": "pc.taiji",
+      "displayName": "沈青崖",
+      "title": "太极门大弟子",
+      "description": "以守为攻的路数，站得住才有输出。",
+      "element": "earth",
+      "art": "art.taiji-fist",
+      "grade": 3,
+      "combat": {
+        "attack": 32,
+        "defense": 20.0,
+        "maxHp": 320,
+        "speed": 6
+      },
+      "breakMax": 90
+    },
+    {
+      "id": "pc.liuhe",
+      "displayName": "裴无咎",
+      "title": "六合刀客",
+      "description": "一刀劈山，刀刀见血。全队最高的攻击力。",
+      "element": "metal",
+      "art": "art.liuhe-blade",
+      "grade": 5,
+      "combat": {
+        "attack": 40,
+        "defense": 14.0,
+        "maxHp": 260,
+        "speed": 7
+      },
+      "breakMax": 100
+    },
+    {
+      "id": "pc.yanqing",
+      "displayName": "燕小乙",
+      "title": "燕青拳传人",
+      "description": "快得不像话，两回合能打三次。",
+      "element": "wood",
+      "art": "art.yanqing-quan",
+      "grade": 4,
+      "combat": {
+        "attack": 34,
+        "defense": 12.0,
+        "maxHp": 230,
+        "speed": 10
+      },
+      "breakMax": 95
+    },
+    {
+      "id": "pc.xuanming",
+      "displayName": "苏玄冥",
+      "title": "玄冥神功修习者",
+      "description": "寒气入体，先给自己挂一层护体再说话。",
+      "element": "water",
+      "art": "art.xuanming-neigong",
+      "grade": 3,
+      "combat": {
+        "attack": 36,
+        "defense": 13.0,
+        "maxHp": 240,
+        "speed": 8
+      },
+      "breakMax": 95
+    },
+    {
+      "id": "pc.physician",
+      "displayName": "白婆婆",
+      "title": "游方医者",
+      "description": "不练武学，只带三样东西：一根棍、一手针、一点火气。",
+      "element": "fire",
+      "combat": {
+        "attack": 26,
+        "defense": 11.0,
+        "maxHp": 200,
+        "speed": 7
+      },
+      "breakMax": 90,
+      "skills": [
+        "skill.strike",
+        "skill.heal",
+        "skill.fireball"
+      ]
+    }
+  ],
+  "startingItems": [
+    { "itemId": "potion.heal", "count": 3 },
+    { "itemId": "potion.focus", "count": 2 },
+    { "itemId": "food.dry-ration", "count": 3 },
+    { "itemId": "weapon.iron-sword", "count": 1 },
+    { "itemId": "armor.leather", "count": 1 },
+    { "itemId": "material.herb", "count": 2 }
+  ]
+}

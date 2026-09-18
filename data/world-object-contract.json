@@ -1,0 +1,35 @@
+{
+  "schema": "eve.map.object-contract",
+  "version": 1,
+  "requireUniqueNames": true,
+  "allowUnknownTypes": false,
+  "types": [
+    { "type": "spawn", "properties": [] },
+    {
+      "type": "npc",
+      "properties": [
+        { "name": "dialogue", "kind": "string", "required": true },
+        { "name": "speaker", "kind": "string", "required": true },
+        { "name": "moment", "kind": "string" }
+      ]
+    },
+    {
+      "type": "chest",
+      "properties": [
+        { "name": "itemId", "kind": "string", "required": true },
+        { "name": "gold", "kind": "int", "required": true, "min": 0 },
+        { "name": "moment", "kind": "string" }
+      ]
+    },
+    {
+      "type": "portal",
+      "properties": [
+        { "name": "targetMap", "kind": "string", "required": true, "enum": ["village-outskirts", "mist-forest", "luoyang", "changan", "kaifeng", "xiangyang", "jinling", "yanmen-fortress", "yumen-town", "canglang-ferry", "jiange-post", "miaoling-village", "xueling-hold", "luoxia-isle"] },
+        { "name": "targetX", "kind": "int", "required": true, "min": 0, "max": 31 },
+        { "name": "targetY", "kind": "int", "required": true, "min": 0, "max": 31 },
+        { "name": "facingX", "kind": "int", "required": true, "min": -1, "max": 1 },
+        { "name": "facingY", "kind": "int", "required": true, "min": -1, "max": 1 }
+      ]
+    }
+  ]
+}

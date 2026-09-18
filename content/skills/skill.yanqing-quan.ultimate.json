@@ -1,0 +1,56 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.yanqing-quan.ultimate",
+  "title": "燕青拳·翻子",
+  "description": "燕青拳绝招，四品解锁。连翻数手，最后一掌给自己挂疾行、给对手挂虚弱。",
+  "art": "art.yanqing-quan",
+  "targetType": "enemySingle",
+  "cooldown": 20,
+  "castTime": 0.9,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 22
+    }
+  ],
+  "effects": [
+    "haste",
+    "weaken"
+  ],
+  "tags": [
+    "palm",
+    "wood",
+    "ultimate"
+  ],
+  "damage": {
+    "formula": "a.attack * 1.2 + a.speed * 0.8",
+    "element": "wood",
+    "critChance": 0.25,
+    "hitChance": 0.9
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "palm",
+        "clip": "gather",
+        "on": "caster",
+        "hold": 0.2
+      },
+      {
+        "anim": "palm",
+        "clip": "push",
+        "on": "caster",
+        "hold": 0.15
+      },
+      {
+        "anim": "palm",
+        "clip": "seal",
+        "on": "screen",
+        "hold": 0.2
+      }
+    ],
+    "vfx": "fx/yanqing-fanzi",
+    "screenShake": 0.35
+  }
+}

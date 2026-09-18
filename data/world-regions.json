@@ -1,0 +1,844 @@
+{
+  "schema": "eve.rpgc.world-regions",
+  "version": 1,
+  "id": "world.regions",
+  "note": "Generator input for tools/build_world_maps.py. This is NOT an eve.rpgc.* content kind and is not walked by the validator; it is the authored setting the generator turns into twelve content/maps/*.json documents plus the portals attached to existing maps. Edit here, then run `python tools/build_world_maps.py`.",
+  "projection": {
+    "tileWidth": 128,
+    "tileHeight": 64,
+    "renderSpacing": [
+      2,
+      2
+    ],
+    "borderRing": 1
+  },
+  "locations": [
+    {
+      "id": "luoyang",
+      "title": "洛阳",
+      "region": "中原",
+      "tier": "主城",
+      "atlas": "sbs-floors",
+      "size": [
+        32,
+        26
+      ],
+      "ground": [
+        415,
+        432
+      ],
+      "street": [
+        397,
+        414
+      ],
+      "summary": "天下之中，九朝旧都。武林盟会与百工坊市皆聚于此，青石长街自宫城直贯南市。",
+      "npcs": [
+        {
+          "name": "luoyang_gate_captain",
+          "speaker": "城防校尉",
+          "dialogue": "luoyang.gate-captain",
+          "at": [
+            0.18,
+            0.24
+          ]
+        },
+        {
+          "name": "luoyang_tea_master",
+          "speaker": "茶博士",
+          "dialogue": "luoyang.tea-master",
+          "at": [
+            0.46,
+            0.42
+          ]
+        },
+        {
+          "name": "luoyang_sword_seller",
+          "speaker": "铸剑师",
+          "dialogue": "luoyang.sword-seller",
+          "at": [
+            0.68,
+            0.34
+          ]
+        },
+        {
+          "name": "luoyang_beggar",
+          "speaker": "落魄剑客",
+          "dialogue": "luoyang.beggar",
+          "at": [
+            0.34,
+            0.70
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "luoyang_relic_chest",
+          "itemId": "jade-token",
+          "gold": 120,
+          "at": [
+            0.76,
+            0.66
+          ]
+        }
+      ]
+    },
+    {
+      "id": "changan",
+      "title": "长安",
+      "region": "中原",
+      "tier": "主城",
+      "atlas": "sbs-floors",
+      "size": [
+        32,
+        26
+      ],
+      "ground": [
+        253,
+        270
+      ],
+      "street": [
+        217,
+        234
+      ],
+      "summary": "西京旧都，驼铃与胡笳相闻。西域商队在此换乘入关，城西三门昼夜不闭。",
+      "npcs": [
+        {
+          "name": "changan_caravan_master",
+          "speaker": "驼队首领",
+          "dialogue": "changan.caravan-master",
+          "at": [
+            0.16,
+            0.40
+          ]
+        },
+        {
+          "name": "changan_drum_keeper",
+          "speaker": "鼓楼更夫",
+          "dialogue": "changan.drum-keeper",
+          "at": [
+            0.50,
+            0.20
+          ]
+        },
+        {
+          "name": "changan_monk",
+          "speaker": "云游僧人",
+          "dialogue": "changan.monk",
+          "at": [
+            0.60,
+            0.58
+          ]
+        },
+        {
+          "name": "changan_armorer",
+          "speaker": "甲匠",
+          "dialogue": "changan.armorer",
+          "at": [
+            0.30,
+            0.72
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "changan_caravan_crate",
+          "itemId": "silk-bolt",
+          "gold": 90,
+          "at": [
+            0.80,
+            0.44
+          ]
+        }
+      ]
+    },
+    {
+      "id": "kaifeng",
+      "title": "开封",
+      "region": "中原",
+      "tier": "主城",
+      "atlas": "sbs-floors",
+      "size": [
+        32,
+        26
+      ],
+      "ground": [
+        487,
+        504
+      ],
+      "street": [
+        469,
+        486
+      ],
+      "summary": "漕运总汇，千帆竞渡。盐铁茶马在此定价，码头木栈自城东一直铺到河心。",
+      "npcs": [
+        {
+          "name": "kaifeng_wharf_boss",
+          "speaker": "漕帮把头",
+          "dialogue": "kaifeng.wharf-boss",
+          "at": [
+            0.22,
+            0.30
+          ]
+        },
+        {
+          "name": "kaifeng_accountant",
+          "speaker": "账房先生",
+          "dialogue": "kaifeng.accountant",
+          "at": [
+            0.52,
+            0.48
+          ]
+        },
+        {
+          "name": "kaifeng_fisherman",
+          "speaker": "渔翁",
+          "dialogue": "kaifeng.fisherman",
+          "at": [
+            0.74,
+            0.28
+          ]
+        },
+        {
+          "name": "kaifeng_smuggler",
+          "speaker": "私盐贩",
+          "dialogue": "kaifeng.smuggler",
+          "at": [
+            0.40,
+            0.74
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "kaifeng_ledger_box",
+          "itemId": "ledger",
+          "gold": 60,
+          "at": [
+            0.66,
+            0.68
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xiangyang",
+      "title": "襄阳",
+      "region": "中原",
+      "tier": "主城",
+      "atlas": "sbs-floors",
+      "size": [
+        32,
+        26
+      ],
+      "ground": [
+        181,
+        198
+      ],
+      "street": [
+        271,
+        288
+      ],
+      "summary": "南北要冲，控汉水而扼中原。城砖新旧相叠，每一层都是一次围城的年号。",
+      "npcs": [
+        {
+          "name": "xiangyang_general",
+          "speaker": "守将",
+          "dialogue": "xiangyang.general",
+          "at": [
+            0.48,
+            0.24
+          ]
+        },
+        {
+          "name": "xiangyang_physician",
+          "speaker": "军医",
+          "dialogue": "xiangyang.physician",
+          "at": [
+            0.26,
+            0.50
+          ]
+        },
+        {
+          "name": "xiangyang_scout",
+          "speaker": "斥候",
+          "dialogue": "xiangyang.scout",
+          "at": [
+            0.70,
+            0.38
+          ]
+        },
+        {
+          "name": "xiangyang_widow",
+          "speaker": "城中妇人",
+          "dialogue": "xiangyang.widow",
+          "at": [
+            0.36,
+            0.76
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "xiangyang_armory_crate",
+          "itemId": "iron-ore",
+          "gold": 75,
+          "at": [
+            0.74,
+            0.70
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jinling",
+      "title": "金陵",
+      "region": "中原",
+      "tier": "主城",
+      "atlas": "sbs-floors",
+      "size": [
+        32,
+        26
+      ],
+      "ground": [
+        433,
+        450
+      ],
+      "street": [
+        379,
+        396
+      ],
+      "summary": "江南烟雨，世家云集。琴棋书画铺满长街，暗流都压在水榭底下。",
+      "npcs": [
+        {
+          "name": "jinling_steward",
+          "speaker": "世家管事",
+          "dialogue": "jinling.steward",
+          "at": [
+            0.20,
+            0.26
+          ]
+        },
+        {
+          "name": "jinling_zither_player",
+          "speaker": "琴师",
+          "dialogue": "jinling.zither-player",
+          "at": [
+            0.54,
+            0.36
+          ]
+        },
+        {
+          "name": "jinling_scholar",
+          "speaker": "书院学子",
+          "dialogue": "jinling.scholar",
+          "at": [
+            0.32,
+            0.62
+          ]
+        },
+        {
+          "name": "jinling_boatwoman",
+          "speaker": "画舫船娘",
+          "dialogue": "jinling.boatwoman",
+          "at": [
+            0.72,
+            0.72
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "jinling_painting_case",
+          "itemId": "ink-stone",
+          "gold": 110,
+          "at": [
+            0.62,
+            0.60
+          ]
+        }
+      ]
+    },
+    {
+      "id": "yanmen-fortress",
+      "title": "雁门关",
+      "region": "北境",
+      "tier": "边镇",
+      "atlas": "sbs-overworld",
+      "size": [
+        24,
+        18
+      ],
+      "ground": [
+        19,
+        36
+      ],
+      "street": [
+        109,
+        126
+      ],
+      "summary": "北境第一关，雁过留声。风雪里只有号角与马蹄，关墙以北便是胡地。",
+      "npcs": [
+        {
+          "name": "yanmen_commandant",
+          "speaker": "关尉",
+          "dialogue": "yanmen-fortress.commandant",
+          "at": [
+            0.50,
+            0.22
+          ]
+        },
+        {
+          "name": "yanmen_veteran",
+          "speaker": "老兵",
+          "dialogue": "yanmen-fortress.veteran",
+          "at": [
+            0.24,
+            0.52
+          ]
+        },
+        {
+          "name": "yanmen_blacksmith",
+          "speaker": "铁匠",
+          "dialogue": "yanmen-fortress.blacksmith",
+          "at": [
+            0.70,
+            0.60
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "yanmen_supply_crate",
+          "itemId": "arrow-bundle",
+          "gold": 40,
+          "at": [
+            0.76,
+            0.32
+          ]
+        }
+      ]
+    },
+    {
+      "id": "yumen-town",
+      "title": "玉门镇",
+      "region": "西域",
+      "tier": "边镇",
+      "atlas": "sbs-overworld",
+      "size": [
+        24,
+        18
+      ],
+      "ground": [
+        37,
+        54
+      ],
+      "street": [
+        127,
+        144
+      ],
+      "summary": "大漠孤烟，驼铃不绝。出此门者，十不还一；镇上只卖两样东西：水与消息。",
+      "npcs": [
+        {
+          "name": "yumen_innkeeper",
+          "speaker": "客栈掌柜",
+          "dialogue": "yumen-town.innkeeper",
+          "at": [
+            0.32,
+            0.34
+          ]
+        },
+        {
+          "name": "yumen_guide",
+          "speaker": "向导",
+          "dialogue": "yumen-town.guide",
+          "at": [
+            0.62,
+            0.26
+          ]
+        },
+        {
+          "name": "yumen_trader",
+          "speaker": "胡商",
+          "dialogue": "yumen-town.trader",
+          "at": [
+            0.44,
+            0.66
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "yumen_camel_pack",
+          "itemId": "desert-map",
+          "gold": 55,
+          "at": [
+            0.74,
+            0.62
+          ]
+        }
+      ]
+    },
+    {
+      "id": "canglang-ferry",
+      "title": "沧浪渡",
+      "region": "东海",
+      "tier": "边镇",
+      "atlas": "sbs-overworld",
+      "size": [
+        24,
+        18
+      ],
+      "ground": [
+        1,
+        18
+      ],
+      "street": [
+        73,
+        90
+      ],
+      "summary": "东海渔港，潮起潮落。网起的是鱼，也是别处沉船的消息。夜不渡人。",
+      "npcs": [
+        {
+          "name": "canglang_ferryman",
+          "speaker": "渡夫",
+          "dialogue": "canglang-ferry.ferryman",
+          "at": [
+            0.28,
+            0.56
+          ]
+        },
+        {
+          "name": "canglang_fishwife",
+          "speaker": "渔妇",
+          "dialogue": "canglang-ferry.fishwife",
+          "at": [
+            0.52,
+            0.30
+          ]
+        },
+        {
+          "name": "canglang_salt_officer",
+          "speaker": "盐官",
+          "dialogue": "canglang-ferry.salt-officer",
+          "at": [
+            0.70,
+            0.64
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "canglang_tide_cache",
+          "itemId": "pearl",
+          "gold": 80,
+          "at": [
+            0.72,
+            0.26
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jiange-post",
+      "title": "剑阁驿",
+      "region": "西蜀",
+      "tier": "边镇",
+      "atlas": "sbs-overworld",
+      "size": [
+        24,
+        18
+      ],
+      "ground": [
+        55,
+        72
+      ],
+      "street": [
+        145,
+        162
+      ],
+      "summary": "蜀道剑阁，一夫当关。驿站灯火照着南来北往的刀客，没人问对方的名号。",
+      "npcs": [
+        {
+          "name": "jiange_postmaster",
+          "speaker": "驿丞",
+          "dialogue": "jiange-post.postmaster",
+          "at": [
+            0.34,
+            0.28
+          ]
+        },
+        {
+          "name": "jiange_muleteer",
+          "speaker": "赶骡人",
+          "dialogue": "jiange-post.muleteer",
+          "at": [
+            0.62,
+            0.44
+          ]
+        },
+        {
+          "name": "jiange_swordswoman",
+          "speaker": "负剑女子",
+          "dialogue": "jiange-post.swordswoman",
+          "at": [
+            0.44,
+            0.70
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "jiange_relay_box",
+          "itemId": "sealed-letter",
+          "gold": 35,
+          "at": [
+            0.24,
+            0.62
+          ]
+        }
+      ]
+    },
+    {
+      "id": "miaoling-village",
+      "title": "苗岭寨",
+      "region": "南疆",
+      "tier": "边镇",
+      "atlas": "sbs-overworld",
+      "size": [
+        24,
+        18
+      ],
+      "ground": [
+        1,
+        18
+      ],
+      "street": [
+        91,
+        108
+      ],
+      "summary": "十万大山深处的苗寨，以蛊与药闻名。外人进寨先饮三道酒，第三道不下毒。",
+      "npcs": [
+        {
+          "name": "miaoling_headman",
+          "speaker": "寨老",
+          "dialogue": "miaoling-village.headman",
+          "at": [
+            0.48,
+            0.30
+          ]
+        },
+        {
+          "name": "miaoling_herbalist",
+          "speaker": "苗医",
+          "dialogue": "miaoling-village.herbalist",
+          "at": [
+            0.26,
+            0.50
+          ]
+        },
+        {
+          "name": "miaoling_girl",
+          "speaker": "采药少女",
+          "dialogue": "miaoling-village.girl",
+          "at": [
+            0.66,
+            0.62
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "miaoling_herb_basket",
+          "itemId": "miao-herb",
+          "gold": 25,
+          "at": [
+            0.72,
+            0.34
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xueling-hold",
+      "title": "雪岭坞",
+      "region": "极北",
+      "tier": "边镇",
+      "atlas": "sbs-floors",
+      "size": [
+        24,
+        18
+      ],
+      "ground": [
+        145,
+        162
+      ],
+      "street": [
+        163,
+        180
+      ],
+      "summary": "终年积雪的猎户聚落，坞中只论皮毛与刀口。雪深过膝时，连狼都不下山。",
+      "npcs": [
+        {
+          "name": "xueling_hunter_chief",
+          "speaker": "猎首",
+          "dialogue": "xueling-hold.hunter-chief",
+          "at": [
+            0.50,
+            0.26
+          ]
+        },
+        {
+          "name": "xueling_trapper",
+          "speaker": "皮货郎",
+          "dialogue": "xueling-hold.trapper",
+          "at": [
+            0.28,
+            0.56
+          ]
+        },
+        {
+          "name": "xueling_old_woman",
+          "speaker": "阿婆",
+          "dialogue": "xueling-hold.old-woman",
+          "at": [
+            0.68,
+            0.64
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "xueling_fur_bundle",
+          "itemId": "snow-fur",
+          "gold": 45,
+          "at": [
+            0.72,
+            0.30
+          ]
+        }
+      ]
+    },
+    {
+      "id": "luoxia-isle",
+      "title": "落霞岛",
+      "region": "东南",
+      "tier": "边镇",
+      "atlas": "sbs-overworld",
+      "size": [
+        24,
+        18
+      ],
+      "ground": [
+        73,
+        90
+      ],
+      "street": [
+        91,
+        108
+      ],
+      "summary": "东海孤岛，落霞与海寇同至。岛上不问来路，只问船钱。",
+      "npcs": [
+        {
+          "name": "luoxia_pirate_chief",
+          "speaker": "岛主",
+          "dialogue": "luoxia-isle.pirate-chief",
+          "at": [
+            0.44,
+            0.28
+          ]
+        },
+        {
+          "name": "luoxia_shipwright",
+          "speaker": "船匠",
+          "dialogue": "luoxia-isle.shipwright",
+          "at": [
+            0.24,
+            0.54
+          ]
+        },
+        {
+          "name": "luoxia_singer",
+          "speaker": "歌女",
+          "dialogue": "luoxia-isle.singer",
+          "at": [
+            0.70,
+            0.62
+          ]
+        }
+      ],
+      "chests": [
+        {
+          "name": "luoxia_wreck_chest",
+          "itemId": "sea-chart",
+          "gold": 130,
+          "at": [
+            0.72,
+            0.32
+          ]
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "from": "luoyang",
+      "to": "changan",
+      "edge": "west"
+    },
+    {
+      "from": "luoyang",
+      "to": "kaifeng",
+      "edge": "east"
+    },
+    {
+      "from": "luoyang",
+      "to": "xiangyang",
+      "edge": "south"
+    },
+    {
+      "from": "luoyang",
+      "to": "jinling",
+      "edge": "north"
+    },
+    {
+      "from": "changan",
+      "to": "yumen-town",
+      "edge": "west"
+    },
+    {
+      "from": "changan",
+      "to": "yanmen-fortress",
+      "edge": "north"
+    },
+    {
+      "from": "yanmen-fortress",
+      "to": "xueling-hold",
+      "edge": "north"
+    },
+    {
+      "from": "kaifeng",
+      "to": "canglang-ferry",
+      "edge": "east"
+    },
+    {
+      "from": "xiangyang",
+      "to": "jiange-post",
+      "edge": "west"
+    },
+    {
+      "from": "xiangyang",
+      "to": "miaoling-village",
+      "edge": "south"
+    },
+    {
+      "from": "jinling",
+      "to": "luoxia-isle",
+      "edge": "east"
+    },
+    {
+      "from": "village-outskirts",
+      "to": "jiange-post",
+      "edge": "north"
+    }
+  ]
+}

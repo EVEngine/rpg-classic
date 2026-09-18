@@ -1,0 +1,40 @@
+{
+  "schema": "eve.rpgc.skill",
+  "version": 1,
+  "id": "skill.taiji-fist.p1",
+  "title": "太极拳·起势",
+  "description": "太极拳一品招式。以守为攻，伤害低但加成防御。",
+  "art": "art.taiji-fist",
+  "targetType": "enemySingle",
+  "cooldown": 0,
+  "castTime": 0.3,
+  "costs": [
+    {
+      "attribute": "stamina",
+      "amount": 3
+    }
+  ],
+  "tags": [
+    "martial",
+    "palm",
+    "earth"
+  ],
+  "damage": {
+    "formula": "a.attack * 0.9 + a.defense * 0.3",
+    "element": "earth",
+    "critChance": 0.05,
+    "hitChance": 0.95
+  },
+  "presentation": {
+    "segments": [
+      {
+        "anim": "hero",
+        "clip": "attack",
+        "on": "caster",
+        "hold": 0.1
+      }
+    ],
+    "vfx": "fx/taiji-palm",
+    "screenShake": 0.1
+  }
+}

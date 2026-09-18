@@ -1,0 +1,54 @@
+{
+  "id": "eve.rpgc.skill",
+  "schemaVersion": 1,
+  "title": "rpg-classic skill",
+  "description": "A skill is a name plus a list of gameplay effects plus a presentation script made of one or more sprite-animation segments, with per-level overrides. The gameplay half feeds rpg.registerSkillsFromJson and rpg.registerSkillDamage; the presentation half is consumed by the project runtime adapter described in docs/04-runtime-integration.md.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "description", "type": "string" },
+    { "name": "targetType", "type": "string", "required": true, "enum": ["self", "enemySingle", "enemyAll", "allySingle", "allyAll", "anySingle", "anyAll"] },
+    { "name": "cooldown", "type": "number", "minimum": 0, "maximum": 600 },
+    { "name": "castTime", "type": "number", "minimum": 0, "maximum": 60 },
+    { "name": "costs", "type": "array", "maxItems": 4, "items": { "type": "object", "additionalProperties": false, "fields": [
+        { "name": "attribute", "type": "string", "required": true },
+        { "name": "amount", "type": "number", "required": true, "minimum": 0.001, "maximum": 100000 }
+      ] } },
+    { "name": "effects", "type": "array", "elementType": "string", "maxItems": 8 },
+    { "name": "tags", "type": "array", "elementType": "string", "maxItems": 8 },
+    { "name": "art", "type": "string" },
+    { "name": "combo", "type": "string" },
+    { "name": "damage", "type": "object", "additionalProperties": false, "fields": [
+        { "name": "formula", "type": "string", "required": true },
+        { "name": "element", "type": "string", "enum": ["none", "fire", "ice", "thunder", "earth", "wind", "light", "dark", "metal", "wood", "water"] },
+        { "name": "critChance", "type": "number", "minimum": 0, "maximum": 1 },
+        { "name": "hitChance", "type": "number", "minimum": 0, "maximum": 1 }
+      ] },
+    { "name": "presentation", "type": "object", "required": true, "additionalProperties": false, "fields": [
+        { "name": "segments", "type": "array", "required": true, "minItems": 1, "maxItems": 8, "items": { "type": "object", "additionalProperties": false, "fields": [
+            { "name": "anim", "type": "string", "required": true },
+            { "name": "clip", "type": "string", "required": true },
+            { "name": "on", "type": "string", "enum": ["caster", "target", "impact", "screen"] },
+            { "name": "atEvent", "type": "string" },
+            { "name": "hold", "type": "number", "minimum": 0, "maximum": 10 }
+          ] } },
+        { "name": "vfx", "type": "string" },
+        { "name": "screenShake", "type": "number", "minimum": 0, "maximum": 1 },
+        { "name": "levels", "type": "array", "maxItems": 16, "items": { "type": "object", "additionalProperties": false, "fields": [
+            { "name": "level", "type": "integer", "required": true, "minimum": 1, "maximum": 99 },
+            { "name": "magnitude", "type": "number", "minimum": 0, "maximum": 100 },
+            { "name": "vfx", "type": "string" },
+            { "name": "segments", "type": "array", "maxItems": 8, "items": { "type": "object", "additionalProperties": false, "fields": [
+                { "name": "anim", "type": "string", "required": true },
+                { "name": "clip", "type": "string", "required": true },
+                { "name": "on", "type": "string", "enum": ["caster", "target", "impact", "screen"] },
+                { "name": "atEvent", "type": "string" },
+                { "name": "hold", "type": "number", "minimum": 0, "maximum": 10 }
+              ] } }
+          ] } }
+      ] }
+  ]
+}

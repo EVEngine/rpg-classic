@@ -1,0 +1,36 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "weapon.bamboo-staff",
+  "title": "竹节棍",
+  "description": "山民防身用的竹棍，便宜、耐操，也挡得住两下。",
+  "displayName": "竹节棍",
+  "category": "weapon",
+  "rarity": "common",
+  "maxStack": 1,
+  "weight": 2.0,
+  "volume": 4.0,
+  "value": 60,
+  "tags": [
+    "weapon",
+    "staff"
+  ],
+  "equipSlot": "weapon",
+  "equipStats": [
+    {
+      "attribute": "attack",
+      "op": "add",
+      "value": 4,
+      "priority": 0
+    },
+    {
+      "attribute": "defense",
+      "op": "add",
+      "value": 2,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/items/weapon.bamboo-staff.png"
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "schema": "eve.workflow",
+  "version": 1,
+  "id": "rpg-classic",
+  "title": "经典斜 45° 回合制 RPG 开发工作流",
+  "summary": "tilemap / skill / event / battle / item 五个编辑器，直接读取清单里的项目文件夹，共用一套可校验的内容文档。",
+  "engine": {
+    "projection": "isometric",
+    "tileAspect": "2:1",
+    "minEngine": "1.0"
+  },
+  "authoring": {
+    "identity": "eve-rpgc-rpg-classic",
+    "note": "编辑器读的是清单里 kind→directory 那个目录；选中一行即载入，没有打开文档这一步。无写入后端时把文档暂存为 pending，由 tools/rpgc.py export 落盘。"
+  },
+  "kinds": {
+    "tileset": {
+      "directory": "content/tilesets",
+      "extension": ".json",
+      "schema": "eve.rpgc.tileset",
+      "module": "RpgcTilemap",
+      "title": "图集（Tiled-flat，引擎可经 tilesets[].source 直接引用）"
+    },
+    "map": {
+      "directory": "content/maps",
+      "extension": ".json",
+      "schema": "eve.rpgc.map",
+      "module": "RpgcTilemap",
+      "title": "等距关卡地图"
+    },
+    "anim": {
+      "directory": "content/anims",
+      "extension": ".json",
+      "schema": "eve.rpgc.anim",
+      "module": "RpgcSkill",
+      "title": "精灵动画剪辑集"
+    },
+    "effect": {
+      "directory": "content/effects",
+      "extension": ".json",
+      "schema": "eve.rpgc.effect",
+      "module": "RpgcSkill",
+      "title": "效果模板（引擎 registerEffectsFromJson 兼容）"
+    },
+    "skill": {
+      "directory": "content/skills",
+      "extension": ".json",
+      "schema": "eve.rpgc.skill",
+      "module": "RpgcSkill",
+      "title": "技能（多段动画组合 + 效果 + 等级特效）"
+    },
+    "event": {
+      "directory": "content/events",
+      "extension": ".json",
+      "schema": "eve.rpgc.event",
+      "module": "RpgcEvent",
+      "title": "事件演出（过场 / 镜头 / 对话 / 并行与分支）"
+    },
+    "rules": {
+      "directory": "content/rules",
+      "extension": ".json",
+      "schema": "eve.rpgc.rules",
+      "module": "RpgcSystems",
+      "title": "战斗规则：五行相生相克、破绽阈值、回合秒数、特征表（全项目唯一一份）"
+    },
+    "world": {
+      "directory": "content/world",
+      "extension": ".json",
+      "schema": "eve.rpgc.world",
+      "module": "RpgcSystems",
+      "title": "开放世界：时刻分档、传送门开启条件、换肤变体"
+    },
+    "art": {
+      "directory": "content/arts",
+      "extension": ".json",
+      "schema": "eve.rpgc.art",
+      "module": "RpgcSystems",
+      "title": "武学：品级表与每级解锁（招式 / 绝招 / 特征 / 被动）"
+    },
+    "heart": {
+      "directory": "content/hearts",
+      "extension": ".json",
+      "schema": "eve.rpgc.heart",
+      "module": "RpgcSystems",
+      "title": "心法：给已有招式附加特征与效果"
+    },
+    "combo": {
+      "directory": "content/combos",
+      "extension": ".json",
+      "schema": "eve.rpgc.combo",
+      "module": "RpgcSystems",
+      "title": "组合技：多名成员按序出手 + 合击收尾"
+    },
+    "item": {
+      "directory": "content/items",
+      "extension": ".json",
+      "schema": "eve.rpgc.item",
+      "module": "RpgcSystems",
+      "title": "物品：引擎物品定义 + 装备加成 + 使用效果与秘籍教学（项目侧半段）"
+    },
+    "enemy": {
+      "directory": "content/enemies",
+      "extension": ".json",
+      "schema": "eve.rpgc.enemy",
+      "module": "RpgcSystems",
+      "title": "敌人原型：战斗数值 + 五行归属 + 弱点 + 掉落 + 精灵（引擎 EncounterMember 那一半的唯一真源）"
+    },
+    "party": {
+      "directory": "content/party",
+      "extension": ".json",
+      "schema": "eve.rpgc.party",
+      "module": "RpgcSystems",
+      "title": "我方名单：战斗数值 + 五行归属 + 武学品级（招式表由武学在运行期编译，引擎没有这个类型）"
+    },
+    "encounter": {
+      "directory": "content/encounters",
+      "extension": ".json",
+      "schema": "eve.rpgc.encounter",
+      "module": "RpgcSystems",
+      "title": "遭遇编队：敌人 id + 数量 + 整场奖励，投影成引擎 EncounterCatalogue 的严格数组"
+    },
+    "battle": {
+      "directory": "content/battles",
+      "extension": ".json",
+      "schema": "eve.rpgc.battle",
+      "module": "RpgcSystems",
+      "title": "战斗场景：左上敌阵（≤8 位）与右下我方（≤5 位）的屏幕布局，外加可选的战斗背景与界面层（人物 HUD / 操作环）"
+    }
+  },
+  "commands": {
+    "play": "eve run .",
+    "tilemap": "eve run apps/tilemap",
+    "skill": "eve run apps/skill",
+    "event": "eve run apps/event",
+    "battle": "eve run apps/battle",
+    "item": "eve run apps/item",
+    "validate": "python tools/rpgc.py validate",
+    "selftest": "python tools/rpgc.py selftest",
+    "build-encounters": "python tools/build_encounters.py",
+    "build-bestiary": "python tools/import_bestiary_assets.py",
+    "build-backdrops": "python tools/import_battle_backdrops.py",
+    "check-backdrops": "python tools/import_battle_backdrops.py --check"
+  }
+}

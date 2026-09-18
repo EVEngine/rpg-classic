@@ -1,0 +1,155 @@
+{
+  "schema": "eve.rpgc.battle",
+  "version": 1,
+  "id": "battle.mountain-pass",
+  "title": "隘口",
+  "description": "两侧夹壁的单行隘口：敌人只能排成 2 列 3 行共 6 位，我方 4 位。这是唯一一个敌阵不足 8 位的场景，也正是容量门真正起作用的地方。",
+  "displayName": "隘口",
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "zones": {
+    "enemy": {
+      "x": 200,
+      "y": 80,
+      "width": 480,
+      "height": 390
+    },
+    "ally": {
+      "x": 1160,
+      "y": 640,
+      "width": 600,
+      "height": 360
+    }
+  },
+  "enemySlots": [
+    {
+      "id": "enemy.1",
+      "x": 248,
+      "y": 362
+    },
+    {
+      "id": "enemy.2",
+      "x": 368,
+      "y": 302
+    },
+    {
+      "id": "enemy.3",
+      "x": 488,
+      "y": 242
+    },
+    {
+      "id": "enemy.4",
+      "x": 368,
+      "y": 422
+    },
+    {
+      "id": "enemy.5",
+      "x": 488,
+      "y": 362
+    },
+    {
+      "id": "enemy.6",
+      "x": 608,
+      "y": 302
+    }
+  ],
+  "allySlots": [
+    {
+      "id": "ally.1",
+      "x": 1208,
+      "y": 820
+    },
+    {
+      "id": "ally.2",
+      "x": 1304,
+      "y": 772
+    },
+    {
+      "id": "ally.3",
+      "x": 1400,
+      "y": 724
+    },
+    {
+      "id": "ally.4",
+      "x": 1496,
+      "y": 676
+    }
+  ],
+  "encounters": [
+    "encounter.jiange-ambush",
+    "encounter.xiangyang-pass",
+    "encounter.yanmen-raid"
+  ],
+  "ui": {
+    "party": {
+      "x": 1310,
+      "y": 840,
+      "width": 570,
+      "height": 200,
+      "slots": 5,
+      "slotWidth": 104,
+      "slotGap": 8,
+      "portraitHeight": 130,
+      "bars": [
+        {
+          "id": "hp",
+          "offsetY": 8,
+          "height": 18,
+          "colour": [
+            0.3,
+            0.72,
+            0.36
+          ]
+        },
+        {
+          "id": "mana",
+          "offsetY": 32,
+          "height": 18,
+          "colour": [
+            0.25,
+            0.48,
+            0.85
+          ]
+        }
+      ]
+    },
+    "commandRing": {
+      "cx": 300,
+      "cy": 800,
+      "radius": 190,
+      "buttons": [
+        {
+          "id": "cmd.attack",
+          "x": 410,
+          "y": 800,
+          "radius": 40,
+          "label": "攻击"
+        },
+        {
+          "id": "cmd.skill",
+          "x": 300,
+          "y": 690,
+          "radius": 40,
+          "label": "招式"
+        },
+        {
+          "id": "cmd.item",
+          "x": 190,
+          "y": 800,
+          "radius": 40,
+          "label": "物品"
+        },
+        {
+          "id": "cmd.defend",
+          "x": 300,
+          "y": 910,
+          "radius": 40,
+          "label": "防御"
+        }
+      ]
+    }
+  },
+  "background": "backdrops/backdrop.snow-mountain-pass.png"
+}

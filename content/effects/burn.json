@@ -1,0 +1,28 @@
+{
+  "schema": "eve.rpgc.effect",
+  "version": 1,
+  "id": "burn",
+  "title": "灼烧",
+  "durationPolicy": "duration",
+  "duration": 6.0,
+  "period": 2.0,
+  "stackPolicy": "refresh",
+  "maxStacks": 1,
+  "tags": [
+    "dot",
+    "fire",
+    "debuff"
+  ],
+  "modifiers": [
+    {
+      "attribute": "fireResist",
+      "op": "add",
+      "value": -5,
+      "priority": 0
+    }
+  ],
+  "extra": {
+    "icon": "ui/status/burn.png",
+    "vfx": "fx/burn"
+  }
+}

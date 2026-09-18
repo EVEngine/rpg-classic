@@ -1,0 +1,54 @@
+{
+  "schema": "eve.rpgc.art",
+  "version": 1,
+  "id": "art.yanqing-quan",
+  "title": "燕青拳",
+  "category": "martial",
+  "element": "wood",
+  "maxGrade": 4,
+  "grades": [
+    {
+      "grade": 1,
+      "title": "起手",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 0
+      },
+      "skills": [
+        "skill.yanqing-quan.p1"
+      ],
+      "modifiers": [
+        {
+          "attribute": "speed",
+          "op": "mulAdd",
+          "value": 0.02
+        }
+      ]
+    },
+    {
+      "grade": 2,
+      "title": "连击",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 80
+      },
+      "skills": [
+        "skill.yanqing-quan.p2"
+      ]
+    },
+    {
+      "grade": 4,
+      "title": "翻子",
+      "requirement": {
+        "kind": "proficiency",
+        "value": 320
+      },
+      "ultimates": [
+        "skill.yanqing-quan.ultimate"
+      ],
+      "traits": [
+        "trait.yanqing-agility"
+      ]
+    }
+  ]
+}

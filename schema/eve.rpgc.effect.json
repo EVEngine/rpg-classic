@@ -1,0 +1,35 @@
+{
+  "id": "eve.rpgc.effect",
+  "schemaVersion": 1,
+  "title": "rpg-classic effect template",
+  "description": "Engine-compatible effect definition: rpg.replaceEffectsFromJson consumes exactly these fields. Presentation keys live in `extra` as strings because that is the only carrier the engine copies onto a live status instance (read back with actor.getStatusProp).",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "durationPolicy", "type": "string", "enum": ["instant", "duration", "infinite"] },
+    { "name": "duration", "type": "number", "minimum": 0, "maximum": 600 },
+    { "name": "period", "type": "number", "minimum": 0, "maximum": 600 },
+    { "name": "stackPolicy", "type": "string", "enum": ["none", "refresh", "extend", "stack"] },
+    { "name": "maxStacks", "type": "integer", "minimum": 1, "maximum": 99 },
+    { "name": "tags", "type": "array", "elementType": "string" },
+    {
+      "name": "modifiers",
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "attribute", "type": "string", "required": true },
+          { "name": "op", "type": "string", "enum": ["add", "additive_percent", "mulAdd", "multiplicative_percent", "mulMul", "multiply", "override", "clamp_min", "clampMin", "min", "clamp_max", "clampMax", "max"] },
+          { "name": "value", "type": "number", "required": true },
+          { "name": "priority", "type": "integer" }
+        ]
+      }
+    },
+    { "name": "extra", "type": "object" }
+  ]
+}

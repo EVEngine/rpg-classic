@@ -1,0 +1,15 @@
+{
+  "schema": "eve.rpgc.asset-source",
+  "version": 1,
+  "pack": "oga_antumdeluge_skeletons",
+  "title": "Skeletons Rework",
+  "upstreamVersion": "1.4",
+  "author": "Jordan Irwin (AntumDeluge), artisticdude, LordNeo",
+  "licence": "CC0-1.0",
+  "licenceUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "pageUrl": "https://opengameart.org/content/skeletons-rework",
+  "fileUrl": "https://opengameart.org/sites/default/files/skeleton-1.4.zip",
+  "archive": "skeleton-1.4.zip",
+  "sha256": "d21ddd4a047185e8dcde83128abd0b4d410b74c36c29a45f9bf799cc017f334f",
+  "note": "Vendored verbatim. CC0 1.0 requires no attribution; the record exists so the provenance can be audited and the archive re-verified with tools/import_bestiary_assets.py --check."
+}

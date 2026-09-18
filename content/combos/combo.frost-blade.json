@@ -1,0 +1,45 @@
+{
+  "schema": "eve.rpgc.combo",
+  "version": 1,
+  "id": "combo.frost-blade",
+  "title": "冰雷交击",
+  "members": {
+    "min": 2,
+    "max": 2,
+    "order": "declared"
+  },
+  "condition": {
+    "elements": {
+      "kind": "generates",
+      "chain": [
+        "metal",
+        "water"
+      ]
+    },
+    "vitals": [
+      {
+        "attribute": "mana",
+        "min": 20,
+        "perMember": true
+      }
+    ]
+  },
+  "stages": [
+    {
+      "actor": 0,
+      "skill": "skill.liuhe-blade.p3"
+    },
+    {
+      "actor": 1,
+      "skill": "skill.xuanming-neigong.p3"
+    }
+  ],
+  "finish": {
+    "skill": "skill.combo.frost-blade.finish",
+    "anim": {
+      "anim": "thunder",
+      "clip": "bolt"
+    },
+    "breakBonus": 45
+  }
+}

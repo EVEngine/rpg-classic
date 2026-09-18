@@ -1,0 +1,55 @@
+{
+  "schema": "eve.rpgc.enemy",
+  "version": 1,
+  "id": "enemy.miao-hexer",
+  "title": "苗疆蛊巫",
+  "description": "三道酒里的第三道不下毒，说的是她待客的规矩。",
+  "displayName": "苗疆蛊巫",
+  "tier": "elite",
+  "element": "wood",
+  "weakElements": [
+    "metal"
+  ],
+  "weakStyles": [
+    "palm"
+  ],
+  "combat": {
+    "attack": 19,
+    "defense": 4.5,
+    "maxHp": 92,
+    "speed": 9
+  },
+  "breakMax": 75,
+  "skillId": "skill.enemy-hex",
+  "skills": [
+    "skill.enemy-hex",
+    "skill.enemy-venom"
+  ],
+  "habitat": [
+    "miaoling-village"
+  ],
+  "sprite": {
+    "anim": "enemy-beasts",
+    "clip": "naga-mage"
+  },
+  "drops": [
+    {
+      "itemId": "potion.focus",
+      "chance": 0.15,
+      "min": 1,
+      "max": 1
+    },
+    {
+      "itemId": "material.herb",
+      "chance": 0.35,
+      "min": 1,
+      "max": 2
+    }
+  ],
+  "ai": {
+    "aggression": 0.6,
+    "fleeBelowHp": 0.3,
+    "opener": "skill.enemy-hex"
+  },
+  "lore": "三道酒里的第三道不下毒，说的是她待客的规矩。"
+}

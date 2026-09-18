@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "quest.seal-of-changan",
+  "title": "长安印信",
+  "description": "长安府发出的通关印信。不是货币，也不该被卖掉——category 是 quest 而不是 material。",
+  "displayName": "长安印信",
+  "category": "quest",
+  "rarity": "rare",
+  "maxStack": 1,
+  "weight": 0.1,
+  "volume": 0.1,
+  "value": 0,
+  "tags": [
+    "quest",
+    "canglang"
+  ],
+  "extra": {
+    "icon": "ui/items/quest.seal-of-changan.png"
+  }
+}

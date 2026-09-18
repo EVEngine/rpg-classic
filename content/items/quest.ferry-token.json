@@ -1,0 +1,21 @@
+{
+  "schema": "eve.rpgc.item",
+  "version": 1,
+  "id": "quest.ferry-token",
+  "title": "沧浪渡牌",
+  "description": "沧浪渡的船牌。船夫认牌不认人。",
+  "displayName": "沧浪渡牌",
+  "category": "quest",
+  "rarity": "common",
+  "maxStack": 1,
+  "weight": 0.1,
+  "volume": 0.1,
+  "value": 0,
+  "tags": [
+    "quest",
+    "ferry"
+  ],
+  "extra": {
+    "icon": "ui/items/quest.ferry-token.png"
+  }
+}

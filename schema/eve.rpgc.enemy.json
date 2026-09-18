@@ -1,0 +1,71 @@
+{
+  "id": "eve.rpgc.enemy",
+  "schemaVersion": 1,
+  "title": "rpg-classic enemy",
+  "description": "One enemy archetype: the single source of truth for everything a creature is. `combat` + `skillId` + `displayName` are the half the engine's EncounterCatalogue consumes (EncounterCatalogue.cpp:135-158 reads exactly id/displayName/skillId/attack/defense/maxHp/speed per member); `sprite`, `drops`, `ai`, `lore` and `habitat` are the project-side half the engine has no field for. An encounter does NOT restate these numbers — it references an enemy id and a repetition count, and tools/build_encounters.py projects the pair into the engine's strict array, so attack/maxHp exist in exactly one document. `element`/`weakElements`/`weakStyles` are deliberately free strings rather than enums: the five-element vocabulary and the weak-style table live in eve.rpgc.rules, and re-declaring them here would be a second authority that can drift. The cross-document gate resolves every one of them against that document.",
+  "additionalProperties": false,
+  "fields": [
+    { "name": "schema", "type": "string", "required": true },
+    { "name": "version", "type": "integer", "required": true, "minimum": 1, "maximum": 1 },
+    { "name": "id", "type": "string", "required": true },
+    { "name": "title", "type": "string" },
+    { "name": "description", "type": "string" },
+    { "name": "displayName", "type": "string", "required": true },
+    { "name": "tier", "type": "string", "required": true, "enum": ["minion", "elite", "boss"] },
+    { "name": "element", "type": "string", "required": true },
+    { "name": "weakElements", "type": "array", "elementType": "string", "maxItems": 5 },
+    { "name": "weakStyles", "type": "array", "elementType": "string", "maxItems": 3 },
+    {
+      "name": "combat",
+      "type": "object",
+      "required": true,
+      "additionalProperties": false,
+      "fields": [
+        { "name": "attack", "type": "number", "required": true, "minimum": 0, "maximum": 1000000 },
+        { "name": "defense", "type": "number", "required": true, "minimum": 0, "maximum": 1000000 },
+        { "name": "maxHp", "type": "number", "required": true, "minimum": 0, "maximum": 100000000 },
+        { "name": "speed", "type": "number", "required": true, "minimum": 0, "maximum": 100000 }
+      ]
+    },
+    { "name": "breakMax", "type": "integer", "minimum": 1, "maximum": 1000 },
+    { "name": "skillId", "type": "string", "required": true },
+    { "name": "skills", "type": "array", "elementType": "string", "maxItems": 8 },
+    { "name": "habitat", "type": "array", "elementType": "string", "maxItems": 16 },
+    {
+      "name": "sprite",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "anim", "type": "string", "required": true },
+        { "name": "clip", "type": "string", "required": true }
+      ]
+    },
+    {
+      "name": "drops",
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          { "name": "itemId", "type": "string", "required": true },
+          { "name": "chance", "type": "number", "required": true, "minimum": 0, "maximum": 1 },
+          { "name": "min", "type": "integer", "minimum": 1, "maximum": 999 },
+          { "name": "max", "type": "integer", "minimum": 1, "maximum": 999 }
+        ]
+      }
+    },
+    {
+      "name": "ai",
+      "type": "object",
+      "additionalProperties": false,
+      "fields": [
+        { "name": "aggression", "type": "number", "minimum": 0, "maximum": 1 },
+        { "name": "fleeBelowHp", "type": "number", "minimum": 0, "maximum": 1 },
+        { "name": "opener", "type": "string" }
+      ]
+    },
+    { "name": "lore", "type": "string" },
+    { "name": "extra", "type": "object" }
+  ]
+}
