@@ -15,7 +15,10 @@ CLI only moves bytes and reports what the engine decided.
 
 Usage
 -----
-  python tools/rpgc.py validate [--json]
+  python tools/rpgc.py toolkit --help          # offline reusable authoring tools
+  python tools/rpgc.py graph --headless        # authoritative reference graph
+  python tools/rpgc.py simulate <encounter> --headless --seed 42
+  python tools/rpgc.py validate [--json] [--headless]
   python tools/rpgc.py check <path> [<path>...]
   python tools/rpgc.py eval "<squirrel expression>"
   python tools/rpgc.py script <file.nut> [<file.nut>...]
@@ -115,11 +118,11 @@ class McpError(RuntimeError):
 class McpClient:
     """Newline-delimited JSON-RPC 2.0 over TCP, matching McpServer.cpp."""
 
-    def __init__(self, host: str, port: int, timeout: float = 30.0):
-        # A whole-project validate re-parses and re-validates every document in
-        # one RPC, which exceeds a 30 s socket timeout on a busy host. EVE_RPC_TIMEOUT
-        # raises it without changing the default.
-        configured = os.environ.get("EVE_RPC_TIMEOUT")
+    def __init__(self, host: str, port: int, timeout: float = 30.0, *, deadline: float | None = None):
+        # An explicit monotonic deadline is a total budget and cannot be raised
+        # by EVE_RPC_TIMEOUT. Existing callers retain the per-RPC timeout policy.
+        self.deadline = deadline
+        configured = os.environ.get("EVE_RPC_TIMEOUT") if deadline is None else None
         if configured:
             try:
                 timeout = float(configured)
@@ -127,20 +130,28 @@ class McpClient:
                 pass
         self.sock = None
         last_error = None
-        deadline = time.time() + max(timeout, 30.0)
-        while self.sock is None and time.time() < deadline:
+        connect_deadline = time.monotonic() + max(timeout, 30.0) if deadline is None else deadline
+        while self.sock is None and time.monotonic() < connect_deadline:
             try:
-                # The host prints "MCP listening" before the listening socket
-                # accepts, so a single connect can race with startup.
-                self.sock = socket.create_connection((host, port), timeout=timeout)
+                remaining = timeout if deadline is None else min(timeout, connect_deadline-time.monotonic())
+                if remaining <= 0:
+                    break
+                self.sock = socket.create_connection((host, port), timeout=remaining)
             except OSError as error:
                 last_error = error
-                time.sleep(0.5)
+                time.sleep(min(0.05, max(0, connect_deadline-time.monotonic())))
         if self.sock is None:
-            raise last_error if last_error else OSError("cannot connect")
+            raise last_error if last_error else TimeoutError("MCP connection budget exhausted")
         self.sock.settimeout(timeout)
         self.buf = b""
         self.next_id = 1
+
+    def _budget(self):
+        if self.deadline is not None:
+            remaining = self.deadline - time.monotonic()
+            if remaining <= 0:
+                raise TimeoutError("MCP operation budget exhausted")
+            self.sock.settimeout(remaining)
 
     def close(self) -> None:
         try:
@@ -149,11 +160,14 @@ class McpClient:
             pass
 
     def _send(self, payload: dict) -> None:
+        self._budget()
         line = json.dumps(payload, separators=(",", ":")).encode("utf-8") + b"\n"
         self.sock.sendall(line)
 
     def _recv(self) -> dict:
+        self._budget()
         while b"\n" not in self.buf:
+            self._budget()
             chunk = self.sock.recv(65536)
             if not chunk:
                 raise McpError("engine closed the MCP connection")
@@ -728,6 +742,133 @@ def cmd_selftest(engine: Engine, args) -> int:
     return 0 if not failed else 1
 
 
+def cmd_runtime(engine, args) -> int:
+    from rpgc_toolkit.runtime import GRAPH_SOURCE, graph_report, simulation_source, run_headless
+    try:
+        if args.command == "map-qa":
+            from pathlib import Path
+            from rpgc_toolkit.map_qa import inspect_maps
+            from rpgc_toolkit.project import read_json
+            changes = read_json(args.changes) if args.changes else None
+            report = inspect_maps(find_engine(args.eve), args.root, args.map_id, args.timeout,
+                                  changes, Path(args.changes).resolve().parent if args.changes else None)
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            return 0 if report.get("ok") else 1
+        if args.command == "preview":
+            from pathlib import Path
+            from rpgc_toolkit.map_preview import render_map, open_map
+            from rpgc_toolkit.map_qa import inspect_maps
+            from rpgc_toolkit.project import read_json
+            changes=read_json(args.changes) if args.changes else None
+            base=Path(args.changes).resolve().parent if args.changes else None
+            actions=read_json(args.actions) if args.actions else None
+            if args.screenshot:
+                report=render_map(find_engine(args.eve),args.root,args.map_id,args.screenshot,args.timeout,
+                                  changes=changes,base=base,inspector=not args.plain,actions=actions)
+            elif args.window:
+                report=open_map(find_engine(args.eve),args.root,args.map_id,args.timeout,
+                                changes=changes,base=base,inspector=not args.plain,actions=actions)
+            else:
+                if args.actions:
+                    raise ValueError("--actions requires --window or --screenshot")
+                report=inspect_maps(find_engine(args.eve),args.root,args.map_id,args.timeout,changes,base)
+                report["previewStatus"]="data-only"
+            print(json.dumps(report,ensure_ascii=False,indent=2))
+            return 0 if report.get("ok") else 1
+        if args.command == "world-save":
+            from rpgc_toolkit.world_saves import check_world, capture_world, migrate_world, content_manifest, publish_new
+            from rpgc_toolkit.project import read_json
+            binary = find_engine(args.eve)
+            if args.save_operation == "manifest":
+                report = content_manifest(binary, args.root, args.timeout)
+            elif args.save_operation == "check":
+                report = check_world(binary, args.root, read_json(args.source), args.timeout)
+            elif args.save_operation == "capture":
+                report = capture_world(binary, args.root, read_json(args.source), args.timeout)
+            elif args.save_operation == "import-inventory":
+                request = read_json(args.context)
+                if not isinstance(request, dict) or "inventory" in request:
+                    raise ValueError("inventory import context must be an object without inventory")
+                request["inventory"] = read_json(args.source)
+                report = capture_world(binary, args.root, request, args.timeout)
+            else:
+                report = migrate_world(binary, args.root, read_json(args.source), read_json(args.plan), args.timeout)
+            if getattr(args, "output", None) and report.get("ok"):
+                value = report.get("value", {})
+                if value.get("status") == "ready":
+                    publish_new(args.output, value["snapshot"])
+                    report["output"] = str(args.output)
+                    report["written"] = True
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            return 0 if report.get("ok") else 1
+        if args.command == "world-checks":
+            from rpgc_toolkit.world_checks import run_world_checks
+            report = run_world_checks(find_engine(args.eve), args.root, args.timeout)
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            return 0 if report["ok"] else 1
+        if args.command == "dialogue":
+            from rpgc_toolkit.dialogue import preview_dialogue
+            from rpgc_toolkit.project import read_json
+            report = preview_dialogue(find_engine(args.eve), args.root, args.dialogue_id,
+                read_json(args.actions) if args.actions else [],
+                read_json(args.state) if args.state else None, args.locale, args.timeout)
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            return 0 if report["ok"] else 1
+        if args.command == "capabilities":
+            from rpgc_toolkit.capabilities import probe_capabilities
+            report = probe_capabilities(find_engine(args.eve),args.root,args.timeout)
+            print(json.dumps(report,ensure_ascii=False,indent=2))
+            return 0 if report["ok"] else 1
+        if args.command == "selftest":
+            from rpgc_toolkit.runtime import run_module_checks
+            report = run_module_checks(find_engine(args.eve), args.root, args.timeout)
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            return 0 if report["ok"] else 1
+        if args.command in ("record", "replay", "check-changes", "check-save"):
+            from pathlib import Path
+            from rpgc_toolkit.project import read_json
+            binary = find_engine(args.eve)
+            if args.command == "record":
+                from rpgc_toolkit.replay import record_battle
+                report = record_battle(binary, args.root, args.party, args.encounter,
+                                       args.seed, args.max_orders, args.timeout)
+            elif args.command == "replay":
+                from rpgc_toolkit.replay import replay_battle
+                payload = read_json(args.source)
+                tape = payload.get("tape", payload) if isinstance(payload, dict) else payload
+                report = replay_battle(binary, args.root, tape, args.max_orders, args.timeout)
+            elif args.command == "check-changes":
+                from rpgc_toolkit.changes import check_changes
+                report = check_changes(binary, args.root, read_json(args.source),
+                                       Path(args.source).resolve().parent, args.timeout)
+            else:
+                from rpgc_toolkit.saves import check_inventory
+                report = check_inventory(binary, args.root, read_json(args.source), args.timeout)
+            print(json.dumps(report, ensure_ascii=False, indent=2))
+            return 0 if report["ok"] else 1
+        if args.command == "validate":
+            source = "RpgcToolkitResult <- RpgcValidate.reportJson(RpgcValidate.validateProject());"
+        elif args.command == "graph":
+            from rpgc_toolkit.project import Project
+            Project(args.root)
+            source = GRAPH_SOURCE
+        else:
+            source = simulation_source(args.party, args.encounter, args.seed, args.runs, args.max_orders)
+        if args.headless:
+            report = run_headless(find_engine(args.eve), args.root, source, args.timeout)
+        else:
+            engine.script(source)
+            report = engine.eval_json("RpgcToolkitResult")
+        if args.command == "graph":
+            report = graph_report(report, args.impact)
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        return 0 if report["ok"] else 1
+    except (ValueError, OSError, McpError) as error:
+        print(json.dumps({"ok": False, "diagnostics": [{"code": "toolkit.runtime",
+              "message": str(error)}]}, ensure_ascii=False), file=sys.stderr)
+        return 1
+
+
 # --------------------------------------------------------------------------- #
 # entry point
 # --------------------------------------------------------------------------- #
@@ -746,6 +887,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     validate = sub.add_parser("validate", help="validate every content document")
     validate.add_argument("--json", action="store_true")
+    validate.add_argument("--headless", action="store_true", help="use the same gate without MCP/display; emits JSON")
+    validate.add_argument("--timeout", type=float, default=120)
     validate.set_defaults(func=cmd_validate)
 
     check = sub.add_parser("check", help="validate specific files")
@@ -775,6 +918,8 @@ def build_parser() -> argparse.ArgumentParser:
     selftest = sub.add_parser(
         "selftest", help="verify the workflow's end-to-end claims against a live host")
     selftest.add_argument("--json", action="store_true")
+    selftest.add_argument("--headless", action="store_true", help="run the full module probe suite without MCP/display; emits JSON")
+    selftest.add_argument("--timeout", type=float, default=180)
     selftest.set_defaults(func=cmd_selftest)
 
     log = sub.add_parser("log", help="dump engine stderr (Squirrel print output)")
@@ -784,11 +929,92 @@ def build_parser() -> argparse.ArgumentParser:
     vm.add_argument("name", help="ViewModel table name, e.g. SkillVM")
     vm.add_argument("source", help="path to the .vm.nut file")
     vm.set_defaults(func=cmd_vm)
+    from rpgc_toolkit.cli import add_parser
+    add_parser(sub)
+    graph = sub.add_parser("graph", help="authoritative content reference graph from the VM")
+    graph.add_argument("--impact", help="reverse transitive dependents of kind/id")
+    graph.set_defaults(func=cmd_runtime)
+    graph.add_argument("--headless", action="store_true", help="run without MCP or display")
+    graph.add_argument("--timeout", type=float, default=120)
+    simulate = sub.add_parser("simulate", help="seeded auto-battles using the real RpgcBattle resolver")
+    simulate.set_defaults(func=cmd_runtime)
+    simulate.add_argument("encounter")
+    simulate.add_argument("--party", default="party.default")
+    simulate.add_argument("--seed", type=int, default=1)
+    simulate.add_argument("--runs", type=int, default=1)
+    simulate.add_argument("--max-orders", type=int, default=512)
+    simulate.add_argument("--headless", action="store_true")
+    simulate.add_argument("--timeout", type=float, default=120)
+    record = sub.add_parser("record", help="record real auto-battle commands and expected state fingerprints")
+    record.add_argument("encounter")
+    record.add_argument("--party", default="party.default")
+    record.add_argument("--seed", type=int, default=1)
+    record.add_argument("--max-orders", type=int, default=512)
+    record.add_argument("--timeout", type=float, default=120)
+    record.set_defaults(headless=True, func=cmd_runtime)
+    replay = sub.add_parser("replay", help="replay a battle tape against the real resolver")
+    replay.add_argument("source")
+    replay.add_argument("--max-orders", type=int, default=512)
+    replay.add_argument("--timeout", type=float, default=120)
+    replay.set_defaults(headless=True, func=cmd_runtime)
+    for name, help_text in (("check-changes", "validate a content change-set in a disposable project copy"),
+                            ("check-save", "restore-check an inventory save against current content")):
+        command = sub.add_parser(name, help=help_text)
+        command.add_argument("source")
+        command.add_argument("--timeout", type=float, default=120)
+        command.set_defaults(headless=True, func=cmd_runtime)
+    map_qa = sub.add_parser("map-qa", help="native structural map loading, paths, picking and portal QA")
+    map_qa.add_argument("map_id", nargs="?", default="")
+    map_qa.add_argument("--changes", help="validate a change-set in a disposable copy before QA")
+    map_qa.add_argument("--timeout", type=float, default=120)
+    map_qa.set_defaults(headless=True, func=cmd_runtime)
+    preview = sub.add_parser("preview", help="single-purpose native preview; no screenshot means data QA only")
+    preview.add_argument("kind", choices=("map",))
+    preview.add_argument("map_id")
+    preview_mode=preview.add_mutually_exclusive_group()
+    preview_mode.add_argument("--screenshot", help="render the inspector and capture to a NEW PNG")
+    preview_mode.add_argument("--window", action="store_true", help="keep the inspector open until its window is closed")
+    preview.add_argument("--changes", help="guarded change-set to inspect in an isolated project")
+    preview.add_argument("--plain", action="store_true", help="render only the map without inspector controls")
+    preview.add_argument("--actions", help="JSON list of bounded inspector actions for reproducible captures")
+    preview.add_argument("--timeout", type=float, default=120)
+    preview.set_defaults(headless=True, func=cmd_runtime)
+    saves = sub.add_parser("world-save", help="capture, validate and explicitly migrate world snapshots using the real VM")
+    save_commands = saves.add_subparsers(dest="save_operation", required=True)
+    for operation in ("manifest", "check", "capture", "import-inventory", "migrate"):
+        save_command = save_commands.add_parser(operation)
+        save_command.add_argument("--timeout", type=float, default=180)
+        if operation != "manifest":
+            save_command.add_argument("source")
+        if operation == "migrate":
+            save_command.add_argument("plan", help="continuous explicit content-version migration plan")
+        if operation == "import-inventory":
+            save_command.add_argument("--context", required=True, help="world/party/locale/inputSequence JSON; world position is never guessed")
+        if operation in ("capture", "import-inventory", "migrate"):
+            save_command.add_argument("--output", help="write a NEW snapshot file; existing files are refused")
+        save_command.set_defaults(headless=True, func=cmd_runtime)
+    world_checks = sub.add_parser("world-checks", help="run fixed shared world/dialogue/quest VM probes")
+    world_checks.add_argument("--timeout", type=float, default=180)
+    world_checks.set_defaults(headless=True, func=cmd_runtime)
+    dialogue = sub.add_parser("dialogue", help="preview dialogue and scripted choices in the real VM")
+    dialogue.add_argument("dialogue_id")
+    dialogue.add_argument("--actions", help="JSON action array: advance/choose/cancel/locale")
+    dialogue.add_argument("--state", help="initial world-state JSON")
+    dialogue.add_argument("--locale", default="zh-CN")
+    dialogue.add_argument("--timeout", type=float, default=120)
+    dialogue.set_defaults(headless=True, func=cmd_runtime)
+    capabilities = sub.add_parser("capabilities", help="exercise actual SDK operations without claiming display/audio readiness")
+    capabilities.add_argument("--timeout",type=float,default=120)
+    capabilities.set_defaults(headless=True,func=cmd_runtime)
     return parser
 
 
 def main(argv=None) -> int:
     args = build_parser().parse_args(argv)
+    if getattr(args, "offline", False):
+        return args.func(args)
+    if getattr(args, "headless", False):
+        return cmd_runtime(None, args)
     binary = find_engine(args.eve)
     engine = Engine(binary, os.path.abspath(args.root), args.port, args.wait)
     status = 0

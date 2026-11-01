@@ -1,0 +1,33 @@
+{
+  "schema": "eve.rpgc.dialogue",
+  "version": 1,
+  "id": "story.forest.arrival",
+  "title": "初入森林",
+  "entry": "greeting",
+  "defaultLocale": "zh-CN",
+  "strings": [
+    {
+      "key": "story.forest.arrival.text",
+      "locale": "zh-CN",
+      "text": "雾气遮住了道路。留意路标，沿着小径前进。"
+    },
+    {
+      "key": "story.forest.arrival.text",
+      "locale": "en",
+      "text": "Mist hides the road. Watch the signs and follow the path."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "greeting",
+      "kind": "line",
+      "speaker": "player",
+      "textKey": "story.forest.arrival.text",
+      "next": "done"
+    },
+    {
+      "id": "done",
+      "kind": "end"
+    }
+  ]
+}

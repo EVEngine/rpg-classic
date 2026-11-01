@@ -1,0 +1,28 @@
+{
+  "format": "rpgc.object-group-template",
+  "version": 1,
+  "id": "chest.cache",
+  "revision": 1,
+  "coordinateSpace": "world",
+  "objects": [
+    {
+      "name": "cache",
+      "type": "chest",
+      "x": 3648,
+      "y": 1280,
+      "properties": [
+        {
+          "name": "itemId",
+          "type": "string",
+          "value": "potion.heal"
+        },
+        {
+          "name": "gold",
+          "type": "string",
+          "value": "5"
+        }
+      ]
+    }
+  ],
+  "nameReferences": []
+}

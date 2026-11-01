@@ -19,6 +19,13 @@ import { RpgcProject } from "game:/lib/rpgc_project.nut"
 import { RpgcTilemap } from "game:/lib/rpgc_tilemap.nut"
 import { RpgcBattle } from "game:/lib/rpgc_battle.nut"
 import { RpgcItems } from "game:/lib/rpgc_items.nut"
+import { RpgcWorldState } from "game:/lib/rpgc_world_state.nut"
+import { RpgcEventRunner } from "game:/lib/rpgc_event_runner.nut"
+import { RpgcDialogue } from "game:/lib/rpgc_dialogue.nut"
+import { RpgcQuests } from "game:/lib/rpgc_quests.nut"
+import { RpgcSave } from "game:/lib/rpgc_save.nut"
+import { RpgcNavigation } from "game:/lib/rpgc_navigation.nut"
+import { RpgcSaveStore } from "game:/lib/rpgc_save_store.nut"
 
 // The only copy of the roster id: the fight and the opening bag must read the
 // same document, or the player owns items the party they fight with never got.
@@ -39,6 +46,9 @@ persist previousMouseDown = false
 // ship, exercised on every reload instead of only in a test.
 persist bagSnapshot = ""
 persist bagOpen = false
+persist worldRuntimeSnapshot = ""
+persist worldInputSequence = 0
+persist worldLocale = "zh-CN"
 
 worldLayer <- null
 worldPath <- null
@@ -55,6 +65,31 @@ stepClock <- 0.0
 onPortal <- false
 objectContract <- ""
 eventDocs <- []
+worldState <- null
+worldSession <- null
+worldQueue <- []
+worldQueued <- {}
+worldAcks <- []
+worldDomainEvents <- []
+worldDialogue <- null
+worldMessage <- null
+worldMessages <- {}
+worldQuestDocs <- []
+worldGuideQuest <- null
+worldQuestError <- ""
+worldRuntimeFatal <- ""
+worldRenderedFrames <- 0
+worldLastDiagnostics <- []
+worldSaveRequested <- false
+worldSaveStatus <- "尚未保存"
+worldSaveLastResult <- null
+worldCameraTween <- null
+worldAnimation <- null
+worldActors <- {}
+actorFacings <- {}
+pendingMapEntered <- ""
+worldCapabilities <- {message=true,dialogue=true,load_map=true,camera_focus=true,camera_pan=true,
+    face_actor=true,play_animation=true,move_actor=false}
 
 // Battle state. `null` means the overworld is live; anything else means the
 // fight owns the frame. None of it is `persist`: a battle is a moment, not a
@@ -77,7 +112,6 @@ const INTERACT_RANGE = 1;
 // Packed overworld art is 128×64; isometric pitch is 256×128 (`renderSpacing`
 // [2, 2]). Stretch visuals to fill the diamond. Camera zoom stays 1 — stacking
 // zoom 2 on top of this scale made every tile four times native size.
-const TILE_VISUAL_SCALE = 2.0;
 const CAMERA_ZOOM = 1.0;
 
 function say(text) {
@@ -117,52 +151,11 @@ function loadObjectContract() {
 }
 
 function loadAtlasWalkRules(mapDocPath) {
-    atlasByGid = {};
-    local mapText = eve.Filesystem().readText(mapDocPath);
-    local parsed = RpgcJson.parse(mapText);
-    if (!parsed.ok) return;
-    local tilesets = Rpgc.get(parsed.value, "tilesets", []);
-    if (tilesets.len() == 0) return;
-    local source = Rpgc.asString(Rpgc.get(tilesets[0], "source", ""));
-    if (source == "") return;
-    local atlasPath = "content/tilesets/" + Rpgc.stem(source) + ".json";
-    local cut = source.find("tilesets/");
-    if (cut != null) atlasPath = "content/" + source.slice(cut);
-    local atlasText = eve.Filesystem().readText(atlasPath);
-    local atlas = RpgcJson.parse(atlasText);
-    if (!atlas.ok) return;
-    // `tilesOf` handles both shapes: an explicit `tiles[]` (version 1, and the
-    // `*.baked.json` the engine loader needs) and a version-2 rule document, in
-    // which case the per-GID records are replayed from the grid and size runs.
-    foreach (tile in RpgcTilemap.tilesOf(atlas.value)) {
-        local gid = asInt(Rpgc.get(tile, "gid", 0), 0);
-        if (gid <= 0) continue;
-        atlasByGid["" + gid] <- {
-            walkable = Rpgc.get(tile, "walkable", true) ? true : false,
-            cost = Rpgc.get(tile, "cost", 1.0)
-        };
-    }
+    atlasByGid=RpgcNavigation.atlasRules(mapDocPath);
 }
 
 function applyNavigation(layer, pathfinder) {
-    pathfinder.setDiagonal(false);
-    pathfinder.setBlockEmpty(true);
-    foreach (key, tile in atlasByGid) {
-        if (!tile.walkable) pathfinder.blockGid(key.tointeger());
-    }
-    pathfinder.syncFromLayer();
-    local w = layer.getMapWidth();
-    local h = layer.getMapHeight();
-    for (local y = 0; y < h; y += 1) {
-        for (local x = 0; x < w; x += 1) {
-            local gid = layer.getTile(x, y);
-            local key = "" + gid;
-            if (key in atlasByGid) {
-                local info = atlasByGid[key];
-                if (info.walkable) pathfinder.setCellCost(x, y, info.cost * 1.0);
-            }
-        }
-    }
+    RpgcNavigation.apply(layer,pathfinder,atlasByGid);
 }
 
 function objectTile(index) {
@@ -198,13 +191,7 @@ function bindCamera() {
         camera.setZoom(CAMERA_ZOOM);
         camera.setAmbient(0.18, 0.20, 0.24);
     }
-    for (local i = 0; i < map.getLayerCount(); i += 1) {
-        local layer = map.getLayer(i);
-        if (layer != null) {
-            layer.setCamera(camera);
-            layer.setVisualScale(TILE_VISUAL_SCALE, TILE_VISUAL_SCALE);
-        }
-    }
+    RpgcNavigation.configureLayers(map,camera);
 }
 
 function followCamera() {
@@ -214,9 +201,14 @@ function followCamera() {
     camera.setPosition(wx, wy);
 }
 
-function loadWorldMap(mapId, x, y, fx, fy) {
+function loadWorldMap(mapId, x, y, fx, fy, strict=false) {
     local path = mapPath(mapId);
-    if (eve.Filesystem().readText(path) == "") return false;
+    local raw=eve.Filesystem().readText(path);
+    if (raw=="") return false;
+    if (strict) {
+        local target=RpgcJson.parse(raw);
+        if (!target.ok || x<0 || y<0 || x>=Rpgc.get(target.value,"width",0) || y>=Rpgc.get(target.value,"height",0)) return false;
+    }
     loadAtlasWalkRules(path);
     local admitted = map.loadFromFileWithObjectContract(path, objectContract);
     if (!admitted.ok) {
@@ -228,6 +220,7 @@ function loadWorldMap(mapId, x, y, fx, fy) {
     local pathfinder = map.newPathfinder(layer);
     if (pathfinder == null) return false;
     applyNavigation(layer, pathfinder);
+    if (strict && !pathfinder.isWalkable(x,y)) return false;
     worldLayer = layer;
     worldPath = pathfinder;
     worldMapId = mapId;
@@ -282,129 +275,318 @@ function objectAtPlayer() {
 }
 
 function loadEventDocs() {
-    eventDocs = [];
-    local names = ["content/events/mist-forest.arrival.json", "content/events/village.elder-offer.json"];
-    foreach (path in names) {
-        local text = eve.Filesystem().readText(path);
-        if (text == "") continue;
-        local parsed = RpgcJson.parse(text);
-        if (parsed.ok) eventDocs.append(parsed.value);
-    }
+    // Discover authored events through the same manifest index as the tools.
+    // Hardcoded starter filenames made newly compiled event candidates invisible.
+    local loaded = RpgcProject.loadKind("event");
+    eventDocs = loaded.value;
+    if (!loaded.ok) print("[rpgc] warn: event documents: " + Rpgc.summary(loaded) + "\n");
 }
 
+// Shared-rule world adapter: requests are acknowledged only after the host work.
+function syncWorldPresentation() {
+    if (worldState == null) return;
+    gold=worldState.gold; worldMapId=worldState.mapId;
+    playerX=worldState.x; playerY=worldState.y;
+    facingX=worldState.facingX; facingY=worldState.facingY;
+    consumed=worldState.consumed; switches=worldState.switches; variables=worldState.variables;
+    if (typeof worldState.bag=="table") itemBag=worldState.bag;
+}
+function rememberWorldState() {
+    // This is hot-reload continuity, not the complete player-save protocol.
+    if (worldState != null) worldRuntimeSnapshot=RpgcJson.encodeCompact(worldState);
+}
+function applyWorldCommands(commands) {
+    foreach (command in commands) {
+        worldInputSequence+=1;
+        command.commandId<-"game."+worldInputSequence;
+    }
+    local result=RpgcWorldState.applyBatch(worldState,commands,itemsConfig==null ? 0 : itemsConfig);
+    if (!result.ok) { say("世界命令失败："+Rpgc.summary(result)); return false; }
+    foreach (event in result.value.domainEvents) worldDomainEvents.append(event);
+    syncWorldPresentation(); rememberWorldState();
+    return true;
+}
+function commitPlayerPosition() {
+    return applyWorldCommands([{kind="transfer",mapId=worldMapId,x=playerX,y=playerY,facingX=facingX,facingY=facingY}]);
+}
 function conditionHolds(condition) {
     if (condition == null) return true;
-    local kind = Rpgc.get(condition, "kind", "");
-    if (kind == "switch") {
-        local name = Rpgc.asString(Rpgc.get(condition, "name", ""));
-        return (name in switches) ? switches[name] : false;
-    }
-    if (kind == "variable") {
-        local name = Rpgc.asString(Rpgc.get(condition, "name", ""));
-        local have = name == "gold" ? gold : ((name in variables) ? variables[name] : 0);
-        local want = Rpgc.get(condition, "value", 0);
-        local cmp = Rpgc.asString(Rpgc.get(condition, "compare", "eq"));
-        if (cmp == "gte") return have >= want;
-        if (cmp == "lte") return have <= want;
-        if (cmp == "gt") return have > want;
-        if (cmp == "lt") return have < want;
-        return have == want;
-    }
-    return false;
+    local result=RpgcWorldState.condition(worldState,condition);
+    if (!result.ok) { say("条件求值失败："+Rpgc.summary(result)); return false; }
+    return result.value;
 }
-
-function applyVariable(step) {
-    local name = Rpgc.asString(Rpgc.get(step, "name", ""));
-    local op = Rpgc.asString(Rpgc.get(step, "op", "set"));
-    local value = Rpgc.get(step, "value", 0);
-    if (op == "switchOn") {
-        switches[name] <- true;
-        return;
-    }
-    if (op == "switchOff") {
-        switches[name] <- false;
-        return;
-    }
-    local current = name == "gold" ? gold : ((name in variables) ? variables[name] : 0);
-    if (op == "add") current += value;
-    else if (op == "sub") current -= value;
-    else current = value;
-    if (name == "gold") gold = current;
-    else variables[name] <- current;
-}
-
-function runSteps(steps) {
-    foreach (step in steps) {
-        local kind = Rpgc.asString(Rpgc.get(step, "kind", ""));
-        if (kind == "load_map") {
-            loadWorldMap(Rpgc.asString(Rpgc.get(step, "mapId", "")),
-                         asInt(Rpgc.get(step, "x", 0), 0),
-                         asInt(Rpgc.get(step, "y", 0), 0),
-                         facingX, facingY);
-        } else if (kind == "wait") {
-            // Instant in this adapter; the HUD already shows the last message.
-        } else if (kind == "camera_focus" || kind == "camera_pan") {
-            if (camera != null) {
-                camera.setPosition(Rpgc.get(step, "x", camera.getX()), Rpgc.get(step, "y", camera.getY()));
-                if (Rpgc.has(step, "zoom")) camera.setZoom(Rpgc.get(step, "zoom", 1.0));
-            }
-        } else if (kind == "message") {
-            say(Rpgc.asString(Rpgc.get(step, "reference", "")));
-        } else if (kind == "dialogue") {
-            say(Rpgc.asString(Rpgc.get(step, "reference", "dialogue")));
-        } else if (kind == "set_variable") {
-            applyVariable(step);
-        } else if (kind == "face_actor") {
-            if (Rpgc.asString(Rpgc.get(step, "actorId", "")) == "player") {
-                facingX = asInt(Rpgc.get(step, "facingX", facingX), facingX);
-                facingY = asInt(Rpgc.get(step, "facingY", facingY), facingY);
-            }
-        } else if (kind == "play_animation") {
-            // hero.png is a documented placeholder; skip playback.
-        } else if (kind == "parallel") {
-            runSteps(Rpgc.get(step, "steps", []));
-        } else if (kind == "branch") {
-            if (conditionHolds(Rpgc.get(step, "condition", null)))
-                runSteps(Rpgc.get(step, "then", []));
-            else
-                runSteps(Rpgc.get(step, "else", []));
-        }
-    }
-}
-
-function runEventDoc(doc) {
-    say(Rpgc.asString(Rpgc.get(doc, "title", Rpgc.get(doc, "id", "event"))));
-    runSteps(Rpgc.get(doc, "steps", []));
-}
-
-function matchingEvent(triggerKind, extra) {
-    foreach (doc in eventDocs) {
-        local trigger = Rpgc.get(doc, "trigger", {});
-        if (Rpgc.asString(Rpgc.get(trigger, "kind", "")) != triggerKind) continue;
-        if (Rpgc.asString(Rpgc.get(trigger, "mapId", "")) != worldMapId) continue;
-        if (triggerKind == "portal_entered") {
-            if (Rpgc.asString(Rpgc.get(trigger, "targetMap", "")) != extra) continue;
-        } else if (triggerKind == "object_interacted") {
-            if (Rpgc.asString(Rpgc.get(trigger, "objectName", "")) != extra) continue;
-        }
-        return doc;
-    }
+function worldActorPosition(actorId) {
+    if (actorId=="player") return {x=playerX,y=playerY};
+    for (local i=0;i<map.getObjectCount();i+=1)
+        if (map.getObjectName(i)==actorId) return objectTile(i);
     return null;
 }
+function worldAck(request,ok,message="") {
+    worldAcks.append({operationId=request.operationId,ok=ok,message=message});
+    print("[rpgc-runtime] ack "+request.operationId+" "+(ok ? "ok" : "failed")+" "+message+"\n");
+}
+function startWorldAnimation(request) {
+    local step=request.step;
+    if (worldActorPosition(step.actorId)==null) { worldAck(request,false,"actor does not exist: "+step.actorId); return; }
+    if (worldActors.rawin(step.actorId) && worldActors.rawget(step.actorId).operationId!="") {
+        worldAck(request,false,"actor already has an unacknowledged animation"); return;
+    }
+    local loaded=RpgcProject.loadById("anim",step.anim);
+    if (!loaded.ok) { worldAck(request,false,Rpgc.summary(loaded)); return; }
+    local document=loaded.value; local selected=null;
+    foreach (candidate in document.clips) if (candidate.id==step.clip) selected=candidate;
+    if (selected==null) { worldAck(request,false,"animation clip does not exist"); return; }
+    try {
+        local imagePath=Rpgc.resolveFrom(RpgcProject.pathOf("anim",step.anim),document.image);
+        local texture=gfx.newTextureFromFile(imagePath);
+        if (texture==null) throw "animation texture failed to load";
+        // Reuse native animation objects per actor. Repeated clips do not leak
+        // hidden Sprite2D entities or registered SpriteAnim players.
+        local previous=worldActors.rawin(step.actorId) ? worldActors.rawget(step.actorId) : null;
+        if (previous!=null) previous.player.stop();
+        local sheet=previous==null ? worldAnimation.newSpriteSheet() : previous.sheet;
+        sheet.clear(); sheet.setTexture(texture);
+        sheet.setGrid(document.columns,document.rows,document.frameWidth,document.frameHeight,
+            Rpgc.get(document,"margin",0),Rpgc.get(document,"spacing",0),0,0);
+        local clip=previous==null ? worldAnimation.newSpriteClip(step.anim+"/"+step.clip) : previous.clip;
+        clip.clear(); clip.setName(step.anim+"/"+step.clip);
+        foreach (frame in selected.frames) clip.addFrame(frame,1.0/selected.fps);
+        // SDK SpriteClip.clear() only clears frames, not named events.
+        for (local i=0;i<selected.frames.len();i+=1) clip.addEvent(i,"");
+        local looping=Rpgc.get(step,"loop",Rpgc.get(selected,"loop",false));
+        clip.setLoop(looping);
+        foreach (event in Rpgc.get(selected,"events",[])) clip.addEvent(event.frame,event.name);
+        local quad=previous==null ? gfx.newQuad(0,0,document.frameWidth,document.frameHeight) : previous.quad;
+        local sprite=previous==null ? gfx.newSprite2D() : previous.sprite;
+        sprite.setTexture(texture); sprite.setQuad(quad);
+        sprite.setSize(document.frameWidth.tofloat()*2.0,document.frameHeight.tofloat()*2.0);
+        sprite.setAnchor(0.5,1.0); sprite.setBlend("alpha"); sprite.setReceiveLight(false);
+        local player=previous==null ? worldAnimation.newSpriteAnim() : previous.player;
+        player.setSheet(sheet); player.bindQuad(quad); player.bindSprite(sprite); player.play(clip);
+        worldActors.rawset(step.actorId,{sprite=sprite,player=player,sheet=sheet,clip=clip,quad=quad,
+            request=request,operationId=request.operationId,looping=looping});
+    } catch (error) { worldAck(request,false,"animation adapter: "+error); }
+}
+function openWorldDialogue(reference,request=null) {
+    if (worldDialogue!=null) {
+        if (request!=null) worldAck(request,false,"a dialogue is already active");
+        return false;
+    }
+    local loaded=RpgcProject.loadById("dialogue",reference);
+    if (!loaded.ok) {
+        if (request!=null) worldAck(request,false,"dialogue definition missing: "+reference);
+        else say("对话定义缺失："+reference);
+        return false;
+    }
+    local started=RpgcDialogue.start(loaded.value,worldState,worldLocale);
+    if (!started.ok) {
+        if (request!=null) worldAck(request,false,Rpgc.summary(started));
+        else say("对话失败："+Rpgc.summary(started));
+        return false;
+    }
+    worldDialogue={session=started.value,request=request,view=null};
+    foreach (event in RpgcDialogue.takeDomainEvents(started.value)) worldDomainEvents.append(event);
+    refreshWorldDialogue(); syncWorldPresentation(); rememberWorldState();
+    return true;
+}
+function refreshWorldDialogue() {
+    if (worldDialogue==null) return;
+    local viewed=RpgcDialogue.view(worldDialogue.session,worldState,worldLocale);
+    if (!viewed.ok) {
+        if (worldDialogue.request!=null) worldAck(worldDialogue.request,false,Rpgc.summary(viewed));
+        say("对话失败："+Rpgc.summary(viewed)); worldDialogue=null; return;
+    }
+    worldDialogue.view=viewed.value;
+    if (viewed.value.status=="completed") {
+        if (worldDialogue.request!=null) worldAck(worldDialogue.request,true);
+        print("[rpgc-runtime] dialogue completed "+viewed.value.dialogueId+"\n");
+        worldDialogue=null;
+    }
+}
+function worldDialogueInput(optionIndex=-1,advance=false) {
+    if (worldDialogue==null) return false;
+    // Submit the option ID/revision that was actually displayed. Refresh only
+    // after rejection; re-indexing a stale numeric choice could select another option.
+    if (worldDialogue.view==null) return false;
+    local view=worldDialogue.view; local result=null;
+    if (view.kind=="line" && advance) result=RpgcDialogue.advance(worldDialogue.session,worldState,view.revision);
+    if (view.kind=="choice" && optionIndex>=0 && optionIndex<view.options.len())
+        result=RpgcDialogue.choose(worldDialogue.session,worldState,view.options[optionIndex].id,view.revision);
+    if (result!=null) {
+        if (!result.ok) say("对话操作失败："+Rpgc.summary(result));
+        else foreach (event in RpgcDialogue.takeDomainEvents(worldDialogue.session)) worldDomainEvents.append(event);
+        syncWorldPresentation(); rememberWorldState(); refreshWorldDialogue();
+    }
+    return result!=null && result.ok;
+}
+function handleWorldRequest(request) {
+    print("[rpgc-runtime] request "+request.operationId+" "+request.kind+"\n");
+    local step=request.step;
+    if (request.kind=="message") {
+        if (!worldMessages.rawin(step.reference)) { worldAck(request,false,"message text is missing: "+step.reference); return; }
+        if (worldMessage!=null || worldDialogue!=null) { worldAck(request,false,"message/dialogue channel is busy"); return; }
+        worldMessage={request=request,text=worldMessages.rawget(step.reference)};
+        say(worldMessage.text);
+    } else if (request.kind=="dialogue") {
+        if (worldMessage!=null) worldAck(request,false,"message/dialogue channel is busy");
+        else openWorldDialogue(step.reference,request);
+    } else if (request.kind=="load_map") {
+        local oldMap=worldState.mapId; local oldX=worldState.x; local oldY=worldState.y;
+        local oldFX=worldState.facingX; local oldFY=worldState.facingY;
+        local loaded=false;
+        if (step.x==asInt(step.x,-1) && step.y==asInt(step.y,-1))
+            loaded=loadWorldMap(step.mapId,asInt(step.x,-1),asInt(step.y,-1),oldFX,oldFY,true);
+        if (loaded) {
+            worldAck(request,true);
+            pendingMapEntered=step.mapId;
+        } else {
+            local restored=loadWorldMap(oldMap,asInt(oldX,-1),asInt(oldY,-1),oldFX,oldFY,true);
+            if (!restored) worldRuntimeFatal="地图转移失败且旧地图无法恢复；请修复内容后重新加载。";
+            worldAck(request,false,restored ? "invalid map/landing cell; previous map restored" : "map transfer and rollback both failed");
+        }
+    } else if (request.kind=="camera_focus" || request.kind=="camera_pan") {
+        if (camera==null || worldCameraTween!=null) { worldAck(request,false,"camera unavailable or already moving"); return; }
+        worldCameraTween={request=request,elapsed=0.0,duration=Rpgc.get(step,"duration",0.0),
+            fromX=camera.getX(),fromY=camera.getY(),fromZoom=camera.getZoom(),
+            toX=step.x,toY=step.y,toZoom=Rpgc.get(step,"zoom",camera.getZoom())};
+    } else if (request.kind=="face_actor") {
+        if (worldActorPosition(step.actorId)==null) { worldAck(request,false,"actor not present: "+step.actorId); return; }
+        actorFacings.rawset(step.actorId,{x=step.facingX,y=step.facingY});
+        if (worldActors.rawin(step.actorId)) worldActors.rawget(step.actorId).sprite.setFlip(step.facingX<0,false);
+        worldAck(request,true);
+    } else if (request.kind=="play_animation") startWorldAnimation(request);
+    else worldAck(request,false,"runtime.capability-missing: "+request.kind);
+}
+function updateWorldPresentation(dt) {
+    if (worldCameraTween!=null) {
+        local tween=worldCameraTween;
+        tween.elapsed+=dt;
+        local amount=tween.duration>0 ? tween.elapsed/tween.duration : 1.0;
+        if (amount>1.0) amount=1.0;
+        camera.setPosition(tween.fromX+(tween.toX-tween.fromX)*amount,tween.fromY+(tween.toY-tween.fromY)*amount);
+        camera.setZoom(tween.fromZoom+(tween.toZoom-tween.fromZoom)*amount);
+        if (amount>=1.0) { worldAck(tween.request,true); worldCameraTween=null; }
+    }
+    foreach (actorId,actor in worldActors) {
+        actor.player.update(dt);
+        local event=actor.player.consumeEvent();
+        if (event!="") print("[rpgc-runtime] animation-event "+actorId+" "+event+"\n");
+        if (actor.operationId!="" && (actor.looping || actor.player.isFinished())) {
+            worldAck(actor.request,true); actor.operationId="";
+        }
+    }
+}
+function runEventDoc(doc) {
+    if ((!Rpgc.get(doc,"repeatable",false) && worldState.completedEvents.rawin(doc.id)) || worldQueued.rawin(doc.id)) return false;
+    if (worldSession!=null && worldSession.eventId==doc.id) return false;
+    worldQueued.rawset(doc.id,true); worldQueue.append(RpgcWorldState.copyValue(doc));
+    return true;
+}
+function dispatchWorldTrigger(kind,extra="",mapId="") {
+    if (mapId=="") mapId=worldMapId;
+    local matches=[];
+    foreach (doc in eventDocs) {
+        local trigger=Rpgc.get(doc,"trigger",{});
+        if (Rpgc.get(trigger,"kind","")!=kind) continue;
+        if (trigger.rawin("mapId") && trigger.mapId!=mapId) continue;
+        if (kind=="portal_entered" && Rpgc.get(trigger,"targetMap","")!=extra) continue;
+        if (kind=="object_interacted" && Rpgc.get(trigger,"objectName","")!=extra) continue;
+        if (kind=="quest_completed" && Rpgc.get(trigger,"questId","")!=extra) continue;
+        matches.append(doc);
+    }
+    matches.sort(function(a,b) { return a.id<b.id ? -1 : (a.id>b.id ? 1 : 0); });
+    local count=0;
+    foreach (doc in matches) if (runEventDoc(doc)) count+=1;
+    return count;
+}
+function cancelWorldEvent() {
+    // A native map may already have loaded while its transfer ack is pending.
+    // Cancelling must restore that uncommitted map, not merely discard the ack.
+    if (pendingMapEntered!="") {
+        local restored=loadWorldMap(worldState.mapId,asInt(worldState.x,-1),asInt(worldState.y,-1),
+            worldState.facingX,worldState.facingY,true);
+        if (!restored) worldRuntimeFatal="取消地图转移后无法恢复旧地图；请重新加载。";
+        pendingMapEntered="";
+    }
+    if (worldDialogue!=null) { RpgcDialogue.cancel(worldDialogue.session); worldDialogue=null; }
+    worldMessage=null; worldCameraTween=null;
+    if (worldSession!=null) RpgcEventRunner.cancel(worldSession,worldState);
+    foreach (actorId,actor in worldActors) {
+        if (actor.operationId!="") { actor.player.stop(); actor.operationId=""; }
+    }
+    worldSession=null; worldAcks=[]; worldQueue=[]; worldQueued={};
+    rememberWorldState(); say("演出已取消；已提交的动作保留。");
+}
+function updateWorldEvents(dt) {
+    updateWorldPresentation(dt);
+    if (worldSession==null && worldQueue.len()>0) {
+        local doc=worldQueue.remove(0); worldQueued.rawdelete(doc.id);
+        local made=RpgcEventRunner.newSession(doc,worldState,worldCapabilities);
+        if (!made.ok) { worldLastDiagnostics=made.diagnostics; say("事件无法开始："+Rpgc.summary(made)); return; }
+        worldLastDiagnostics=[];
+        worldSession=made.value; activePath=null; bagOpen=false;
+    }
+    if (worldSession==null) return;
+    local acks=worldAcks; worldAcks=[];
+    local result=RpgcEventRunner.tick(worldSession,worldState,dt,acks);
+    if (typeof result.value=="table") foreach (event in result.value.domainEvents) worldDomainEvents.append(event);
+    syncWorldPresentation(); rememberWorldState();
+    if (!result.ok) {
+        worldLastDiagnostics=result.diagnostics;
+        say("事件失败："+Rpgc.summary(result));
+        worldCameraTween=null; worldMessage=null; worldDialogue=null;
+        foreach (actorId,actor in worldActors) if (actor.operationId!="") { actor.player.stop(); actor.operationId=""; }
+        worldSession=null; worldAcks=[]; pendingMapEntered=""; return;
+    }
+    foreach (request in result.value.requests) {
+        try { handleWorldRequest(request); }
+        catch (error) { worldAck(request,false,"host adapter failed: "+error); }
+    }
+    if (pendingMapEntered!="" && worldState.mapId==pendingMapEntered) {
+        local entered=pendingMapEntered; pendingMapEntered="";
+        dispatchWorldTrigger("map_entered","",entered);
+    }
+    if (result.value.status=="completed") {
+        print("[rpgc-runtime] event completed "+worldSession.eventId+"\n");
+        worldSession=null; worldAcks=[];
+    }
+}
+// Read-only game diagnostics consumed by the real-host smoke tool and MCP.
+function worldRuntimeReport() {
+    local options=[];
+    if (worldDialogue!=null && worldDialogue.view!=null) options=worldDialogue.view.options;
+    local quest=worldGuideQuest!=null && worldState.quests.rawin(worldGuideQuest.id) ? worldState.quests.rawget(worldGuideQuest.id).status : "inactive";
+    local nativeObjects=[];
+    for (local i=0;i<map.getObjectCount();i+=1) nativeObjects.append(map.getObjectName(i));
+    nativeObjects.sort();
+    local actors=[];
+    foreach (id,actor in worldActors) actors.append({id=id,frame=actor.player.getSheetFrame(),playing=actor.player.isPlaying(),pending=actor.operationId});
+    return RpgcJson.encodeCompact({mapId=worldMapId,x=playerX,y=playerY,gold=worldState.gold,
+        potionCount=itemBag==null ? 0 : RpgcItems.countOf(itemBag,"potion.heal"),questStatus=quest,
+        consumed=worldState.consumed,completedEvents=worldState.completedEvents,
+        currentEvent=worldSession==null ? "" : worldSession.eventId,busy=worldBusy(),
+        dialogueKind=worldDialogue==null ? "" : worldDialogue.view.kind,
+        dialogueText=worldDialogue==null ? "" : worldDialogue.view.text,options=options,
+        message=worldMessage==null ? "" : worldMessage.text,actors=actors,renderedFrames=worldRenderedFrames,
+        cameraX=camera==null ? 0 : camera.getX(),cameraY=camera==null ? 0 : camera.getY(),
+        clock=worldState.clock,statusText=statusText,fatal=worldRuntimeFatal,questError=worldQuestError,
+        saveRequested=worldSaveRequested,saveStatus=worldSaveStatus,saveDirectory=RpgcSaveStore.directory,saveResult=worldSaveLastResult,
+        lastDiagnostics=worldLastDiagnostics,nativeObjects=nativeObjects,
+        nativeOriginX=worldLayer==null ? 0 : worldLayer.tileToWorldX(0,0),
+        nativeOriginY=worldLayer==null ? 0 : worldLayer.tileToWorldY(0,0)});
+}
+function worldBusy() { return worldSession!=null || worldQueue.len()>0 || worldDialogue!=null || worldMessage!=null; }
 
 function enterPortal(index) {
     local targetMap = map.getObjectProperty(index, "targetMap", "");
-    local event = matchingEvent("portal_entered", targetMap);
-    if (event != null) {
-        runEventDoc(event);
-        return;
-    }
-    loadWorldMap(targetMap,
+    if (dispatchWorldTrigger("portal_entered",targetMap)>0) return;
+    local loaded=loadWorldMap(targetMap,
                  asInt(map.getObjectProperty(index, "targetX", "0"), 0),
                  asInt(map.getObjectProperty(index, "targetY", "0"), 0),
                  asInt(map.getObjectProperty(index, "facingX", "1"), 1),
                  asInt(map.getObjectProperty(index, "facingY", "0"), 0));
-    say("进入 " + targetMap);
+    if (loaded) { commitPlayerPosition(); dispatchWorldTrigger("map_entered"); say("进入 " + targetMap); }
+    else say("地图载入失败："+targetMap);
 }
 
 function interactObject(index) {
@@ -419,12 +601,8 @@ function interactObject(index) {
         return;
     }
     if (kind == "npc") {
-        local event = matchingEvent("object_interacted", name);
-        if (event != null) {
-            runEventDoc(event);
-            return;
-        }
-        say(map.getObjectProperty(index, "speaker", name) + "：" + map.getObjectProperty(index, "dialogue", ""));
+        if (dispatchWorldTrigger("object_interacted",name)>0) return;
+        openWorldDialogue(map.getObjectProperty(index,"dialogue",""));
         return;
     }
     if (kind == "chest") {
@@ -434,9 +612,14 @@ function interactObject(index) {
             return;
         }
         local amount = asInt(map.getObjectProperty(index, "gold", "0"), 0);
-        gold += amount;
-        consumed[key] <- true;
-        say("获得 " + map.getObjectProperty(index, "itemId", "item") + " 和 " + amount + " 金币");
+        local itemId=map.getObjectProperty(index,"itemId","");
+        local rewards=[];
+        if (itemId!="") rewards.append({kind="give_item",itemId=itemId,quantity=1});
+        rewards.append({kind="set_variable",name="gold",op="add",value=amount});
+        rewards.append({kind="consume_object",mapId=worldMapId,objectName=name});
+        if (!applyWorldCommands(rewards)) return;
+        saveBag();
+        say("获得 " + (itemId=="" ? "" : itemId+" 和 ") + amount + " 金币");
         return;
     }
     say(name);
@@ -455,6 +638,7 @@ function tryMove(dx, dy) {
     facingX = dx;
     facingY = dy;
     activePath = null;
+    commitPlayerPosition();
     followCamera();
 }
 
@@ -472,6 +656,8 @@ function requestPath(tx, ty) {
 function refreshHud() {
     if (!hudBuilt) return;
     ui.select("hud");
+    if (worldDialogue!=null) refreshWorldDialogue();
+    ui.setText("dialogue",worldDialoguePanel());
     if (battleFight != null) {
         ui.setText("area", battleHeader());
         ui.setText("help", battleHelp());
@@ -489,7 +675,8 @@ function refreshHud() {
         return;
     }
     ui.setText("area", worldMapId + "  (" + playerX + "," + playerY + ")  金币 " + gold);
-    ui.setText("battle", "");
+    ui.setText("help",worldBusy() ? "演出进行中 · 空格 / Enter 继续 · 1..9 选择 · Esc 取消" : "WASD 移动 · E 互动 · B 战斗 · I 背包 · T 向导任务");
+    ui.setText("battle", worldQuestSummary());
     ui.setText("items", "");
     ui.setText("status", statusText);
 }
@@ -557,6 +744,7 @@ function setupItems() {
 function saveBag() {
     if (itemBag == null || itemEquip == null) return;
     bagSnapshot = RpgcJson.encodeCompact(RpgcItems.snapshot(itemBag, itemEquip));
+    if (worldState!=null) { worldState.bag=itemBag; rememberWorldState(); }
 }
 
 function bagRows() {
@@ -830,7 +1018,7 @@ function finishBattle() {
     local settled = RpgcBattle.settlement(battleFight);
     local line = "";
     if (settled.outcome == "victory") {
-        gold += settled.gold;
+        applyWorldCommands([{kind="set_variable",name="gold",op="add",value=settled.gold}]);
         line = "胜利（" + settled.rounds + " 回合） +" + settled.gold + " 金币";
         // The drops go INTO the bag here. Before the bag existed this line
         // printed the ids and the items evaporated -- the settlement reported
@@ -1257,15 +1445,203 @@ function renderBattle() {
 }
 
 
+// Sample gameplay wiring: dialogue commits intent; the quest module owns all
+// objective counting, capacity checks and atomic reward/claimed transitions.
+function setupWorldQuests() {
+    local loaded=RpgcProject.loadKind("quest");
+    if (!loaded.ok) throw "quest definitions failed: "+Rpgc.summary(loaded);
+    worldQuestDocs=loaded.value; worldGuideQuest=null;
+    foreach (doc in worldQuestDocs) if (doc.id=="quest.toolkit-guide") worldGuideQuest=doc;
+}
+function processWorldQuests() {
+    if (worldQuestError!="") return;
+    if (worldGuideQuest!=null && worldState.variables.rawin("toolkit.guide.accepted") &&
+        worldState.variables.rawget("toolkit.guide.accepted")==1 && !worldState.quests.rawin(worldGuideQuest.id)) {
+        local activated=RpgcQuests.activate(worldGuideQuest,worldState);
+        if (!activated.ok) say("任务接取失败："+Rpgc.summary(activated));
+        else {
+            foreach (event in activated.value.domainEvents) {
+                worldDomainEvents.append(event);
+                if (event.kind=="quest_completed") dispatchWorldTrigger("quest_completed",event.payload.questId);
+            }
+            print("[rpgc-runtime] quest activated "+worldGuideQuest.id+"\n");
+        }
+    }
+    if (worldDomainEvents.len()>0) {
+        local input=worldDomainEvents;
+        local consumedEvents=RpgcQuests.consume(worldQuestDocs,worldState,input);
+        if (!consumedEvents.ok) { worldQuestError=Rpgc.summary(consumedEvents); say("任务计数暂停："+worldQuestError+"；按 T 重试。"); return; }
+        worldDomainEvents=[];
+        foreach (event in consumedEvents.value.domainEvents) {
+            worldDomainEvents.append(event);
+            if (event.kind=="quest_completed") {
+                dispatchWorldTrigger("quest_completed",event.payload.questId);
+                say("任务目标完成，按 T 返回向导领奖。");
+                print("[rpgc-runtime] quest completed "+event.payload.questId+"\n");
+            }
+        }
+        syncWorldPresentation(); rememberWorldState();
+    }
+}
+function visitWorldGuide() {
+    worldQuestError="";
+    processWorldQuests();
+    if (worldGuideQuest!=null && worldState.quests.rawin(worldGuideQuest.id) &&
+        worldState.quests.rawget(worldGuideQuest.id).status=="completed") {
+        local claimed=RpgcQuests.claim(worldGuideQuest,worldState,itemsConfig==null ? 0 : itemsConfig);
+        if (!claimed.ok) { say("奖励尚未领取："+Rpgc.summary(claimed)); return false; }
+        foreach (event in claimed.value.domainEvents) worldDomainEvents.append(event);
+        syncWorldPresentation(); saveBag();
+        say("已领取向导奖励：5 金币、1 份金创药。");
+        print("[rpgc-runtime] quest claimed "+worldGuideQuest.id+"\n");
+        return true;
+    }
+    return openWorldDialogue("dialogue.toolkit-guide");
+}
+function worldQuestSummary() {
+    if (worldGuideQuest==null) return "";
+    if (!worldState.quests.rawin(worldGuideQuest.id)) return "向导委托：按 T 对话接取";
+    local progress=worldState.quests.rawget(worldGuideQuest.id);
+    local label=progress.status;
+    if (label=="active") label="寻找并打开村外旧箱子";
+    if (label=="completed") label="目标完成，按 T 领奖";
+    if (label=="claimed") label="奖励已领取";
+    return worldGuideQuest.title+"："+label;
+}
+
+// Player save files are independent of the persist-only hot-reload snapshot.
+function worldSaveContext() {
+    return {eventActive=worldSession!=null || worldQueue.len()>0 || worldMessage!=null || worldCameraTween!=null || worldAcks.len()>0 || worldRuntimeFatal!="",
+        dialogueActive=worldDialogue!=null,battleActive=battleFight!=null,
+        pendingDomainEvents=worldDomainEvents.len()>0 || worldQuestError!="",pendingTransfer=pendingMapEntered!=""};
+}
+function worldSaveMeta() { return {partyId=PARTY_ID,locale=worldLocale,inputSequence=worldInputSequence}; }
+function processWorldSave() {
+    if(!worldSaveRequested)return null;
+    local captured=RpgcSave.capture(worldState,itemEquip,worldSaveMeta(),worldSaveContext());
+    if(!captured.ok) {
+        worldSaveRequested=false;worldSaveLastResult=captured;worldSaveStatus="保存失败："+Rpgc.summary(captured);say(worldSaveStatus);return captured;
+    }
+    if(captured.value.status=="deferred") {
+        worldSaveStatus="等待安全点保存："+captured.value.reason;worldSaveLastResult=captured;return captured;
+    }
+    local saved=RpgcSaveStore.save(captured.value.snapshot,"slot1");
+    worldSaveRequested=false;worldSaveLastResult=saved;
+    worldSaveStatus=saved.ok ? "已保存到玩家存档槽 1" : "保存失败："+Rpgc.summary(saved);
+    say(worldSaveStatus);return saved;
+}
+function requestWorldSave() {
+    worldSaveRequested=true;
+    local result=processWorldSave();
+    if(worldSaveRequested)say(worldSaveStatus);
+    return result;
+}
+function applyWorldRestore(candidate) {
+    // Strict source validation happens in RpgcSave.restore before this function.
+    // Native map admission remains a second gate, before swapping live values.
+    if(candidate.partyId!=PARTY_ID)return Rpgc.fail([Rpgc.error("save.party-adapter","this game adapter only supports its configured party","/payload/partyId","")]);
+    local oldMap=worldState.mapId;local oldX=worldState.x;local oldY=worldState.y;
+    local oldFX=worldState.facingX;local oldFY=worldState.facingY;
+    local loaded=false;local errorText="saved map or landing cell was rejected";
+    try {loaded=loadWorldMap(candidate.state.mapId,candidate.state.x,candidate.state.y,candidate.state.facingX,candidate.state.facingY,true);}
+    catch(error){errorText="saved map admission failed: "+error;}
+    if(!loaded) {
+        local restored=false;
+        try {restored=loadWorldMap(oldMap,oldX,oldY,oldFX,oldFY,true);}catch(error){restored=false;}
+        if(!restored)worldRuntimeFatal="读档地图失败且旧地图无法恢复；原世界状态未替换。";
+        return Rpgc.fail([Rpgc.error("save.map-adapter",errorText+(restored ? "; previous map restored" : "; previous map rollback failed"),"/payload/world/mapId","")]);
+    }
+    worldState=candidate.state;itemEquip=candidate.equipment;worldLocale=candidate.locale;worldInputSequence=candidate.inputSequence;
+    worldSession=null;worldQueue=[];worldQueued={};worldAcks=[];worldDomainEvents=[];
+    worldDialogue=null;worldMessage=null;worldCameraTween=null;pendingMapEntered="";
+    worldQuestError="";worldRuntimeFatal="";worldSaveRequested=false;activePath=null;bagOpen=false;
+    foreach(actorId,actor in worldActors){actor.player.stop();actor.operationId="";}
+    syncWorldPresentation();saveBag();rememberWorldState();
+    return Rpgc.ok({restored=true,mapId=worldState.mapId});
+}
+function requestWorldLoad() {
+    local context=worldSaveContext();
+    foreach(key,busy in context)if(busy) {
+        local denied=Rpgc.fail([Rpgc.error("save.busy","loading is only allowed at a safe point: "+key,"$","")]);
+        worldSaveLastResult=denied;worldSaveStatus="当前正在进行游戏动作，安全点才能读档。";say(worldSaveStatus);return denied;
+    }
+    local loaded=RpgcSaveStore.load("slot1");
+    if(!loaded.ok){worldSaveLastResult=loaded;worldSaveStatus="读档失败："+Rpgc.summary(loaded);say(worldSaveStatus);return loaded;}
+    local restored=applyWorldRestore(loaded.value.candidate);
+    if(restored.ok){restored.value.source<-loaded.value.source;restored.value.directory<-loaded.value.directory;}
+    worldSaveLastResult=restored;
+    worldSaveStatus=restored.ok ? (loaded.value.source=="backup" ? "主存档损坏或缺失，已恢复上一代有效备份。" : "已读取玩家存档槽 1") : "读档失败："+Rpgc.summary(restored);
+    say(worldSaveStatus);return restored;
+}
+
+function initializeWorldRuntime() {
+    local initial=RpgcWorldState.create({gold=gold,mapId=worldMapId,x=playerX<0 ? 0 : playerX,y=playerY<0 ? 0 : playerY,
+        facingX=facingX,facingY=facingY,moment="day"});
+    if (worldRuntimeSnapshot!="") {
+        local saved=RpgcJson.parse(worldRuntimeSnapshot);
+        if (saved.ok) {
+            saved.value.activeEvents<-{};
+            local restored=RpgcWorldState.create(saved.value);
+            if (restored.ok) initial=restored;
+            else throw "world hot-reload state rejected: "+Rpgc.summary(restored);
+        } else throw "world hot-reload state is not valid JSON";
+    }
+    if (!initial.ok) throw "world state rejected: "+Rpgc.summary(initial);
+    worldState=initial.value;
+    // First launch retains the existing -1 spawn sentinel; reload uses shared coordinates.
+    if (worldRuntimeSnapshot!="") syncWorldPresentation();
+    worldAnimation=eve.Animation();
+    local messages=RpgcJson.parse(eve.Filesystem().readText("data/story-messages.json"));
+    if (!messages.ok || typeof messages.value!="table") throw "missing or invalid story message catalog";
+    worldMessages=messages.value;
+}
+function worldDialoguePanel() {
+    if (worldMessage!=null) return worldMessage.text+"\n[空格 / Enter 继续 · Esc 取消]";
+    if (worldDialogue==null || worldDialogue.view==null) return "";
+    local view=worldDialogue.view;
+    local text=(view.speaker=="" ? "" : view.speaker+"：\n")+view.text;
+    for (local i=0;i<view.options.len();i+=1) text+="\n"+(i+1)+". "+view.options[i].text;
+    text+=view.kind=="line" ? "\n[空格 / Enter 继续 · L 切换语言 · Esc 取消]" : "\n[数字键选择 · L 切换语言 · Esc 取消]";
+    return text;
+}
+function handleWorldInput() {
+    if (keyPressed("escape")) { cancelWorldEvent(); return; }
+    if (keyPressed("l") || keyPressed("L")) {
+        worldLocale=worldLocale=="zh-CN" ? "en" : "zh-CN";
+        refreshWorldDialogue();
+    }
+    local advance=keyPressed("space") || keyPressed("return") || keyPressed("enter");
+    if (worldMessage!=null && advance) {
+        worldAck(worldMessage.request,true); worldMessage=null; return;
+    }
+    if (worldDialogue!=null) {
+        if (advance) worldDialogueInput(-1,true);
+        for (local i=0;i<9;i+=1) if (keyPressed(""+(i+1))) worldDialogueInput(i,false);
+    }
+}
+function positionWorldSprites() {
+    foreach (actorId,actor in worldActors) {
+        local cell=worldActorPosition(actorId);
+        if (cell==null || battleFight!=null || worldLayer==null || camera==null) { actor.sprite.setVisible(false); continue; }
+        actor.sprite.setVisible(true);
+        local wx=worldLayer.tileToWorldX(cell.x,cell.y);
+        local wy=worldLayer.tileToWorldY(cell.x,cell.y);
+        actor.sprite.setPosition(camera.worldToScreenX(wx,wy,gfx.getWidth().tofloat(),gfx.getHeight().tofloat()),
+            camera.worldToScreenY(wx,wy,gfx.getWidth().tofloat(),gfx.getHeight().tofloat()));
+        actor.sprite.setScale(camera.getZoom(),camera.getZoom());
+    }
+}
+
 function buildHud() {
     if (hudBuilt) return;
     ui.beginBuild();
     ui.beginWindow("rpg-classic", "root");
     ui.text("", "area");
-    ui.text("方向键 / WASD 移动 · 点击寻路 · E 互动 · B 打一场 · I 背包", "help");
+    ui.text("方向键 / WASD 移动 · E 互动 · T 向导 · B 战斗 · I 背包 · F5 保存 · F9 读档", "help");
     ui.text("", "battle");
     ui.text("", "items");
     ui.text("", "status");
+    ui.text("", "dialogue");
     ui.end();
     ui.mountBuildAs("hud");
     ui.select("hud");
@@ -1275,15 +1651,22 @@ function buildHud() {
 }
 
 function setupGame() {
+    local firstLaunch=worldRuntimeSnapshot=="";
+    initializeWorldRuntime();
     loadObjectContract();
     loadEventDocs();
     setupItems();
+    if (itemBag!=null) worldState.bag=itemBag;
+    setupWorldQuests();
     gfx.setBackgroundColor(0.05, 0.07, 0.10, 1.0);
     local startX = playerX;
     local startY = playerY;
     if (!loadWorldMap(worldMapId, startX, startY, facingX, facingY))
         throw "rpgc: failed to load " + worldMapId;
+    commitPlayerPosition();
     buildHud();
+    if (firstLaunch) dispatchWorldTrigger("game_started");
+    dispatchWorldTrigger("map_entered");
     if (statusText == "") say("村庄外郊。去找长者，或走向森林入口。");
     refreshHud();
 }
@@ -1303,6 +1686,8 @@ eve_reload <- function () {
 };
 
 eve_update = function (dt) {
+    if(keyPressed("f5") || keyPressed("F5"))requestWorldSave();
+    if(keyPressed("f9") || keyPressed("F9")){requestWorldLoad();refreshHud();return;}
     if (battleFight != null) {
         updateBattle(dt);
         if (statusTimer > 0.0) {
@@ -1313,11 +1698,22 @@ eve_update = function (dt) {
         return;
     }
     if (worldLayer == null) return;
+    if (worldRuntimeFatal!="") { statusText=worldRuntimeFatal; refreshHud(); return; }
     if (statusTimer > 0.0) {
         statusTimer -= dt;
         if (statusTimer <= 0.0) statusText = "";
     }
 
+    updateWorldEvents(dt);
+    processWorldQuests();
+    processWorldSave();
+    if (worldBusy()) {
+        handleWorldInput();
+        map.update(dt); refreshHud(); return;
+    }
+    if (keyPressed("t") || keyPressed("T")) {
+        visitWorldGuide(); refreshHud(); return;
+    }
     if (keyPressed("b") || keyPressed("B")) {
         startBattle();
         return;
@@ -1367,6 +1763,7 @@ eve_update = function (dt) {
             playerX = activePath.getX(pathIndex);
             playerY = activePath.getY(pathIndex);
             pathIndex += 1;
+            commitPlayerPosition();
             followCamera();
             if (pathIndex >= activePath.getLength()) activePath = null;
         }
@@ -1391,6 +1788,7 @@ function markerColor(kind) {
 }
 
 eve_render = function () {
+    worldRenderedFrames+=1;
     gfx.clear();
     if (battleFight != null) {
         renderBattle();
@@ -1412,12 +1810,19 @@ eve_render = function () {
             local sy = camera.worldToScreenY(wx, wy, viewW, viewH);
             local color = markerColor(kind);
             gfx.drawSolidRect(sx - 6.0, sy - 6.0, 12.0, 12.0, color[0], color[1], color[2], color[3]);
+            local actorId=map.getObjectName(i);
+            if (actorFacings.rawin(actorId)) {
+                local direction=actorFacings.rawget(actorId);
+                gfx.drawSolidRect(sx+direction.x*12.0-2.0,sy+direction.y*12.0-2.0,4.0,4.0,1.0,1.0,1.0,1.0);
+            }
         }
         local px = worldLayer.tileToWorldX(playerX, playerY);
         local py = worldLayer.tileToWorldY(playerX, playerY);
         local sx = camera.worldToScreenX(px, py, viewW, viewH);
         local sy = camera.worldToScreenY(px, py, viewW, viewH);
-        gfx.drawSolidRect(sx - 8.0, sy - 22.0, 16.0, 28.0, 0.95, 0.35, 0.28, 1.0);
+        if (!worldActors.rawin("player")) gfx.drawSolidRect(sx - 8.0, sy - 22.0, 16.0, 28.0, 0.95, 0.35, 0.28, 1.0);
     }
+    positionWorldSprites();
+    gfx.renderSprites();
     ui.beginFrameAndRender();
 };

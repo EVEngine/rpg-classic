@@ -49,28 +49,27 @@ python tools/import_bestiary_assets.py --check   # 只校验，不写盘
 - **没有做任何放大。** 帧保持原尺寸：`hero.json` 本来就是 32×48，小尺寸精灵是
   这套工作流既有的约定。要不要在绘制时放大是运行时的事，把它烘进图集等于发明数据。
 
-## 为什么这里仍然不放逐朝向角色精灵
+## 程序化开发动画（2026-10-30补齐）
 
-**主角与 NPC 依然没有图。** `hero.json` 指向 `hero.png`，`fireball.json` 指向
-`fireball.png`，两张图都不存在。
+`hero.png`、`blade.png`、`palm.png`、`fireball.png` 和 `thunder.png` 由项目内
+[`tools/build_placeholder_anims.py`](../../tools/build_placeholder_anims.py) 确定性生成。
+它们是原创程序化开发占位素材，随项目采用 MIT 授权；不使用外部图片、不需要网络。
+角色三张为 128×96（32×48、4×2），火球与雷电为 128×64（32×32、4×2），
+透明背景，每帧有可辨的动作或特效变化，现有动画文档、片段ID和事件时刻保持不变。
 
-之前这里放过 Engvee 的 "Animated Isometric" 系列（Reptile / Snake /
-Archeopteryx），已按项目决定全部移除：Engvee 每个包按 22.5°（部分 7.5°）渲染出
-16~48 个朝向，每朝向一个独立图集文件，三个包合起来 1.45 MB，而
-`eve.rpgc.anim` 是**单图 + 单网格**，一次只能放一个朝向。拿到 8 方向要付出的体积
-远大于实际可用的信息量，同样的表现力用一个带骨骼的 3D 模型更省也更灵活。
+```bash
+python tools/build_placeholder_anims.py
+python tools/build_placeholder_anims.py --check
+python tools/rpgc.py toolkit assets
+```
 
-本轮也重新评估过 Kenney 的等距微缩角色（`assets/kenney_isometric-miniature-dungeon/Characters/`，
-168 张 256×512 的 `Male_0..7` 帧），结论同样是**不用**：8 个 `Male_*` 不是八个角色，
-而是同一个裸身模型的不同肤色变体，`Run0..9` 十帧里也只有两三个可辨姿势。把它拼成
-图集只会得到八张几乎一样的图。
+这些资源用于开发、编辑预览和发布完整性，不宣称是正式武侠人物美术或多方向角色动画。
+默认游戏适配器的 `play_animation` 仍没有接入完整播放器；补齐文件不改变这一范围。
+之前评估并移除的 Engvee 多朝向资源与 Kenney 微缩角色未重新引入，敌人继续使用上面的
+CC0 素材。原先“主角没有图”的记录已由本次明确的开发资源方案替代。
 
-**而这些只是主角/友方的缺口，不是敌人的。** 敌人用的是上面两套「按怪物画的」素材，
-它们本来就是独立角色，不存在朝向数量爆炸的问题。所以本轮的取舍是：**敌人有图，
-主角没有**，并且这一点在 README 的「明确不提供的东西」里也写明了。
-
-需要注意：工作流**不解析图片、也不检查图片是否存在**，所以上面两处断链**不会被
-校验门报出来**。要么补图，要么连同引用它们的内容文档一起改掉。
+运行时 schema 门仍不解码图片；独立 `toolkit assets` 检查真实文件、PNG尺寸与哈希，
+CI 同时运行它和生成物新鲜度检查，因此资源断链不能再被纯文档校验的 PASS 掩盖。
 
 ## 地形素材
 

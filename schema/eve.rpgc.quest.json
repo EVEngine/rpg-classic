@@ -1,0 +1,203 @@
+{
+  "id": "eve.rpgc.quest",
+  "schemaVersion": 1,
+  "title": "Quest objectives and atomic claims",
+  "additionalProperties": false,
+  "fields": [
+    {
+      "name": "schema",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "eve.rpgc.quest"
+      ]
+    },
+    {
+      "name": "version",
+      "type": "integer",
+      "required": true,
+      "minimum": 1,
+      "maximum": 1
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "title",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "description",
+      "type": "string"
+    },
+    {
+      "name": "dependencies",
+      "type": "array",
+      "elementType": "string",
+      "maxItems": 32
+    },
+    {
+      "name": "condition",
+      "ref": "eve.rpgc.condition",
+      "refVersion": 1
+    },
+    {
+      "name": "objectives",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "eventKind",
+            "type": "string",
+            "required": true,
+            "enum": [
+              "set_variable",
+              "consume_object",
+              "transfer",
+              "face",
+              "set_moment",
+              "give_item",
+              "quest_activated",
+              "quest_completed",
+              "quest_claimed",
+              "quest_failed"
+            ]
+          },
+          {
+            "name": "match",
+            "type": "object",
+            "additionalProperties": false,
+            "fields": [
+              {
+                "name": "name",
+                "type": "string"
+              },
+              {
+                "name": "op",
+                "type": "string"
+              },
+              {
+                "name": "value",
+                "type": "number"
+              },
+              {
+                "name": "mapId",
+                "type": "string"
+              },
+              {
+                "name": "objectName",
+                "type": "string"
+              },
+              {
+                "name": "itemId",
+                "type": "string"
+              },
+              {
+                "name": "moment",
+                "type": "string"
+              },
+              {
+                "name": "questId",
+                "type": "string"
+              }
+            ]
+          },
+          {
+            "name": "count",
+            "type": "integer",
+            "required": true,
+            "minimum": 1,
+            "maximum": 16777215
+          },
+          {
+            "name": "condition",
+            "ref": "eve.rpgc.condition",
+            "refVersion": 1
+          },
+          {
+            "name": "initialCondition",
+            "ref": "eve.rpgc.condition",
+            "refVersion": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "rewards",
+      "type": "array",
+      "required": true,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          {
+            "name": "kind",
+            "type": "string",
+            "required": true,
+            "enum": [
+              "set_variable",
+              "consume_object",
+              "give_item"
+            ]
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "op",
+            "type": "string",
+            "enum": [
+              "set",
+              "add",
+              "sub",
+              "switchOn",
+              "switchOff"
+            ]
+          },
+          {
+            "name": "value",
+            "type": "number"
+          },
+          {
+            "name": "mapId",
+            "type": "string"
+          },
+          {
+            "name": "objectName",
+            "type": "string"
+          },
+          {
+            "name": "itemId",
+            "type": "string"
+          },
+          {
+            "name": "quantity",
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16777215
+          }
+        ]
+      }
+    }
+  ]
+}

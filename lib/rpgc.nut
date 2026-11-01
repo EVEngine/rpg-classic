@@ -38,6 +38,18 @@ import { RpgcItems } from "./rpgc_items.nut"
 import { RpgcValidate } from "./rpgc_validate.nut"
 import { RpgcApp } from "./rpgc_app.nut"
 
+import { RpgcWorldState } from "./rpgc_world_state.nut"
+import { RpgcEventRunner } from "./rpgc_event_runner.nut"
+import { RpgcDialogue } from "./rpgc_dialogue.nut"
+
+import { RpgcQuests } from "./rpgc_quests.nut"
+
+import { RpgcSave } from "./rpgc_save.nut"
+import { RpgcSaveStore } from "./rpgc_save_store.nut"
+
+import { RpgcNavigation } from "./rpgc_navigation.nut"
+import { RpgcMapQA } from "./rpgc_map_qa.nut"
+
 export class RpgcWorkflow {
 }
 
@@ -58,13 +70,16 @@ export class RpgcWorkflow {
 // describe. `inventory` is unbound in this build for the same reason `rpg` is
 // (`SCRIPT Inventory` with no `SLOT`), so the bag is a project-side restatement
 // too -- see lib/rpgc_items.nut's header.
-RpgcWorkflow.version <- 7
+// v8 adds registered dialogue/quest content and the shared world/event runtime.
+// v9 adds safe-point world snapshots and native user-directory persistence.
+RpgcWorkflow.version <- 9
 
 // The instantiated toolchain. Every importer of a given module gets the same
 // object, so this is an inventory rather than a second set of instances.
 RpgcWorkflow.modules <- [Rpgc, RpgcJson, RpgcIso, RpgcStore, RpgcProject,
                          RpgcHost, RpgcTilemap, RpgcSkill, RpgcEvent,
-                         RpgcSystems, RpgcBattle, RpgcItems, RpgcValidate, RpgcApp]
+                         RpgcSystems, RpgcBattle, RpgcItems, RpgcValidate, RpgcApp,
+                         RpgcWorldState, RpgcEventRunner, RpgcDialogue, RpgcQuests, RpgcSave, RpgcSaveStore, RpgcNavigation, RpgcMapQA]
 
 RpgcWorkflow.moduleCount <- function () {
     return this.modules.len();

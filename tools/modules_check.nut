@@ -39,7 +39,7 @@ function check(name, condition, detail = "") {
 
 // --- module boundary -------------------------------------------------------
 
-check("workflow.moduleCount", RpgcWorkflow.moduleCount() == 14,
+check("workflow.moduleCount", RpgcWorkflow.moduleCount() == 22,
     "got " + RpgcWorkflow.moduleCount());
 foreach (name in ["Rpgc", "RpgcJson", "RpgcStore", "RpgcProject", "RpgcHost",
                   "RpgcValidate", "RpgcWorkflow"]) {
@@ -553,485 +553,493 @@ function baseBattleUi() {
 }
 
 // --- shared condition vocabulary (schema `eve.rpgc.condition`) -------------
-local badCondition = baseWorld();
-badCondition.gates[0].open = { kind = "bogus" };
-expectSemantic("condition-unknown-kind", "world", badCondition, "validate.schema");
+// Keep fixture locals off the shared load.nut frame (see the note above
+// checkFolderBoundEditors). Large root frames can corrupt later fixture values
+// before the SDK reports a locals limit, or crash inside the native VM.
+function checkDocumentProbes() {
+    local badCondition = baseWorld();
+    badCondition.gates[0].open = { kind = "bogus" };
+    expectSemantic("condition-unknown-kind", "world", badCondition, "validate.schema");
 
-local momentCondition = baseWorld();
-momentCondition.gates[0].open = { kind = "moment", any = ["day"] };
-expectAccept("condition-moment-known", "world", momentCondition);
+    local momentCondition = baseWorld();
+    momentCondition.gates[0].open = { kind = "moment", any = ["day"] };
+    expectAccept("condition-moment-known", "world", momentCondition);
 
-local unknownMoment = baseWorld();
-unknownMoment.gates[0].open = { kind = "moment", any = ["noon"] };
-expectSemantic("condition-unknown-moment", "world", unknownMoment, "systems.condition-unknown-moment");
+    local unknownMoment = baseWorld();
+    unknownMoment.gates[0].open = { kind = "moment", any = ["noon"] };
+    expectSemantic("condition-unknown-moment", "world", unknownMoment, "systems.condition-unknown-moment");
 
-// --- rules -----------------------------------------------------------------
+    // --- rules -----------------------------------------------------------------
 
-local brokenCycle = baseRules();
-brokenCycle.generates.metal = "wood";
-expectSemantic("rules-cycle", "rules", brokenCycle, "systems.relation-not-a-cycle");
+    local brokenCycle = baseRules();
+    brokenCycle.generates.metal = "wood";
+    expectSemantic("rules-cycle", "rules", brokenCycle, "systems.relation-not-a-cycle");
 
-local selfRelation = baseRules();
-selfRelation.overcomes.fire = "fire";
-expectSemantic("rules-self", "rules", selfRelation, "systems.relation-self");
+    local selfRelation = baseRules();
+    selfRelation.overcomes.fire = "fire";
+    expectSemantic("rules-self", "rules", selfRelation, "systems.relation-self");
 
-local targetlessTrait = baseRules();
-targetlessTrait.traits[0].target = "";
-expectSemantic("rules-trait-target", "rules", targetlessTrait, "systems.trait-target");
+    local targetlessTrait = baseRules();
+    targetlessTrait.traits[0].target = "";
+    expectSemantic("rules-trait-target", "rules", targetlessTrait, "systems.trait-target");
 
-local alienTrait = baseRules();
-alienTrait.traits[0].kind = "elementRate";
-alienTrait.traits[0].target = "shadow";
-expectSemantic("rules-trait-element", "rules", alienTrait, "systems.trait-element");
+    local alienTrait = baseRules();
+    alienTrait.traits[0].kind = "elementRate";
+    alienTrait.traits[0].target = "shadow";
+    expectSemantic("rules-trait-element", "rules", alienTrait, "systems.trait-element");
 
-local bigBreak = baseRules();
-bigBreak.rawget("break").onOvercome = 500;
-expectSemantic("rules-break-max", "rules", bigBreak, "systems.break-exceeds-max");
+    local bigBreak = baseRules();
+    bigBreak.rawget("break").onOvercome = 500;
+    expectSemantic("rules-break-max", "rules", bigBreak, "systems.break-exceeds-max");
 
-// The turn-to-second derivation: 2 turns at 6 s/turn must be duration = 12,
-// and `duration` is seconds. Writing 2.0 is the mistake the gate exists for.
-local derived = baseRules();
-derived.breakEffects = [{ effect = "probe.effect", turns = 2 }];
-local shortEffect = { effect = [{ schema = "eve.rpgc.effect", version = 1, id = "probe.effect",
-                                  durationPolicy = "duration", duration = 2.0 }] };
-expectSemantic("rules-turn-derivation", "rules", derived, "systems.break-effect-duration", shortEffect);
+    // The turn-to-second derivation: 2 turns at 6 s/turn must be duration = 12,
+    // and `duration` is seconds. Writing 2.0 is the mistake the gate exists for.
+    local derived = baseRules();
+    derived.breakEffects = [{ effect = "probe.effect", turns = 2 }];
+    local shortEffect = { effect = [{ schema = "eve.rpgc.effect", version = 1, id = "probe.effect",
+                                      durationPolicy = "duration", duration = 2.0 }] };
+    expectSemantic("rules-turn-derivation", "rules", derived, "systems.break-effect-duration", shortEffect);
 
-local correctEffect = { effect = [{ schema = "eve.rpgc.effect", version = 1, id = "probe.effect",
-                                    durationPolicy = "duration", duration = 12.0 }] };
-expectAccept("rules-turn-derivation-correct", "rules", derived, correctEffect);
+    local correctEffect = { effect = [{ schema = "eve.rpgc.effect", version = 1, id = "probe.effect",
+                                        durationPolicy = "duration", duration = 12.0 }] };
+    expectAccept("rules-turn-derivation-correct", "rules", derived, correctEffect);
 
-// --- world -----------------------------------------------------------------
+    // --- world -----------------------------------------------------------------
 
-local badBand = baseWorld();
-badBand.clock.moments.day = [7];
-expectSemantic("world-band-shape", "world", badBand, "systems.moment-band");
+    local badBand = baseWorld();
+    badBand.clock.moments.day = [7];
+    expectSemantic("world-band-shape", "world", badBand, "systems.moment-band");
 
-local emptyBand = baseWorld();
-emptyBand.clock.moments.day = [7, 7];
-expectSemantic("world-empty-band", "world", emptyBand, "systems.moment-empty-band");
+    local emptyBand = baseWorld();
+    emptyBand.clock.moments.day = [7, 7];
+    expectSemantic("world-empty-band", "world", emptyBand, "systems.moment-empty-band");
 
-local badPortal = baseWorld();
-badPortal.gates[0].portal = "noslash";
-expectSemantic("world-portal-shape", "world", badPortal, "systems.gate-portal");
+    local badPortal = baseWorld();
+    badPortal.gates[0].portal = "noslash";
+    expectSemantic("world-portal-shape", "world", badPortal, "systems.gate-portal");
 
-local dupPortal = baseWorld();
-dupPortal.gates.append({ portal = "village-outskirts/forest_gate",
-                         open = { kind = "always" } });
-expectSemantic("world-portal-duplicate", "world", dupPortal, "systems.gate-duplicate");
+    local dupPortal = baseWorld();
+    dupPortal.gates.append({ portal = "village-outskirts/forest_gate",
+                             open = { kind = "always" } });
+    expectSemantic("world-portal-duplicate", "world", dupPortal, "systems.gate-duplicate");
 
-local badTint = baseWorld();
-badTint.styleVariants[0].tint = [1.5, 0.0, 0.0, 1.0];
-expectSemantic("world-tint-range", "world", badTint, "systems.variant-tint-range");
+    local badTint = baseWorld();
+    badTint.styleVariants[0].tint = [1.5, 0.0, 0.0, 1.0];
+    expectSemantic("world-tint-range", "world", badTint, "systems.variant-tint-range");
 
-local mixedVariant = baseWorld();
-mixedVariant.styleVariants[0].tileset <- "sbs-overworld";
-expectSemantic("world-variant-mixed", "world", mixedVariant, "systems.variant-mixed");
+    local mixedVariant = baseWorld();
+    mixedVariant.styleVariants[0].tileset <- "sbs-overworld";
+    expectSemantic("world-variant-mixed", "world", mixedVariant, "systems.variant-mixed");
 
-local atlasVariant = baseWorld();
-atlasVariant.styleVariants[0] = { id = "night", moments = ["night"], mode = "atlas" };
-expectSemantic("world-variant-atlas", "world", atlasVariant, "systems.variant-atlas");
+    local atlasVariant = baseWorld();
+    atlasVariant.styleVariants[0] = { id = "night", moments = ["night"], mode = "atlas" };
+    expectSemantic("world-variant-atlas", "world", atlasVariant, "systems.variant-atlas");
 
-// --- art -------------------------------------------------------------------
+    // --- art -------------------------------------------------------------------
 
-local unsortedGrades = baseArt();
-unsortedGrades.grades[0].grade = 3;
-unsortedGrades.grades[1].grade = 1;
-expectSemantic("art-grade-order", "art", unsortedGrades, "systems.art-unsorted-grades");
+    local unsortedGrades = baseArt();
+    unsortedGrades.grades[0].grade = 3;
+    unsortedGrades.grades[1].grade = 1;
+    expectSemantic("art-grade-order", "art", unsortedGrades, "systems.art-unsorted-grades");
 
-local overMax = baseArt();
-overMax.grades[1].grade = 7;
-expectSemantic("art-grade-over-max", "art", overMax, "systems.art-grade-over-max");
+    local overMax = baseArt();
+    overMax.grades[1].grade = 7;
+    expectSemantic("art-grade-over-max", "art", overMax, "systems.art-grade-over-max");
 
-local noRequirementKind = baseArt();
-noRequirementKind.grades[0].requirement.kind = "";
-expectSemantic("art-requirement", "art", noRequirementKind, "systems.art-requirement");
+    local noRequirementKind = baseArt();
+    noRequirementKind.grades[0].requirement.kind = "";
+    expectSemantic("art-requirement", "art", noRequirementKind, "systems.art-requirement");
 
-// --- heart -----------------------------------------------------------------
+    // --- heart -----------------------------------------------------------------
 
-// `elementOverride` REPLACES the element while an `attackElement` trait APPENDS
-// one, so declaring both leaves the runtime a choice the document must make.
-local conflictingHeart = baseHeart();
-conflictingHeart.grants.traits = ["trait.probe.ice"];
-conflictingHeart.grants.elementOverride <- "water";
-local iceRules = baseRules();
-iceRules.traits = [{ id = "trait.probe.ice", kind = "attackElement", target = "water", value = 1.0 }];
-expectSemantic("heart-element-conflict", "heart", conflictingHeart,
-    "systems.heart-element-conflict", { rules = [iceRules] });
+    // `elementOverride` REPLACES the element while an `attackElement` trait APPENDS
+    // one, so declaring both leaves the runtime a choice the document must make.
+    local conflictingHeart = baseHeart();
+    conflictingHeart.grants.traits = ["trait.probe.ice"];
+    conflictingHeart.grants.elementOverride <- "water";
+    local iceRules = baseRules();
+    iceRules.traits = [{ id = "trait.probe.ice", kind = "attackElement", target = "water", value = 1.0 }];
+    expectSemantic("heart-element-conflict", "heart", conflictingHeart,
+        "systems.heart-element-conflict", { rules = [iceRules] });
 
-local impossibleHeart = baseHeart();
-impossibleHeart.requires.minGrade = 9;
-expectSemantic("heart-min-grade", "heart", impossibleHeart, "systems.heart-min-grade",
-    { art = [baseArt()] });
+    local impossibleHeart = baseHeart();
+    impossibleHeart.requires.minGrade = 9;
+    expectSemantic("heart-min-grade", "heart", impossibleHeart, "systems.heart-min-grade",
+        { art = [baseArt()] });
 
-// --- combo -----------------------------------------------------------------
+    // --- combo -----------------------------------------------------------------
 
-local shortCombo = baseCombo();
-shortCombo.members.min = 3;
-shortCombo.members.max = 4;
-expectSemantic("combo-stage-count", "combo", shortCombo, "systems.combo-stage-count");
+    local shortCombo = baseCombo();
+    shortCombo.members.min = 3;
+    shortCombo.members.max = 4;
+    expectSemantic("combo-stage-count", "combo", shortCombo, "systems.combo-stage-count");
 
-local twiceActor = baseCombo();
-twiceActor.stages[1].actor = 0;
-expectSemantic("combo-duplicate-actor", "combo", twiceActor, "systems.combo-duplicate-actor");
+    local twiceActor = baseCombo();
+    twiceActor.stages[1].actor = 0;
+    expectSemantic("combo-duplicate-actor", "combo", twiceActor, "systems.combo-duplicate-actor");
 
-// --- item ------------------------------------------------------------------
-//
-// Every case below answers a silence in `inventory::ItemRegistry` or
-// `EquipmentSystem`: the loader coerces maxStack <= 0 to 1, silently overwrites
-// a duplicate id, drops unknown keys without a word, and `equipSlot` is
-// documented by the engine itself as a suggestion nothing resolves.
+    // --- item ------------------------------------------------------------------
+    //
+    // Every case below answers a silence in `inventory::ItemRegistry` or
+    // `EquipmentSystem`: the loader coerces maxStack <= 0 to 1, silently overwrites
+    // a duplicate id, drops unknown keys without a word, and `equipSlot` is
+    // documented by the engine itself as a suggestion nothing resolves.
 
-local goodItem = baseItem();
-expectAccept("item-well-formed", "item", goodItem);
+    local goodItem = baseItem();
+    expectAccept("item-well-formed", "item", goodItem);
 
-local slotlessGear = baseItem();
-slotlessGear.equipSlot = "";
-expectSemantic("item-slot-missing", "item", slotlessGear, "systems.item-slot-missing");
+    local slotlessGear = baseItem();
+    slotlessGear.equipSlot = "";
+    expectSemantic("item-slot-missing", "item", slotlessGear, "systems.item-slot-missing");
 
-local slottedPotion = baseItem();
-slottedPotion.category = "consumable";
-slottedPotion.equipStats = [];
-slottedPotion.use <- { consume = true, effects = ["burn"] };
-expectSemantic("item-slot-unexpected", "item", slottedPotion, "systems.item-slot-unexpected");
+    local slottedPotion = baseItem();
+    slottedPotion.category = "consumable";
+    slottedPotion.equipStats = [];
+    slottedPotion.use <- { consume = true, effects = ["burn"] };
+    expectSemantic("item-slot-unexpected", "item", slottedPotion, "systems.item-slot-unexpected");
 
-// The engine happily carries maxStack = 5 on a weapon; equipping "one of five"
-// is the part with no defined meaning, because EquipmentSet holds one stack.
-local stackingGear = baseItem();
-stackingGear.maxStack = 5;
-expectSemantic("item-equipment-stacks", "item", stackingGear, "systems.item-equipment-stacks");
+    // The engine happily carries maxStack = 5 on a weapon; equipping "one of five"
+    // is the part with no defined meaning, because EquipmentSet holds one stack.
+    local stackingGear = baseItem();
+    stackingGear.maxStack = 5;
+    expectSemantic("item-equipment-stacks", "item", stackingGear, "systems.item-equipment-stacks");
 
-// maxStack <= 0 is another engine coercion (Item.cpp:48 turns it into 1), but
-// the schema's `minimum: 1` already rejects it one layer earlier, so this case
-// pins the layer that actually fires rather than asserting a dead semantic gate.
-local overdrawn = baseItem();
-overdrawn.maxStack = 0;
-expectSemantic("item-max-stack", "item", overdrawn, "validate.schema");
+    // maxStack <= 0 is another engine coercion (Item.cpp:48 turns it into 1), but
+    // the schema's `minimum: 1` already rejects it one layer earlier, so this case
+    // pins the layer that actually fires rather than asserting a dead semantic gate.
+    local overdrawn = baseItem();
+    overdrawn.maxStack = 0;
+    expectSemantic("item-max-stack", "item", overdrawn, "validate.schema");
 
-local pointlessStats = baseItem();
-pointlessStats.category = "material";
-pointlessStats.equipSlot = "";
-expectSemantic("item-stats-not-equipment", "item", pointlessStats,
-    "systems.item-stats-not-equipment");
+    local pointlessStats = baseItem();
+    pointlessStats.category = "material";
+    pointlessStats.equipSlot = "";
+    expectSemantic("item-stats-not-equipment", "item", pointlessStats,
+        "systems.item-stats-not-equipment");
 
-// No engine field carries "what using this does", so a consumable without one
-// reads as usable and behaves as an inert rock.
-local mutePotion = baseItem();
-mutePotion.category = "consumable";
-mutePotion.equipSlot = "";
-mutePotion.equipStats = [];
-expectSemantic("item-use-missing", "item", mutePotion, "systems.item-use-missing");
+    // No engine field carries "what using this does", so a consumable without one
+    // reads as usable and behaves as an inert rock.
+    local mutePotion = baseItem();
+    mutePotion.category = "consumable";
+    mutePotion.equipSlot = "";
+    mutePotion.equipStats = [];
+    expectSemantic("item-use-missing", "item", mutePotion, "systems.item-use-missing");
 
-local emptyManual = baseItem();
-emptyManual.category = "manual";
-emptyManual.equipSlot = "";
-emptyManual.equipStats = [];
-emptyManual.teaches <- {};
-expectSemantic("item-teaches-empty", "item", emptyManual, "systems.item-teaches-empty");
+    local emptyManual = baseItem();
+    emptyManual.category = "manual";
+    emptyManual.equipSlot = "";
+    emptyManual.equipStats = [];
+    emptyManual.teaches <- {};
+    expectSemantic("item-teaches-empty", "item", emptyManual, "systems.item-teaches-empty");
 
-// --- map layer discipline --------------------------------------------------
+    // --- map layer discipline --------------------------------------------------
 
-local mapRead = RpgcStore.readDocument("content/maps/village-outskirts.json");
-local mapWidth = Rpgc.asInt(Rpgc.get(mapRead.value, "width", 0));
-local mapHeight = Rpgc.asInt(Rpgc.get(mapRead.value, "height", 0));
-local blank = [];
-for (local i = 0; i < mapWidth * mapHeight; i += 1) blank.append(0);
+    local mapRead = RpgcStore.readDocument("content/maps/village-outskirts.json");
+    local mapWidth = Rpgc.asInt(Rpgc.get(mapRead.value, "width", 0));
+    local mapHeight = Rpgc.asInt(Rpgc.get(mapRead.value, "height", 0));
+    local blank = [];
+    for (local i = 0; i < mapWidth * mapHeight; i += 1) blank.append(0);
 
-local noTerrain = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
-noTerrain.layers[0].id = "ground";
-expectSemantic("map-no-terrain", "map", noTerrain, "map.no-terrain-layer");
+    local noTerrain = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
+    noTerrain.layers[0].id = "ground";
+    expectSemantic("map-no-terrain", "map", noTerrain, "map.no-terrain-layer");
 
-local wrongTerrainIndex = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
-wrongTerrainIndex.layers[0].layer = 1;
-expectSemantic("map-terrain-index", "map", wrongTerrainIndex, "map.terrain-layer-index");
+    local wrongTerrainIndex = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
+    wrongTerrainIndex.layers[0].layer = 1;
+    expectSemantic("map-terrain-index", "map", wrongTerrainIndex, "map.terrain-layer-index");
 
-local twoMomentsOneIndex = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
-twoMomentsOneIndex.layers.append({ id = "moment.night", name = "moment.night",
-    type = "tilelayer", layer = 3, visible = false, data = blank });
-twoMomentsOneIndex.layers.append({ id = "moment.dusk", name = "moment.dusk",
-    type = "tilelayer", layer = 3, visible = false, data = blank });
-expectSemantic("map-moment-layer-index", "map", twoMomentsOneIndex,
-    "map.duplicate-moment-layer-index");
+    local twoMomentsOneIndex = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
+    twoMomentsOneIndex.layers.append({ id = "moment.night", name = "moment.night",
+        type = "tilelayer", layer = 3, visible = false, data = blank });
+    twoMomentsOneIndex.layers.append({ id = "moment.dusk", name = "moment.dusk",
+        type = "tilelayer", layer = 3, visible = false, data = blank });
+    expectSemantic("map-moment-layer-index", "map", twoMomentsOneIndex,
+        "map.duplicate-moment-layer-index");
 
-// --- cross-document --------------------------------------------------------
+    // --- cross-document --------------------------------------------------------
 
-expectCross("no-rules", { rules = [] }, "systems.no-rules");
-expectCross("many-rules", { rules = [baseRules(), baseRules()] }, "systems.many-rules");
+    expectCross("no-rules", { rules = [] }, "systems.no-rules");
+    expectCross("many-rules", { rules = [baseRules(), baseRules()] }, "systems.many-rules");
 
-// A gate whose portal moved: the door would never open, and nothing else says so.
-local strayGate = baseWorld();
-strayGate.gates[0].portal = "village-outskirts/no_such_object";
-expectCross("gate-portal-missing", { world = [strayGate] }, "systems.gate-portal-missing");
+    // A gate whose portal moved: the door would never open, and nothing else says so.
+    local strayGate = baseWorld();
+    strayGate.gates[0].portal = "village-outskirts/no_such_object";
+    expectCross("gate-portal-missing", { world = [strayGate] }, "systems.gate-portal-missing");
 
-local strayMoment = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
-strayMoment.layers.append({ id = "moment.noon", name = "moment.noon",
-    type = "tilelayer", layer = 3, visible = false, data = blank });
-expectCross("map-unknown-moment", { map = [strayMoment] }, "systems.map-unknown-moment");
+    local strayMoment = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
+    strayMoment.layers.append({ id = "moment.noon", name = "moment.noon",
+        type = "tilelayer", layer = 3, visible = false, data = blank });
+    expectCross("map-unknown-moment", { map = [strayMoment] }, "systems.map-unknown-moment");
 
-// The same moment id written on an OBJECT property: a typo there hides the unit
-// instead of reporting it, because nothing else reads that string.
-local strayObject = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
-foreach (layer in strayObject.layers) {
-    if (Rpgc.get(layer, "type", "") != "objectgroup") continue;
-    foreach (object in layer.objects) {
-        local props = Rpgc.get(object, "properties", 0);
-        if (typeof props != "array") continue;
-        props.append({ name = "moment", type = "string", value = "noon" });
+    // The same moment id written on an OBJECT property: a typo there hides the unit
+    // instead of reporting it, because nothing else reads that string.
+    local strayObject = RpgcStore.readDocument("content/maps/village-outskirts.json").value;
+    foreach (layer in strayObject.layers) {
+        if (Rpgc.get(layer, "type", "") != "objectgroup") continue;
+        foreach (object in layer.objects) {
+            local props = Rpgc.get(object, "properties", 0);
+            if (typeof props != "array") continue;
+            props.append({ name = "moment", type = "string", value = "noon" });
+            break;
+        }
         break;
     }
-    break;
-}
-expectCross("object-unknown-moment", { map = [strayObject] }, "systems.object-unknown-moment");
+    expectCross("object-unknown-moment", { map = [strayObject] }, "systems.object-unknown-moment");
 
-// A skill that declares a different art than the one listing it: the art would
-// compile to a skill id that now does something else.
-local loanedArt = baseArt();
-local unaffiliated = { schema = "eve.rpgc.skill", version = 1, id = "skill.probe",
-                       targetType = "enemySingle",
+    // A skill that declares a different art than the one listing it: the art would
+    // compile to a skill id that now does something else.
+    local loanedArt = baseArt();
+    local unaffiliated = { schema = "eve.rpgc.skill", version = 1, id = "skill.probe",
+                           targetType = "enemySingle",
+                           presentation = { segments = [{ anim = "hero", clip = "attack" }] } };
+    expectCross("art-skill-backref", { art = [loanedArt], skill = [unaffiliated] },
+        "systems.art-skill-backref");
+
+    local traitArt = baseArt();
+    traitArt.grades[0].traits <- ["trait.unknown"];
+    local loyal = { schema = "eve.rpgc.skill", version = 1, id = "skill.probe", art = "art.probe",
+                    targetType = "enemySingle",
+                    presentation = { segments = [{ anim = "hero", clip = "attack" }] } };
+    expectCross("art-unknown-trait", { art = [traitArt], skill = [loyal] }, "systems.art-unknown-trait");
+
+    // An "ultimate" that is not tagged as one is just a skill in a different list.
+    local ultimateArt = baseArt();
+    ultimateArt.grades[0].ultimates <- ["skill.probe"];
+    local untagged = { schema = "eve.rpgc.skill", version = 1, id = "skill.probe", art = "art.probe",
+                       targetType = "enemySingle", tags = ["martial"],
                        presentation = { segments = [{ anim = "hero", clip = "attack" }] } };
-expectCross("art-skill-backref", { art = [loanedArt], skill = [unaffiliated] },
-    "systems.art-skill-backref");
+    expectCross("art-ultimate-untagged", { art = [ultimateArt], skill = [untagged] },
+        "systems.art-ultimate-untagged");
 
-local traitArt = baseArt();
-traitArt.grades[0].traits <- ["trait.unknown"];
-local loyal = { schema = "eve.rpgc.skill", version = 1, id = "skill.probe", art = "art.probe",
-                targetType = "enemySingle",
-                presentation = { segments = [{ anim = "hero", clip = "attack" }] } };
-expectCross("art-unknown-trait", { art = [traitArt], skill = [loyal] }, "systems.art-unknown-trait");
+    local strayHeart = baseHeart();
+    strayHeart.grants.traits = ["trait.unknown"];
+    expectCross("heart-unknown-trait", { heart = [strayHeart] }, "systems.heart-unknown-trait");
 
-// An "ultimate" that is not tagged as one is just a skill in a different list.
-local ultimateArt = baseArt();
-ultimateArt.grades[0].ultimates <- ["skill.probe"];
-local untagged = { schema = "eve.rpgc.skill", version = 1, id = "skill.probe", art = "art.probe",
-                   targetType = "enemySingle", tags = ["martial"],
-                   presentation = { segments = [{ anim = "hero", clip = "attack" }] } };
-expectCross("art-ultimate-untagged", { art = [ultimateArt], skill = [untagged] },
-    "systems.art-ultimate-untagged");
+    // Two hearts in one exclusive group gating on the same art: the looser one is
+    // implied by the stricter one, so the documents already contradict.
+    local nestedA = baseHeart();
+    local nestedB = baseHeart();
+    nestedB.id = "probe.heart2";
+    nestedB.requires.minGrade = 4;
+    expectCross("heart-group-nesting", { heart = [nestedA, nestedB] },
+        "systems.heart-group-nesting");
 
-local strayHeart = baseHeart();
-strayHeart.grants.traits = ["trait.unknown"];
-expectCross("heart-unknown-trait", { heart = [strayHeart] }, "systems.heart-unknown-trait");
+    local strayChain = baseCombo();
+    strayChain.condition.elements.chain = ["metal", "fire"];
+    expectCross("combo-chain", { combo = [strayChain] }, "systems.combo-chain");
 
-// Two hearts in one exclusive group gating on the same art: the looser one is
-// implied by the stricter one, so the documents already contradict.
-local nestedA = baseHeart();
-local nestedB = baseHeart();
-nestedB.id = "probe.heart2";
-nestedB.requires.minGrade = 4;
-expectCross("heart-group-nesting", { heart = [nestedA, nestedB] },
-    "systems.heart-group-nesting");
+    local strayCombo = baseCombo();
+    strayCombo.finish.anim <- { anim = "fireball", clip = "no_such_clip" };
+    expectCross("combo-clip", { combo = [strayCombo] }, "systems.unknown-clip");
 
-local strayChain = baseCombo();
-strayChain.condition.elements.chain = ["metal", "fire"];
-expectCross("combo-chain", { combo = [strayChain] }, "systems.combo-chain");
+    // The engine never resolves `equipSlot` (inventory/ItemTypes.h:21 calls it a
+    // suggestion), so a slot typo yields an item that silently can never be worn
+    // and nothing else in the stack can see the disagreement.
+    local straySlot = baseItem();
+    straySlot.equipSlot = "ring";
+    expectCross("item-unknown-slot", { item = [straySlot] }, "systems.item-unknown-slot");
 
-local strayCombo = baseCombo();
-strayCombo.finish.anim <- { anim = "fireball", clip = "no_such_clip" };
-expectCross("combo-clip", { combo = [strayCombo] }, "systems.unknown-clip");
+    // A manual naming an art and a move, where the move belongs to another art.
+    local mismatchedManual = baseItem();
+    mismatchedManual.category = "manual";
+    mismatchedManual.equipSlot = "";
+    mismatchedManual.equipStats = [];
+    mismatchedManual.teaches <- { art = "art.probe", skill = "skill.other" };
+    local otherSkill = { schema = "eve.rpgc.skill", version = 1, id = "skill.other",
+                         art = "art.somewhere-else", targetType = "enemySingle",
+                         presentation = { segments = [{ anim = "hero", clip = "attack" }] } };
+    expectCross("item-teaches-mismatch", { item = [mismatchedManual], skill = [otherSkill] },
+        "systems.item-teaches-mismatch");
 
-// The engine never resolves `equipSlot` (inventory/ItemTypes.h:21 calls it a
-// suggestion), so a slot typo yields an item that silently can never be worn
-// and nothing else in the stack can see the disagreement.
-local straySlot = baseItem();
-straySlot.equipSlot = "ring";
-expectCross("item-unknown-slot", { item = [straySlot] }, "systems.item-unknown-slot");
+    // A requirement above the art's own ceiling is unreachable by construction, and
+    // the engine has no grade concept to notice it.
+    local unreachable = baseItem();
+    unreachable.requires <- { artId = "art.probe", minGrade = 9 };
+    expectCross("item-min-grade", { item = [unreachable], art = [baseArt()] },
+        "systems.item-min-grade");
 
-// A manual naming an art and a move, where the move belongs to another art.
-local mismatchedManual = baseItem();
-mismatchedManual.category = "manual";
-mismatchedManual.equipSlot = "";
-mismatchedManual.equipStats = [];
-mismatchedManual.teaches <- { art = "art.probe", skill = "skill.other" };
-local otherSkill = { schema = "eve.rpgc.skill", version = 1, id = "skill.other",
-                     art = "art.somewhere-else", targetType = "enemySingle",
-                     presentation = { segments = [{ anim = "hero", clip = "attack" }] } };
-expectCross("item-teaches-mismatch", { item = [mismatchedManual], skill = [otherSkill] },
-    "systems.item-teaches-mismatch");
+    // Atlas variants must be isomorphic GID for GID, or a handful of cells become
+    // the wrong terrain and nobody finds it by eye.
+    local atlasSwap = baseWorld();
+    atlasSwap.styleVariants = [{ id = "night", moments = ["night"], mode = "atlas",
+        tileset = "sbs-walls", baseTileset = "sbs-overworld" }];
+    expectCross("variant-isomorphic", { world = [atlasSwap] }, "systems.variant-tile-count");
 
-// A requirement above the art's own ceiling is unreachable by construction, and
-// the engine has no grade concept to notice it.
-local unreachable = baseItem();
-unreachable.requires <- { artId = "art.probe", minGrade = 9 };
-expectCross("item-min-grade", { item = [unreachable], art = [baseArt()] },
-    "systems.item-min-grade");
+    // --- enemy -----------------------------------------------------------------
+    //
+    // EncounterCatalogue validates the whole encounter ARRAY at once, so every
+    // bound below is the difference between one bad document and every battle in
+    // the game disappearing. The strict `maxHp > 0` and `xpReward > 0` bounds are
+    // here rather than in the schema because Eve Schema v1 has no exclusiveMinimum.
 
-// Atlas variants must be isomorphic GID for GID, or a handful of cells become
-// the wrong terrain and nobody finds it by eye.
-local atlasSwap = baseWorld();
-atlasSwap.styleVariants = [{ id = "night", moments = ["night"], mode = "atlas",
-    tileset = "sbs-walls", baseTileset = "sbs-overworld" }];
-expectCross("variant-isomorphic", { world = [atlasSwap] }, "systems.variant-tile-count");
+    expectAccept("enemy-well-formed", "enemy", baseEnemy());
 
-// --- enemy -----------------------------------------------------------------
-//
-// EncounterCatalogue validates the whole encounter ARRAY at once, so every
-// bound below is the difference between one bad document and every battle in
-// the game disappearing. The strict `maxHp > 0` and `xpReward > 0` bounds are
-// here rather than in the schema because Eve Schema v1 has no exclusiveMinimum.
+    local zeroHp = baseEnemy();
+    zeroHp.combat.maxHp = 0;
+    expectSemantic("enemy-max-hp", "enemy", zeroHp, "systems.enemy-max-hp");
 
-expectAccept("enemy-well-formed", "enemy", baseEnemy());
+    local nameless = baseEnemy();
+    nameless.displayName = "";
+    expectSemantic("enemy-display-name", "enemy", nameless, "systems.enemy-display-name");
 
-local zeroHp = baseEnemy();
-zeroHp.combat.maxHp = 0;
-expectSemantic("enemy-max-hp", "enemy", zeroHp, "systems.enemy-max-hp");
+    local rotation = baseEnemy();
+    rotation.skills = ["skill.other"];
+    expectSemantic("enemy-skill-rotation", "enemy", rotation, "systems.enemy-skill-rotation");
 
-local nameless = baseEnemy();
-nameless.displayName = "";
-expectSemantic("enemy-display-name", "enemy", nameless, "systems.enemy-display-name");
+    local opener = baseEnemy();
+    opener.ai.opener = "skill.nope";
+    expectSemantic("enemy-opener-unknown", "enemy", opener, "systems.enemy-opener-unknown");
 
-local rotation = baseEnemy();
-rotation.skills = ["skill.other"];
-expectSemantic("enemy-skill-rotation", "enemy", rotation, "systems.enemy-skill-rotation");
+    local doubleDrop = baseEnemy();
+    doubleDrop.drops = [
+        { itemId = "material.pelt", chance = 0.3, min = 1, max = 1 },
+        { itemId = "material.pelt", chance = 0.2, min = 1, max = 1 }
+    ];
+    expectSemantic("enemy-drop-duplicate", "enemy", doubleDrop, "systems.enemy-drop-duplicate");
 
-local opener = baseEnemy();
-opener.ai.opener = "skill.nope";
-expectSemantic("enemy-opener-unknown", "enemy", opener, "systems.enemy-opener-unknown");
+    local invertedDrop = baseEnemy();
+    invertedDrop.drops[0].min = 3;
+    invertedDrop.drops[0].max = 1;
+    expectSemantic("enemy-drop-range", "enemy", invertedDrop, "systems.enemy-drop-range");
 
-local doubleDrop = baseEnemy();
-doubleDrop.drops = [
-    { itemId = "material.pelt", chance = 0.3, min = 1, max = 1 },
-    { itemId = "material.pelt", chance = 0.2, min = 1, max = 1 }
-];
-expectSemantic("enemy-drop-duplicate", "enemy", doubleDrop, "systems.enemy-drop-duplicate");
+    // An element the rule table does not define is not a wrong multiplier: the
+    // engine resolves it by string, finds no trait, and silently applies none.
+    local alienElement = baseEnemy();
+    alienElement.element = "shadow";
+    expectCross("enemy-unknown-element", { enemy = [alienElement] },
+        "systems.enemy-unknown-element");
 
-local invertedDrop = baseEnemy();
-invertedDrop.drops[0].min = 3;
-invertedDrop.drops[0].max = 1;
-expectSemantic("enemy-drop-range", "enemy", invertedDrop, "systems.enemy-drop-range");
+    local alienWeak = baseEnemy();
+    alienWeak.weakElements = ["shadow"];
+    expectCross("enemy-unknown-weak-element", { enemy = [alienWeak] },
+        "systems.enemy-unknown-weak-element");
 
-// An element the rule table does not define is not a wrong multiplier: the
-// engine resolves it by string, finds no trait, and silently applies none.
-local alienElement = baseEnemy();
-alienElement.element = "shadow";
-expectCross("enemy-unknown-element", { enemy = [alienElement] },
-    "systems.enemy-unknown-element");
+    local alienStyle = baseEnemy();
+    alienStyle.weakStyles = ["spear"];
+    expectCross("enemy-unknown-weak-style", { enemy = [alienStyle] },
+        "systems.enemy-unknown-weak-style");
 
-local alienWeak = baseEnemy();
-alienWeak.weakElements = ["shadow"];
-expectCross("enemy-unknown-weak-element", { enemy = [alienWeak] },
-    "systems.enemy-unknown-weak-element");
+    local selfWeak = baseEnemy();
+    selfWeak.weakElements = ["earth"];
+    expectCross("enemy-weak-self", { enemy = [selfWeak] }, "systems.enemy-weak-self");
 
-local alienStyle = baseEnemy();
-alienStyle.weakStyles = ["spear"];
-expectCross("enemy-unknown-weak-style", { enemy = [alienStyle] },
-    "systems.enemy-unknown-weak-style");
+    local fatGauge = baseEnemy();
+    fatGauge.breakMax = 200;
+    expectCross("enemy-break-over-max", { enemy = [fatGauge] }, "systems.enemy-break-over-max");
 
-local selfWeak = baseEnemy();
-selfWeak.weakElements = ["earth"];
-expectCross("enemy-weak-self", { enemy = [selfWeak] }, "systems.enemy-weak-self");
+    local strayClip = baseEnemy();
+    strayClip.sprite.clip = "no_such_clip";
+    expectCross("enemy-clip", { enemy = [strayClip] }, "systems.unknown-clip");
 
-local fatGauge = baseEnemy();
-fatGauge.breakMax = 200;
-expectCross("enemy-break-over-max", { enemy = [fatGauge] }, "systems.enemy-break-over-max");
+    // --- encounter --------------------------------------------------------------
 
-local strayClip = baseEnemy();
-strayClip.sprite.clip = "no_such_clip";
-expectCross("enemy-clip", { enemy = [strayClip] }, "systems.unknown-clip");
+    expectAccept("encounter-well-formed", "encounter", baseEncounter());
 
-// --- encounter --------------------------------------------------------------
+    local freeXp = baseEncounter();
+    freeXp.xpReward = 0;
+    expectSemantic("encounter-xp-reward", "encounter", freeXp, "systems.encounter-xp-reward");
 
-expectAccept("encounter-well-formed", "encounter", baseEncounter());
+    local twiceSame = baseEncounter();
+    twiceSame.members = [{ enemy = "enemy.probe", count = 1 },
+                         { enemy = "enemy.probe", count = 1 }];
+    expectSemantic("encounter-member-duplicate", "encounter", twiceSame,
+        "systems.encounter-member-duplicate");
 
-local freeXp = baseEncounter();
-freeXp.xpReward = 0;
-expectSemantic("encounter-xp-reward", "encounter", freeXp, "systems.encounter-xp-reward");
+    // The schema caps `members` at 32 ENTRIES, but each entry carries a `count`, so
+    // what has to fit is the projected total.
+    local tooMany = baseEncounter();
+    tooMany.members = [
+        { enemy = "enemy.a", count = 8 }, { enemy = "enemy.b", count = 8 },
+        { enemy = "enemy.c", count = 8 }, { enemy = "enemy.d", count = 8 },
+        { enemy = "enemy.e", count = 8 }
+    ];
+    expectSemantic("encounter-member-count", "encounter", tooMany, "systems.encounter-member-count");
 
-local twiceSame = baseEncounter();
-twiceSame.members = [{ enemy = "enemy.probe", count = 1 },
-                     { enemy = "enemy.probe", count = 1 }];
-expectSemantic("encounter-member-duplicate", "encounter", twiceSame,
-    "systems.encounter-member-duplicate");
+    local muteQuest = baseEncounter();
+    muteQuest.quest.notifyTopic = "";
+    expectSemantic("encounter-quest-id", "encounter", muteQuest, "systems.encounter-quest-id");
 
-// The schema caps `members` at 32 ENTRIES, but each entry carries a `count`, so
-// what has to fit is the projected total.
-local tooMany = baseEncounter();
-tooMany.members = [
-    { enemy = "enemy.a", count = 8 }, { enemy = "enemy.b", count = 8 },
-    { enemy = "enemy.c", count = 8 }, { enemy = "enemy.d", count = 8 },
-    { enemy = "enemy.e", count = 8 }
-];
-expectSemantic("encounter-member-count", "encounter", tooMany, "systems.encounter-member-count");
+    // `habitat` and an encounter's `map` are two statements about where a creature
+    // is fought, so the gate holds them to one answer.
+    local homeless = baseEnemy();
+    homeless.habitat = ["luoyang"];
+    local misplaced = baseEncounter();
+    misplaced.map = "mist-forest";
+    expectCross("encounter-habitat", { enemy = [homeless], encounter = [misplaced] },
+        "systems.encounter-habitat");
 
-local muteQuest = baseEncounter();
-muteQuest.quest.notifyTopic = "";
-expectSemantic("encounter-quest-id", "encounter", muteQuest, "systems.encounter-quest-id");
+    // --- battle scene -----------------------------------------------------------
+    //
+    // Nothing in the engine reads a battle scene -- there is no battlefield,
+    // formation or slot type anywhere in src/modules/rpg -- so this gate is the
+    // only thing that ever looks at the geometry. Every rejection below is a scene
+    // that renders the wrong picture and reports nothing at runtime.
 
-// `habitat` and an encounter's `map` are two statements about where a creature
-// is fought, so the gate holds them to one answer.
-local homeless = baseEnemy();
-homeless.habitat = ["luoyang"];
-local misplaced = baseEncounter();
-misplaced.map = "mist-forest";
-expectCross("encounter-habitat", { enemy = [homeless], encounter = [misplaced] },
-    "systems.encounter-habitat");
+    expectAccept("battle-well-formed", "battle", baseBattle());
 
-// --- battle scene -----------------------------------------------------------
-//
-// Nothing in the engine reads a battle scene -- there is no battlefield,
-// formation or slot type anywhere in src/modules/rpg -- so this gate is the
-// only thing that ever looks at the geometry. Every rejection below is a scene
-// that renders the wrong picture and reports nothing at runtime.
+    // The 8 / 5 bank caps are design constants rather than schema bounds, so they
+    // are reachable from here: nine enemies is legal JSON and a broken battle
+    // screen.
+    local nineEnemies = baseBattle();
+    nineEnemies.enemySlots = [
+        { id = "enemy.1", x = 175, y = 165 }, { id = "enemy.2", x = 365, y = 165 },
+        { id = "enemy.3", x = 555, y = 165 }, { id = "enemy.4", x = 745, y = 165 },
+        { id = "enemy.5", x = 175, y = 375 }, { id = "enemy.6", x = 365, y = 375 },
+        { id = "enemy.7", x = 555, y = 375 }, { id = "enemy.8", x = 745, y = 375 },
+        { id = "enemy.9", x = 745, y = 275 }
+    ];
+    expectSemantic("battle-enemy-bank-cap", "battle", nineEnemies, "systems.battle-slot-count");
 
-expectAccept("battle-well-formed", "battle", baseBattle());
+    local sixAllies = baseBattle();
+    sixAllies.allySlots = [
+        { id = "ally.1", x = 1240, y = 720 }, { id = "ally.2", x = 1480, y = 720 },
+        { id = "ally.3", x = 1720, y = 720 }, { id = "ally.4", x = 1360, y = 920 },
+        { id = "ally.5", x = 1600, y = 920 }, { id = "ally.6", x = 1840, y = 920 }
+    ];
+    expectSemantic("battle-ally-bank-cap", "battle", sixAllies, "systems.battle-slot-count");
 
-// The 8 / 5 bank caps are design constants rather than schema bounds, so they
-// are reachable from here: nine enemies is legal JSON and a broken battle
-// screen.
-local nineEnemies = baseBattle();
-nineEnemies.enemySlots = [
-    { id = "enemy.1", x = 175, y = 165 }, { id = "enemy.2", x = 365, y = 165 },
-    { id = "enemy.3", x = 555, y = 165 }, { id = "enemy.4", x = 745, y = 165 },
-    { id = "enemy.5", x = 175, y = 375 }, { id = "enemy.6", x = 365, y = 375 },
-    { id = "enemy.7", x = 555, y = 375 }, { id = "enemy.8", x = 745, y = 375 },
-    { id = "enemy.9", x = 745, y = 275 }
-];
-expectSemantic("battle-enemy-bank-cap", "battle", nineEnemies, "systems.battle-slot-count");
+    // The half rule has to hold on BOTH axes. Sliding the enemy bank right keeps it
+    // in the top band and still puts the two sides beside each other.
+    local rightBank = baseBattle();
+    rightBank.zones.enemy = { x = 400, y = 60, width = 760, height = 420 };
+    expectSemantic("battle-enemy-bank-half-x", "battle", rightBank, "systems.battle-zone-half");
 
-local sixAllies = baseBattle();
-sixAllies.allySlots = [
-    { id = "ally.1", x = 1240, y = 720 }, { id = "ally.2", x = 1480, y = 720 },
-    { id = "ally.3", x = 1720, y = 720 }, { id = "ally.4", x = 1360, y = 920 },
-    { id = "ally.5", x = 1600, y = 920 }, { id = "ally.6", x = 1840, y = 920 }
-];
-expectSemantic("battle-ally-bank-cap", "battle", sixAllies, "systems.battle-slot-count");
+    local lowBank = baseBattle();
+    lowBank.zones.enemy = { x = 80, y = 300, width = 760, height = 420 };
+    expectSemantic("battle-enemy-bank-half-y", "battle", lowBank, "systems.battle-zone-half");
 
-// The half rule has to hold on BOTH axes. Sliding the enemy bank right keeps it
-// in the top band and still puts the two sides beside each other.
-local rightBank = baseBattle();
-rightBank.zones.enemy = { x = 400, y = 60, width = 760, height = 420 };
-expectSemantic("battle-enemy-bank-half-x", "battle", rightBank, "systems.battle-zone-half");
+    local leftBank = baseBattle();
+    leftBank.zones.ally = { x = 400, y = 620, width = 720, height = 400 };
+    expectSemantic("battle-ally-bank-half-x", "battle", leftBank, "systems.battle-zone-half");
 
-local lowBank = baseBattle();
-lowBank.zones.enemy = { x = 80, y = 300, width = 760, height = 420 };
-expectSemantic("battle-enemy-bank-half-y", "battle", lowBank, "systems.battle-zone-half");
+    local highBank = baseBattle();
+    highBank.zones.ally = { x = 1120, y = 200, width = 720, height = 400 };
+    expectSemantic("battle-ally-bank-half-y", "battle", highBank, "systems.battle-zone-half");
 
-local leftBank = baseBattle();
-leftBank.zones.ally = { x = 400, y = 620, width = 720, height = 400 };
-expectSemantic("battle-ally-bank-half-x", "battle", leftBank, "systems.battle-zone-half");
+    local offCanvas = baseBattle();
+    offCanvas.zones.ally = { x = 1120, y = 620, width = 900, height = 400 };
+    expectSemantic("battle-bank-off-canvas", "battle", offCanvas,
+        "systems.battle-zone-outside-canvas");
 
-local highBank = baseBattle();
-highBank.zones.ally = { x = 1120, y = 200, width = 720, height = 400 };
-expectSemantic("battle-ally-bank-half-y", "battle", highBank, "systems.battle-zone-half");
+    // Slot coordinates are schema-legal at 1700; the bank is what makes them wrong.
+    local straySlot = baseBattle();
+    straySlot.enemySlots[0].x = 1700;
+    expectSemantic("battle-slot-outside-bank", "battle", straySlot,
+        "systems.battle-slot-outside-zone");
 
-local offCanvas = baseBattle();
-offCanvas.zones.ally = { x = 1120, y = 620, width = 900, height = 400 };
-expectSemantic("battle-bank-off-canvas", "battle", offCanvas,
-    "systems.battle-zone-outside-canvas");
+    local stackedSlot = baseBattle();
+    stackedSlot.allySlots[1] = { id = "ally.9", x = 1240, y = 720 };
+    expectSemantic("battle-slot-collision", "battle", stackedSlot,
+        "systems.battle-slot-collision");
 
-// Slot coordinates are schema-legal at 1700; the bank is what makes them wrong.
-local straySlot = baseBattle();
-straySlot.enemySlots[0].x = 1700;
-expectSemantic("battle-slot-outside-bank", "battle", straySlot,
-    "systems.battle-slot-outside-zone");
+    local twinSlotId = baseBattle();
+    twinSlotId.allySlots[1] = { id = "ally.1", x = 1480, y = 720 };
+    expectSemantic("battle-slot-duplicate-id", "battle", twinSlotId,
+        "systems.battle-slot-duplicate");
 
-local stackedSlot = baseBattle();
-stackedSlot.allySlots[1] = { id = "ally.9", x = 1240, y = 720 };
-expectSemantic("battle-slot-collision", "battle", stackedSlot,
-    "systems.battle-slot-collision");
+}
 
-local twinSlotId = baseBattle();
-twinSlotId.allySlots[1] = { id = "ally.1", x = 1480, y = 720 };
-expectSemantic("battle-slot-duplicate-id", "battle", twinSlotId,
-    "systems.battle-slot-duplicate");
+checkDocumentProbes();
 
 // A command wheel with its four buttons placed symmetrically inside it, so a
 // probe can move the WHEEL without leaving the buttons where they no longer
@@ -1269,62 +1277,67 @@ checkBattleUiProbes();
 // Coverage and capacity are whole-project facts: a scene cannot see the other
 // scenes, and a scene that grows a `count` cannot see the bank that is too full
 // for it.
-local strayEncounter = baseEncounter();
-strayEncounter.id = "encounter.stray";
-expectCross("encounter-without-battle",
-    { battle = [baseBattle()], encounter = [baseEncounter(), strayEncounter] },
-    "systems.encounter-without-battle");
+function checkBattleCoverageProbes() {
+    local strayEncounter = baseEncounter();
+    strayEncounter.id = "encounter.stray";
+    expectCross("encounter-without-battle",
+        { battle = [baseBattle()], encounter = [baseEncounter(), strayEncounter] },
+        "systems.encounter-without-battle");
 
-local twinScene = baseBattle();
-twinScene.id = "battle.probe-two";
-expectCross("encounter-hosted-twice",
-    { battle = [baseBattle(), twinScene], encounter = [baseEncounter()] },
-    "systems.encounter-hosted-twice");
+    local twinScene = baseBattle();
+    twinScene.id = "battle.probe-two";
+    expectCross("encounter-hosted-twice",
+        { battle = [baseBattle(), twinScene], encounter = [baseEncounter()] },
+        "systems.encounter-hosted-twice");
 
-local hostlessScene = baseBattle();
-hostlessScene.encounters = [];
-expectCross("battle-no-encounter",
-    { battle = [hostlessScene], encounter = [baseEncounter()] },
-    "systems.battle-no-encounter");
+    local hostlessScene = baseBattle();
+    hostlessScene.encounters = [];
+    expectCross("battle-no-encounter",
+        { battle = [hostlessScene], encounter = [baseEncounter()] },
+        "systems.battle-no-encounter");
 
-// baseEncounter projects two actors (one entry, `count = 2`); a single-slot
-// bank can only place one of them.
-local oneSlotBank = baseBattle();
-oneSlotBank.enemySlots = [{ id = "enemy.1", x = 175, y = 165 }];
-expectCross("battle-capacity",
-    { battle = [oneSlotBank], encounter = [baseEncounter()] },
-    "systems.battle-capacity");
+    // baseEncounter projects two actors (one entry, `count = 2`); a single-slot
+    // bank can only place one of them.
+    local oneSlotBank = baseBattle();
+    oneSlotBank.enemySlots = [{ id = "enemy.1", x = 175, y = 165 }];
+    expectCross("battle-capacity",
+        { battle = [oneSlotBank], encounter = [baseEncounter()] },
+        "systems.battle-capacity");
 
-// And the real content tree has to satisfy the coverage rule, not just the
-// probes: the six authored scenes must host every encounter on disk, and every
-// HUD bar they declare must name a pool the rule document registers.
-local rulesOnDisk = RpgcStore.readDocument("content/rules/rules.wuxing.json").value;
-local battleCoverageErrors =
-    Rpgc.errorCount(RpgcSystems.battleCrossDiagnostics(rulesOnDisk, []));
-check("battle.content-coverage", battleCoverageErrors == 0,
-    "real content tree reports " + battleCoverageErrors + " battle error(s)");
+    // And the real content tree has to satisfy the coverage rule, not just the
+    // probes: the six authored scenes must host every encounter on disk, and every
+    // HUD bar they declare must name a pool the rule document registers.
+    local rulesOnDisk = RpgcStore.readDocument("content/rules/rules.wuxing.json").value;
+    local battleCoverageErrors =
+        Rpgc.errorCount(RpgcSystems.battleCrossDiagnostics(rulesOnDisk, []));
+    check("battle.content-coverage", battleCoverageErrors == 0,
+        "real content tree reports " + battleCoverageErrors + " battle error(s)");
 
-// A HUD bar names a pool, and the runtime resolves that name in the unit's
-// resource table. `mp` -- what the six shipped scenes said before this gate --
-// is not a pool: `rules.wuxing.json` registers `stamina` and `mana`, so the
-// second bar of every party HUD drew 0/0 for every member of every fight, and
-// no layer of the stack could see it.
-local mislabelledBar = baseBattle();
-mislabelledBar.ui <- baseBattleUi();
-mislabelledBar.ui.party.bars[1].id = "mp";
-local barRules = baseRules();
-barRules.resources <- [{ attribute = "stamina", max = 40 }, { attribute = "mana", max = 30 }];
-expectCross("battle-ui-bar-unregistered",
-    { rules = [barRules], battle = [mislabelledBar], encounter = [baseEncounter()] },
-    "systems.battle-ui-bar-unregistered");
+    // A HUD bar names a pool, and the runtime resolves that name in the unit's
+    // resource table. `mp` -- what the six shipped scenes said before this gate --
+    // is not a pool: `rules.wuxing.json` registers `stamina` and `mana`, so the
+    // second bar of every party HUD drew 0/0 for every member of every fight, and
+    // no layer of the stack could see it.
+    local mislabelledBar = baseBattle();
+    mislabelledBar.ui <- baseBattleUi();
+    mislabelledBar.ui.party.bars[1].id = "mp";
+    local barRules = baseRules();
+    barRules.resources <- [{ attribute = "stamina", max = 40 }, { attribute = "mana", max = 30 }];
+    expectCross("battle-ui-bar-unregistered",
+        { rules = [barRules], battle = [mislabelledBar], encounter = [baseEncounter()] },
+        "systems.battle-ui-bar-unregistered");
 
-// The panel's own "新建" has to seed a document the gate accepts -- a new scene
-// ships with a full enemy bank and a full party bank, and a panel that hands the
-// author an invalid starting point teaches them to ignore the diagnostics.
-BattleVM.newBattle("battle", "");
-local seeded = RpgcValidate.validateDocument("battle", BattleVM.doc);
-check("battle.new-document-valid", seeded.ok,
-    "unexpected [" + codesOf(seeded.diagnostics) + "]");
+    // The panel's own "新建" has to seed a document the gate accepts -- a new scene
+    // ships with a full enemy bank and a full party bank, and a panel that hands the
+    // author an invalid starting point teaches them to ignore the diagnostics.
+    BattleVM.newBattle("battle", "");
+    local seeded = RpgcValidate.validateDocument("battle", BattleVM.doc);
+    check("battle.new-document-valid", seeded.ok,
+        "unexpected [" + codesOf(seeded.diagnostics) + "]");
+
+}
+
+checkBattleCoverageProbes();
 
 // ---------------------------------------------------------------------------
 // Negative probes for the folder-bound editors.

@@ -1,0 +1,9 @@
+{
+  "format": "rpgc.quest-plan",
+  "version": 1,
+  "id": "quest.toolkit-delivery",
+  "stages": [
+    {"id": "accept", "title": "接受委托", "trigger": {"kind": "manual"}, "steps": [{"kind": "message", "reference": "quest.delivery.accept"}]},
+    {"id": "complete", "title": "完成委托", "trigger": {"kind": "manual"}, "steps": [{"kind": "set_variable", "name": "gold", "op": "add", "value": 20}]}
+  ]
+}

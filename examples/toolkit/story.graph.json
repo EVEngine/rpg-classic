@@ -1,0 +1,15 @@
+{
+  "format": "rpgc.story-graph",
+  "version": 1,
+  "id": "story.toolkit-greeting",
+  "title": "工具套件示例：初访问候",
+  "entry": "visited",
+  "trigger": {"kind": "manual"},
+  "nodes": [
+    {"id": "visited", "condition": {"kind": "switch", "name": "switch.toolkit.visited"}, "then": "welcomeBack", "else": "welcome"},
+    {"id": "welcomeBack", "action": {"kind": "message", "reference": "story.welcomeBack"}, "next": "end"},
+    {"id": "welcome", "action": {"kind": "message", "reference": "story.welcome"}, "next": "remember"},
+    {"id": "remember", "action": {"kind": "set_variable", "name": "switch.toolkit.visited", "op": "switchOn", "value": 1}, "next": "end"},
+    {"id": "end", "end": true}
+  ]
+}

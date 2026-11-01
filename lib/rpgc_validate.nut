@@ -27,6 +27,10 @@ import { RpgcSkill } from "./rpgc_skill.nut"
 import { RpgcEvent } from "./rpgc_event.nut"
 import { RpgcSystems } from "./rpgc_systems.nut"
 
+import { RpgcDialogue } from "./rpgc_dialogue.nut"
+
+import { RpgcQuests } from "./rpgc_quests.nut"
+
 export class RpgcValidate {
 }
 
@@ -231,6 +235,8 @@ RpgcValidate.moduleFor <- function (kind) {
     if (name == "RpgcSkill") return RpgcSkill;
     if (name == "RpgcEvent") return RpgcEvent;
     if (name == "RpgcSystems") return RpgcSystems;
+    if (name == "RpgcDialogue") return RpgcDialogue;
+    if (name == "RpgcQuests") return RpgcQuests;
     return 0;
 }
 
@@ -243,7 +249,7 @@ RpgcValidate.moduleMissing <- function (kind) {
         "kind '" + kind + "' names document module '" + name
         + "', which this toolchain does not provide",
         "/kinds/" + kind + "/module",
-        "RpgcTilemap, RpgcSkill, RpgcEvent or RpgcSystems");
+        "RpgcTilemap, RpgcSkill, RpgcEvent, RpgcSystems, RpgcDialogue or RpgcQuests");
 }
 
 // Layer 3. Every loaded document contributes typed references; each must

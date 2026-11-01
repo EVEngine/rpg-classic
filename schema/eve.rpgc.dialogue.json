@@ -1,0 +1,237 @@
+{
+  "id": "eve.rpgc.dialogue",
+  "schemaVersion": 1,
+  "title": "Stable-key dialogue graph",
+  "additionalProperties": false,
+  "fields": [
+    {
+      "name": "schema",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "eve.rpgc.dialogue"
+      ]
+    },
+    {
+      "name": "version",
+      "type": "integer",
+      "required": true,
+      "minimum": 1,
+      "maximum": 1
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "title",
+      "type": "string"
+    },
+    {
+      "name": "entry",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "defaultLocale",
+      "type": "string",
+      "required": true
+    },
+    {
+      "name": "strings",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 2048,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          {
+            "name": "key",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "locale",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "required": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "nodes",
+      "type": "array",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "fields": [
+          {
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "kind",
+            "type": "string",
+            "required": true,
+            "enum": [
+              "line",
+              "choice",
+              "command",
+              "end"
+            ]
+          },
+          {
+            "name": "speaker",
+            "type": "string"
+          },
+          {
+            "name": "textKey",
+            "type": "string"
+          },
+          {
+            "name": "next",
+            "type": "string"
+          },
+          {
+            "name": "options",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "fields": [
+                {
+                  "name": "id",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "textKey",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "next",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "condition",
+                  "ref": "eve.rpgc.condition"
+                },
+                {
+                  "name": "commands",
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "fields": [
+                      {
+                        "name": "kind",
+                        "type": "string",
+                        "required": true,
+                        "enum": [
+                          "set_variable",
+                          "consume_object"
+                        ]
+                      },
+                      {
+                        "name": "name",
+                        "type": "string"
+                      },
+                      {
+                        "name": "op",
+                        "type": "string",
+                        "enum": [
+                          "set",
+                          "add",
+                          "sub",
+                          "switchOn",
+                          "switchOff"
+                        ]
+                      },
+                      {
+                        "name": "value",
+                        "type": "number"
+                      },
+                      {
+                        "name": "mapId",
+                        "type": "string"
+                      },
+                      {
+                        "name": "objectName",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "maxItems": 32
+                }
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 16
+          },
+          {
+            "name": "commands",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "fields": [
+                {
+                  "name": "kind",
+                  "type": "string",
+                  "required": true,
+                  "enum": [
+                    "set_variable",
+                    "consume_object"
+                  ]
+                },
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "op",
+                  "type": "string",
+                  "enum": [
+                    "set",
+                    "add",
+                    "sub",
+                    "switchOn",
+                    "switchOff"
+                  ]
+                },
+                {
+                  "name": "value",
+                  "type": "number"
+                },
+                {
+                  "name": "mapId",
+                  "type": "string"
+                },
+                {
+                  "name": "objectName",
+                  "type": "string"
+                }
+              ]
+            },
+            "minItems": 1,
+            "maxItems": 32
+          }
+        ]
+      }
+    }
+  ]
+}

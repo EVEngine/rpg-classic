@@ -17,3 +17,11 @@ jobs:
         run: python -m compileall -q tools
       - name: Parse workflow.json
         run: python -c "import json; json.load(open('workflow.json', encoding='utf-8'))"
+      - name: Test reusable RPG toolkit
+        run: python -m unittest discover -s tests -v
+      - name: Check encounter projection
+        run: python tools/build_encounters.py --check
+      - name: Check generated development animation sheets
+        run: python tools/build_placeholder_anims.py --check
+      - name: Audit referenced resources
+        run: python tools/rpgc.py toolkit assets

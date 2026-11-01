@@ -1041,7 +1041,7 @@
             {
               "name": "itemId",
               "type": "string",
-              "value": "potion"
+              "value": "potion.heal"
             },
             {
               "name": "gold",

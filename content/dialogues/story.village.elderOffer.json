@@ -1,0 +1,33 @@
+{
+  "schema": "eve.rpgc.dialogue",
+  "version": 1,
+  "id": "story.village.elderOffer",
+  "title": "长者的委托",
+  "entry": "greeting",
+  "defaultLocale": "zh-CN",
+  "strings": [
+    {
+      "key": "story.village.elderOffer.text",
+      "locale": "zh-CN",
+      "text": "森林里危机四伏。准备好后再出发；有十枚金币时，我也可以助你修行。"
+    },
+    {
+      "key": "story.village.elderOffer.text",
+      "locale": "en",
+      "text": "The forest is dangerous. Prepare before leaving; ten gold will also buy training."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "greeting",
+      "kind": "line",
+      "speaker": "elder",
+      "textKey": "story.village.elderOffer.text",
+      "next": "done"
+    },
+    {
+      "id": "done",
+      "kind": "end"
+    }
+  ]
+}
