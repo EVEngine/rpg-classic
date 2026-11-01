@@ -1,0 +1,133 @@
+{
+  "schema": "eve.rpgc.dialogue",
+  "version": 1,
+  "id": "dialogue.toolkit-guide",
+  "title": "工具套件向导",
+  "entry": "greeting",
+  "defaultLocale": "zh-CN",
+  "strings": [
+    {
+      "key": "guide.greeting",
+      "locale": "zh-CN",
+      "text": "欢迎来到工具套件试验场。愿意帮我检查村外的旧箱子吗？"
+    },
+    {
+      "key": "guide.greeting",
+      "locale": "en",
+      "text": "Welcome to the toolkit proving ground. Will you inspect the old chest outside the village?"
+    },
+    {
+      "key": "guide.offer",
+      "locale": "zh-CN",
+      "text": "打开旧箱子，然后按 T 回来找我领取奖励。"
+    },
+    {
+      "key": "guide.offer",
+      "locale": "en",
+      "text": "Open the old chest, then press T to return for your reward."
+    },
+    {
+      "key": "guide.accept",
+      "locale": "zh-CN",
+      "text": "接受寻宝委托"
+    },
+    {
+      "key": "guide.accept",
+      "locale": "en",
+      "text": "Accept the treasure errand"
+    },
+    {
+      "key": "guide.recap",
+      "locale": "zh-CN",
+      "text": "回顾委托"
+    },
+    {
+      "key": "guide.recap",
+      "locale": "en",
+      "text": "Review the errand"
+    },
+    {
+      "key": "guide.leave",
+      "locale": "zh-CN",
+      "text": "稍后再来"
+    },
+    {
+      "key": "guide.leave",
+      "locale": "en",
+      "text": "Maybe later"
+    },
+    {
+      "key": "guide.accepted",
+      "locale": "zh-CN",
+      "text": "委托已记录：打开村外旧箱子，再按 T 回来领取五枚金币和一份金创药。"
+    },
+    {
+      "key": "guide.accepted",
+      "locale": "en",
+      "text": "Errand recorded: open the old chest, then press T to claim five gold and one healing potion."
+    }
+  ],
+  "nodes": [
+    {
+      "id": "greeting",
+      "kind": "line",
+      "speaker": "guide",
+      "textKey": "guide.greeting",
+      "next": "offer"
+    },
+    {
+      "id": "offer",
+      "kind": "choice",
+      "speaker": "guide",
+      "textKey": "guide.offer",
+      "options": [
+        {
+          "id": "accept",
+          "textKey": "guide.accept",
+          "next": "accepted",
+          "condition": {
+            "kind": "variable",
+            "name": "toolkit.guide.accepted",
+            "compare": "eq",
+            "value": 0
+          },
+          "commands": [
+            {
+              "kind": "set_variable",
+              "name": "toolkit.guide.accepted",
+              "op": "set",
+              "value": 1
+            }
+          ]
+        },
+        {
+          "id": "recap",
+          "textKey": "guide.recap",
+          "next": "accepted",
+          "condition": {
+            "kind": "variable",
+            "name": "toolkit.guide.accepted",
+            "compare": "eq",
+            "value": 1
+          }
+        },
+        {
+          "id": "leave",
+          "textKey": "guide.leave",
+          "next": "done"
+        }
+      ]
+    },
+    {
+      "id": "accepted",
+      "kind": "line",
+      "speaker": "guide",
+      "textKey": "guide.accepted",
+      "next": "done"
+    },
+    {
+      "id": "done",
+      "kind": "end"
+    }
+  ]
+}

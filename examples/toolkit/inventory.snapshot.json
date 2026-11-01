@@ -1,0 +1,11 @@
+{
+  "format": "eve.rpgc.items.snapshot",
+  "version": 1,
+  "id": "party",
+  "slotCount": 4,
+  "maxWeight": 0,
+  "maxVolume": 0,
+  "capacityPolicy": "reject",
+  "stacks": [{"bagSlot": 0, "itemId": "potion.legacy", "quantity": 3}],
+  "equipped": []
+}

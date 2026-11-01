@@ -18,3 +18,9 @@ content/tilesets/*.baked.json
 
 .DS_Store
 Thumbs.db
+
+# Reusable toolkit caches and source distributions
+__pycache__/
+dist/
+build/
+.rpgc-toolkit-*.nut

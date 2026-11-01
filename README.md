@@ -17,6 +17,27 @@
 新文档会自己出现；只有"重扫文件夹"按钮会重新读入当前文档本身（那会丢掉未保存的修改）。
 详见 [`docs/01-tilemap-editor.md`](docs/01-tilemap-editor.md) §6.1。
 
+## 可复用开发工具套件
+
+新增无 UI 依赖的 `tools/rpgc_toolkit` Python 包与 `rpgc.py toolkit`：覆盖 workflow 声明的全部内容类型查询、候选克隆/补丁、地图绘制/填充/缩放、事件编排、本地化、资源审计、数值汇总和可复现源码分发；另提供剧情/任务编译、引用重命名、隔离变更验证、背包存档迁移、命令录制回放、动画/音频导入与本地 SDK 发布。`graph`、`simulate` 和 `validate --headless` 直接复用真实 VM 的引用、战斗与校验实现，无须显示器或 MCP。
+
+```bash
+python tools/rpgc.py toolkit catalog --kind item
+python tools/rpgc.py toolkit doctor
+python tools/rpgc.py validate --headless
+python tools/rpgc.py graph --headless --impact skill/skill.strike
+python tools/rpgc.py simulate encounter.outskirts-night --headless --seed 42
+make toolkit-test
+python tools/rpgc.py selftest --headless
+make check-assets
+```
+
+制作工具只输出候选 JSON，原有 stage/export 仍是内容写入通道；源码包不等于原生可执行导出。五张原先缺失的动画图已由可复现的程序化开发素材补齐（`tools/build_placeholder_anims.py --check`），授权与用途见 [动画素材记录](content/anims/CREDITS.md)。完整能力对照见 [设计文档](docs/12-toolkit-design.md)，命令、Python API 和写入闭环见 [使用指南](docs/13-toolkit-usage.md)。
+
+主流工具对照与本轮改进见 [RPG Maker / GameMaker / Godot / Unity 工作流比较](docs/14-engine-comparison.md)。新增 `toolkit terrain` 自动地形、`toolkit database` 类型化CSV批量编辑，以及 `toolkit preflight` 发布预检profile，均可独立调用。
+
+后续完整剧情、世界存档、制作效率与平台验证的分阶段设计见 [工具套件补全方案](docs/15-completion-plan.md)（分阶段设计，完成状态按工作包验收）。
+
 ## 快速开始
 
 先把 `eve` 放到 PATH（SDK 或本地引擎构建，见 [ENGINE.md](ENGINE.md)），在本仓库根目录执行：
@@ -204,7 +225,7 @@ EVE_BIN=<repo>/build/win32-debug/src/engine/eve.exe python tools/rpgc.py validat
 0 失败。
 
 那唯一一条 warning 是刻意保留的：`systems.encounter-quest-unregistered` 汇总列出
-遭遇结算要求的 `requiredQuestId`（本工作流不建模 quest，所以门只能报形状，不能解析）。
+遭遇结算要求的 `requiredQuestId`（新增项目侧 quest 尚未桥接引擎 QuestDefinition，现有这两个任务也尚无定义）。
 把它做成分级 warning 而不是 error，是因为引擎要求 `requiredQuestId` 指向**已注册**的任务，
 而注册发生在运行期；门能做的是把必须注册的 id 一次列清楚（见
 [`09-enemies-and-encounters.md`](docs/09-enemies-and-encounters.md) §6）。
@@ -418,7 +439,7 @@ skill-vs-anim 检查会各报三遍，`RpgcSystems` 的会各报九遍。
 | 1 Eve Schema v1 | `eve.Schema().validateJson`（`rpgc_validate.nut`） | **权威层**：字段类型、必填、枚举、数值区间、数组长度、`additionalProperties:false` 的未知字段拒绝、整 schema `ref`。用的是引擎自己的 C++ 校验器，不是复刻 |
 | 2 文档语义门 | `RpgcTilemap` / `RpgcSkill` / `RpgcEvent` / `RpgcSystems` 的 `semanticDiagnostics` | 图集：GID≥1、重复 GID、region/pivot/footprint 形状；地图：图层 id 唯一、对象名唯一、属性名唯一、data 长度、GID 范围、有无 spawn、拾取一致性、图集与地图的 firstGid/tile 尺寸一致、**基础层必须是 `terrain`@layer 0、`moment.*` 层的 `layer` 不重复**；技能：剪辑 id 唯一、事件帧升序且在范围内、sheet 帧在网格内、等级行升序唯一、伤害公式词法检查；事件：步骤字段表、duration>0、facing 非零且只占一轴、嵌套深度 ≤2；规则：`generates`/`overcomes` 必须是覆盖全部元素的**单环**、特征 kind 与 target 合法、破绽阈值 ≤ max、**`breakEffects[].turns × clock.turnSeconds` 必须等于该 effect 的 `duration`**；世界：时刻分档形状/空档/小时范围、门 `portal` 是 `<map>/<object>`、门唯一、变体 tint 四分量与 0..1、tint/atlas 不混用；武学：品级升序唯一且 ≤ `maxGrade`、requirement 有 kind 且非负、修饰符有属性；心法：`elementOverride` 与 `attackElement` 特征不得同时声明、`requires.minGrade ≤ art.maxGrade`；组合技：`stages.len()` 落在 `members.min..max`、actor 槽不重复；物品：`category` 与 `equipSlot` 的耦合（装备必须有槽、非装备不得有槽、装备不得叠堆）、`equipStats` 只允许出现在装备上且每条要有 `attribute`、消耗品必须给 `use.effects` 且不得为空、秘籍必须有 `teaches` 且只允许 `manual` 声明；**名单**：`startingItems[].itemId` 的形状与重复（`count ≥ 1` 交给 schema，语义门不重写一条永远触发不了的检查）；敌人：**`combat.maxHp > 0`（引擎用的是严格下限，而 Eve Schema v1 没有 `exclusiveMinimum`）**、`displayName` 非空且 ≤512 字节、`skills` 必须包含 `skillId`、`ai.opener` 必须在 `skills` 里、掉落不得重复且 `max ≥ min`、单条落败不会拖垮别人的 id 形状；遭遇：**`xpReward > 0`（同样是严格下限）**、`xpGrowth ≥ 1`、同一敌人不得出现在两条 `members` 里（投影的成员 id 由敌人 id 派生，引擎拒绝重复 id）、`count` 之和 ≤ 32（schema 只能限住**条目数**，限不住投影后的成员数）、五个结算 id 非空；战场：id 与 `displayName` 非空、canvas 为正、两块阵地有面积且在画布内、**两块阵地各在正确的一半（x 与 y 两个轴都要满足）**、阵位 id 合法且同侧不重复、阵位落在自己阵地内、同侧阵位不落在同一点、**敌位 ≤ 8 / 我位 ≤ 5（刻意不写成 `maxItems`：schema 失败会让语义门根本跑不到，那个检查就成了死代码）**、`encounters[]` 的 id 形状与不重复 |
 | 3 跨文档引用 | `RpgcValidate.validateReferences` + 各模块 `references()` | 悬空引用。地图 → tileset（`tilesets[0].source`）；技能 → effect（`/effects/i`）与 anim（段与等级段的 `/anim`）**以及 `art` / `combo` 反引用**；事件 → map（trigger/load_map/consume_object/condition）与 anim（`play_animation`）；规则 → effect（`breakEffects[].effect`）；世界 → map（门的 portal 与 `object_consumed` 条件）与 tileset（变体的 `tileset` / `baseTileset`）；武学 → skill（`skills[]` / `ultimates[]`）；心法 → effect（`grants.effects[]` / `onHit[].effectId`）与 art（`requires.artId`）；组合技 → skill（`stages[].skill` / `finish.skill`）与 anim（`finish.anim.anim`）；物品 → effect（`use.effects[]`）与 art / skill（`teaches.art` / `teaches.skill` / `requires.artId`）；敌人 → skill（`skillId` / `skills[]`）、map（`habitat[]`，注意方向是**敌人指向地图**）、anim（`sprite.anim`）、item（`drops[].itemId`）；遭遇 → enemy（`members[].enemy`）与 map（`map`）；战场 → encounter（`encounters[]`）、**名单 → item（`startingItems[].itemId`）** |
-| 4 模块额外检查 | `module.extraDiagnostics()`，**按模块去重调用一次** | schema 与引用门都表达不了的跨文档约束。原有：技能段与事件 `play_animation` 引用的 clip 必须真实存在。新增（`rpgc_systems.nut`）：`rules`/`world` 必须恰好一份；门的 portal 对象必须在目标地图里存在且类型为 `portal`；地图 `moment.*` 层与对象 `moment` 属性必须命中 `world.clock.moments`；武学列出的 skill 必须反向声明同一 `art`，绝招必须带 `ultimate` tag，特征必须在规则表里；心法引用的特征必须存在、`elementOverride` ∈ 五行表、同一 `exclusiveGroup` 内相同 `artId` 的心法构成蕴含关系要报错；组合技的 skill 必须反向声明同一 `combo`、五行链必须能在 `generates`/`overcomes` 上走通、合击 clip 必须存在；**图集换肤变体必须与基准图集 GID 逐项同构**；物品的 `equipSlot` 必须落在规则表的 `equipmentSlots` 里、秘籍同时点名 art 与 skill 时该 skill 必须属于那门 art、`requires.minGrade ≤ art.maxGrade`；**敌人的 `element` / `weakElements` / `weakStyles` 必须落在规则表的 `elements` / `weakStyles` 里（引擎按字符串查表，拼错不是「倍率不对」而是「没有倍率」）、敌人不得弱于自身属性、`breakMax ≤ rules.break.max`、`sprite` 的 `{anim, clip}` 必须命中真实剪辑；遭遇所在图必须在该场每个敌人的 `habitat` 里**（`habitat` 与 `map` 是对同一件事的两句陈述，门把它们逼到同一个答案）。另有一条**汇总 warning** `systems.encounter-quest-unregistered`：遭遇要求的 `requiredQuestId` 必须由运行期先注册，而本工作流不建模 quest，门只能把 id 一次列清。**战场**：承接的每场遭遇投影后的出场人数必须 ≤ 该战场的敌位数（`systems.battle-capacity`），并且**每场遭遇恰好被一块战场承接**——0 块是「这场战斗没有布局」，2 块是「同一件事有两个答案」（`systems.encounter-without-battle` / `systems.encounter-hosted-twice`）；战场自己也不能一场都不承接（`systems.battle-no-encounter`） |
+| 4 模块额外检查 | `module.extraDiagnostics()`，**按模块去重调用一次** | schema 与引用门都表达不了的跨文档约束。原有：技能段与事件 `play_animation` 引用的 clip 必须真实存在。新增（`rpgc_systems.nut`）：`rules`/`world` 必须恰好一份；门的 portal 对象必须在目标地图里存在且类型为 `portal`；地图 `moment.*` 层与对象 `moment` 属性必须命中 `world.clock.moments`；武学列出的 skill 必须反向声明同一 `art`，绝招必须带 `ultimate` tag，特征必须在规则表里；心法引用的特征必须存在、`elementOverride` ∈ 五行表、同一 `exclusiveGroup` 内相同 `artId` 的心法构成蕴含关系要报错；组合技的 skill 必须反向声明同一 `combo`、五行链必须能在 `generates`/`overcomes` 上走通、合击 clip 必须存在；**图集换肤变体必须与基准图集 GID 逐项同构**；物品的 `equipSlot` 必须落在规则表的 `equipmentSlots` 里、秘籍同时点名 art 与 skill 时该 skill 必须属于那门 art、`requires.minGrade ≤ art.maxGrade`；**敌人的 `element` / `weakElements` / `weakStyles` 必须落在规则表的 `elements` / `weakStyles` 里（引擎按字符串查表，拼错不是「倍率不对」而是「没有倍率」）、敌人不得弱于自身属性、`breakMax ≤ rules.break.max`、`sprite` 的 `{anim, clip}` 必须命中真实剪辑；遭遇所在图必须在该场每个敌人的 `habitat` 里**（`habitat` 与 `map` 是对同一件事的两句陈述，门把它们逼到同一个答案）。另有一条**汇总 warning** `systems.encounter-quest-unregistered`：遭遇要求的 `requiredQuestId` 必须由运行期先注册，而项目侧 quest 尚未桥接引擎任务注册，门保留此汇总诊断。**战场**：承接的每场遭遇投影后的出场人数必须 ≤ 该战场的敌位数（`systems.battle-capacity`），并且**每场遭遇恰好被一块战场承接**——0 块是「这场战斗没有布局」，2 块是「同一件事有两个答案」（`systems.encounter-without-battle` / `systems.encounter-hosted-twice`）；战场自己也不能一场都不承接（`systems.battle-no-encounter`） |
 | 5 失败关闭 | `rpgc_validate.nut` | `eve.Schema()` 模块不存在时**直接报错并拒绝**，而不是跳过校验；`registerSchemas` 找不到 schema 文件同样报错；kind 写了 `module` 却对不上任何模块也报错。任何一层没跑，门就是失败 |
 
 **条件词表只有一份。** `eve.rpgc.condition` 是 `event` 的 `branch` 条件与 `world` 的
@@ -561,7 +582,7 @@ python tools/rpgc.py export [--dry-run]
   「类别 ↔ 槽位 ↔ 加成 ↔ 使用效果」四条耦合写在字段列表里最容易看漏。补齐其它任何一个只需
   `editors/<id>.editor.json` + `editors/<id>.vm.nut`，再到 `apps/` 下加一个入口
   （`RpgcApp.openEditor` 不需要注册表，它按 `<id>` 找那两个文件）。
-- **不解析图片。** `tileset.image` / `anim.image` 是字符串，工作流不检查文件是否存在、
+- **运行时文档门不解析图片。** 新工具 `toolkit assets` 额外检查文件存在性和 PNG 头尺寸（不完整解码）；以下限制描述原有运行时门。 `tileset.image` / `anim.image` 是字符串，工作流不检查文件是否存在、
   不检查尺寸是否匹配——这条限制在 [`docs/01-tilemap-editor.md`](docs/01-tilemap-editor.md)
   「引擎不检查、工作流才检查」一节里逐条说明。
 - **图集存规则，不存元素。** `tileset` 文档的 `version: 2` 只写图集网格与有序尺寸
@@ -583,3 +604,13 @@ python tools/rpgc.py export [--dry-run]
   `version: 1`（逐块写出，引擎形态）与 `version: 2`（规则形态），两者是不同的
   文档形状而不是同一形状的两代，`RpgcTilemap.tilesOf` 同时读得了。
 - **不做第二份规则。** CLI 与库都不重新实现文档规则；规则只存在于 `schema/` 与 `RpgcValidate`。
+
+共享剧情运行时已开始接入主游戏：`T` 打开向导委托，空格/Enter推进对话，数字键选择，`L`切换语言，Esc取消。可独立运行 `python tools/rpgc.py dialogue dialogue.toolkit-guide --actions examples/toolkit/dialogue.actions.json` 做真实VM预览；`python tools/rpgc.py world-checks` 验证状态、事件、对话和任务。详见[使用指南](docs/13-toolkit-usage.md)。
+
+世界存档已接入F5/F9：安全点保存、独立用户目录原子写入、上一代备份、候选校验后恢复。`python tools/rpgc.py world-save --help` 提供快照检查、旧库存导入与显式内容迁移；完整说明见[使用指南](docs/13-toolkit-usage.md)。
+
+地图制作工具已扩展八邻域blob／双地形、数据库模板三方更新和地图对象组实例化。`python tools/rpgc.py map-qa` 调用游戏共用的原生导航检查；`python tools/rpgc.py preview map village-outskirts --screenshot /tmp/new-map.png` 输出真实窗口预览。候选不会直接覆盖内容，详见[W4使用说明](docs/13-toolkit-usage.md#w4-地图制作模板和原生-qa)。
+
+独立地图检查器：`python tools/rpgc.py preview map village-outskirts --window`。窗口支持阻挡／对象／候选变更标记、点击选格与QA问题定位；用 `--changes` 查看隔离候选，原地图保持不变。可复跑演示见 `examples/map-inspector/generate.py`。
+
+地图对象组支持三方升级：`python tools/rpgc.py toolkit template objects-update request.json` 保留人工修改、报告字段冲突，并将同一地图的多个实例合成候选。运行 `examples/object-group-update/generate.py --eve /path/to/eve --output /tmp/new-group-demo` 可复现正常与冲突更新；详见[模板说明](docs/13-toolkit-usage.md#数据库模板与地图对象组)。

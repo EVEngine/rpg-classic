@@ -1,0 +1,38 @@
+{
+  "schema": "eve.rpgc.quest",
+  "version": 1,
+  "id": "quest.toolkit-guide",
+  "title": "第一次寻宝",
+  "description": "接受向导的委托，打开村外的旧箱子，再返回向导处领取奖励。",
+  "dependencies": [],
+  "objectives": [
+    {
+      "id": "open-chest",
+      "title": "打开村外的旧箱子",
+      "eventKind": "consume_object",
+      "match": {
+        "mapId": "village-outskirts",
+        "objectName": "old_chest"
+      },
+      "count": 1,
+      "initialCondition": {
+        "kind": "object_consumed",
+        "mapId": "village-outskirts",
+        "objectName": "old_chest"
+      }
+    }
+  ],
+  "rewards": [
+    {
+      "kind": "set_variable",
+      "name": "gold",
+      "op": "add",
+      "value": 5
+    },
+    {
+      "kind": "give_item",
+      "itemId": "potion.heal",
+      "quantity": 1
+    }
+  ]
+}

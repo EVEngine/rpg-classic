@@ -12,8 +12,8 @@
   "steps": [
     {
       "kind": "camera_focus",
-      "x": 1360,
-      "y": 736,
+      "x": 3136,
+      "y": 1408,
       "zoom": 1.5,
       "duration": 0.5
     },

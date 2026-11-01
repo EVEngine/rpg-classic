@@ -1,0 +1,81 @@
+{
+  "templates": [
+    {
+      "format": "rpgc.template",
+      "version": 1,
+      "id": "potion.base",
+      "revision": 1,
+      "base": null,
+      "document": {
+        "schema": "eve.rpgc.item",
+        "version": 1,
+        "id": "potion.heal",
+        "title": "金创药",
+        "description": "各处药铺都有的散剂，止血生肌。",
+        "displayName": "金创药",
+        "category": "consumable",
+        "rarity": "common",
+        "maxStack": 20,
+        "weight": 0.2,
+        "volume": 0.1,
+        "value": 30,
+        "tags": [
+          "potion",
+          "heal"
+        ],
+        "use": {
+          "consume": true,
+          "cooldown": 3.0,
+          "targetType": "allySingle",
+          "effects": [
+            "regenerate"
+          ]
+        },
+        "extra": {
+          "icon": "ui/items/potion.heal.png"
+        }
+      },
+      "parameters": {
+        "name": {
+          "type": "string",
+          "default": "开发药剂",
+          "pointers": [
+            "/title",
+            "/displayName"
+          ]
+        }
+      },
+      "allowedOverrides": [
+        "/value",
+        "/description"
+      ],
+      "referencePointers": [
+        "/use/effects/0"
+      ]
+    },
+    {
+      "format": "rpgc.template",
+      "version": 1,
+      "id": "potion.development",
+      "revision": 1,
+      "base": "potion.base",
+      "document": {
+        "value": 12,
+        "description": "原创开发模板：实例展开为普通物品文档。"
+      }
+    }
+  ],
+  "instances": [
+    {
+      "path": "content/items/potion.template-example.json",
+      "templateId": "potion.development",
+      "instanceId": "potion.template-example",
+      "parameters": {
+        "name": "模板开发药"
+      },
+      "overrides": {
+        "/value": 18
+      }
+    }
+  ]
+}

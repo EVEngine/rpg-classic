@@ -125,6 +125,20 @@
       "schema": "eve.rpgc.battle",
       "module": "RpgcSystems",
       "title": "战斗场景：左上敌阵（≤8 位）与右下我方（≤5 位）的屏幕布局，外加可选的战斗背景与界面层（人物 HUD / 操作环）"
+    },
+    "dialogue": {
+      "directory": "content/dialogues",
+      "extension": ".json",
+      "schema": "eve.rpgc.dialogue",
+      "module": "RpgcDialogue",
+      "title": "交互对话与条件选项"
+    },
+    "quest": {
+      "directory": "content/quests",
+      "extension": ".json",
+      "schema": "eve.rpgc.quest",
+      "module": "RpgcQuests",
+      "title": "任务目标、进度与原子领奖"
     }
   },
   "commands": {
@@ -139,6 +153,20 @@
     "build-encounters": "python tools/build_encounters.py",
     "build-bestiary": "python tools/import_bestiary_assets.py",
     "build-backdrops": "python tools/import_battle_backdrops.py",
-    "check-backdrops": "python tools/import_battle_backdrops.py --check"
+    "check-backdrops": "python tools/import_battle_backdrops.py --check",
+    "toolkit": "python tools/rpgc.py toolkit --help",
+    "toolkit-test": "python -m unittest discover -s tests -v",
+    "doctor": "python tools/rpgc.py toolkit doctor",
+    "validate-headless": "python tools/rpgc.py validate --headless",
+    "graph": "python tools/rpgc.py graph --headless",
+    "preflight": "python tools/rpgc.py toolkit preflight --profile quick",
+    "release-check": "python tools/rpgc.py toolkit preflight --profile-file examples/toolkit/release.profile.json",
+    "world-checks": "python tools/rpgc.py world-checks",
+    "dialogue-preview": "python tools/rpgc.py dialogue dialogue.toolkit-guide --actions examples/toolkit/dialogue.actions.json",
+    "world-save": "python tools/rpgc.py world-save --help",
+    "map-qa": "python tools/rpgc.py map-qa",
+    "map-preview": "python tools/rpgc.py preview map village-outskirts",
+    "templates": "python tools/rpgc.py toolkit template --help",
+    "map-inspector": "python tools/rpgc.py preview map village-outskirts --window"
   }
 }

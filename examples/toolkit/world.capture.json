@@ -1,0 +1,28 @@
+{
+  "world": {
+    "mapId": "village-outskirts",
+    "x": 11,
+    "y": 8,
+    "moment": "day"
+  },
+  "inventory": {
+    "format": "eve.rpgc.items.snapshot",
+    "version": 1,
+    "id": "party",
+    "slotCount": 32,
+    "maxWeight": 0,
+    "maxVolume": 0,
+    "capacityPolicy": "slotsAndWeight",
+    "stacks": [
+      {
+        "bagSlot": 0,
+        "itemId": "potion.heal",
+        "quantity": 2
+      }
+    ],
+    "equipped": []
+  },
+  "partyId": "party.default",
+  "locale": "zh-CN",
+  "inputSequence": 0
+}

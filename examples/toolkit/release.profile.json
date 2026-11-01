@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "id": "release",
+  "checks": [
+    {
+      "id": "engine",
+      "required": true,
+      "timeoutSeconds": 120
+    },
+    {
+      "id": "assets",
+      "required": true,
+      "timeoutSeconds": 120
+    },
+    {
+      "id": "placeholder-anims",
+      "required": true,
+      "timeoutSeconds": 120
+    },
+    {
+      "id": "encounters",
+      "required": true,
+      "timeoutSeconds": 120
+    },
+    {
+      "id": "modules",
+      "required": true,
+      "timeoutSeconds": 180
+    },
+    {
+      "id": "world-runtime",
+      "required": true,
+      "timeoutSeconds": 180
+    },
+    {
+      "id": "map-qa",
+      "required": true,
+      "timeoutSeconds": 120
+    }
+  ]
+}

@@ -218,6 +218,10 @@ RpgcEvent.collectStepRefs <- function (steps, pointer, out) {
         if (anim != "" && kind == "play_animation") {
             out.append({ kind = "anim", id = anim, path = at + "/anim" });
         }
+        if (kind == "dialogue") {
+            local ref = Rpgc.asString(Rpgc.get(step, "reference", ""));
+            if (ref != "") out.append({ kind = "dialogue", id = ref, path = at + "/reference" });
+        }
         local condition = Rpgc.get(step, "condition", 0);
         if (typeof condition == "table") {
             local conditionMap = Rpgc.asString(Rpgc.get(condition, "mapId", ""));
